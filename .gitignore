@@ -1,7 +1,10 @@
 # Directories
 .vs/
-bin/
-bin-int/
+OutputFile/
+Project/Engine/x64/
+Project/Client/x64/
+External/include/Engine
+External/library/Engine
 
 # Files
 *.user
