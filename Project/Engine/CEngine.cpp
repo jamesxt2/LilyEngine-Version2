@@ -2,6 +2,10 @@
 #include "CEngine.h"
 
 #include "CDevice.h"
+#include "CTimeMgr.h"
+#include "CPathMgr.h"
+#include "CKeyMgr.h"
+#include "CAssetMgr.h"
 
 #include "Temp.h"
 
@@ -32,6 +36,13 @@ int CEngine::Init(HWND _hWnd, POINT _Resolution)
 		return E_FAIL;
 	}
 
+	// Manager init
+	CPathMgr::GetInst()->Init();
+	CTimeMgr::GetInst()->Init();
+	CKeyMgr::GetInst()->Init();
+	CAssetMgr::GetInst()->Init();
+
+
 	if (FAILED(TempInit()))
 	{
 		MessageBox(nullptr, L"Fail to init temp!", L"Error", MB_OK);
@@ -43,15 +54,26 @@ int CEngine::Init(HWND _hWnd, POINT _Resolution)
 
 void CEngine::Progress()
 {
-	// Level->Tick();
+	/**************/
+	// Tick
+	/**************/
+	// Manager Tick
+	CTimeMgr::GetInst()->Tick();
+	CKeyMgr::GetInst()->Tick();
+
+	// Object Tick
 	TempTick();
 
+	/*************/
+	// Rendering
+	/*************/
+	// Target Clear
 	float ClearColor[4] = { 0.3f, 0.3f, 0.3f, 1.f };
 	CDevice::GetInst()->ClearTarget(ClearColor);
 
-	// Level->Render();
+	// Object Render
 	TempRender();
 
-	// SwapChain->Present();
+	// Present
 	CDevice::GetInst()->Present();
 }

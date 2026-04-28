@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "CDevice.h"
 
+#include "CConstBuffer.h"
+
 CDevice::CDevice()
 	: m_hMainWnd(nullptr),
 	  m_RenderResolution({})
@@ -9,6 +11,7 @@ CDevice::CDevice()
 
 CDevice::~CDevice()
 {
+	Safe_Del_Array(m_CB);
 }
 
 int CDevice::Init(HWND _hWnd, POINT _Resolution)
@@ -42,13 +45,17 @@ int CDevice::Init(HWND _hWnd, POINT _Resolution)
 	D3D11_VIEWPORT viewport = {};
 	viewport.TopLeftX = 0;
 	viewport.TopLeftY = 0;
-	viewport.Width = m_RenderResolution.x;
-	viewport.Height = m_RenderResolution.y;
+	viewport.Width = (FLOAT)m_RenderResolution.x;
+	viewport.Height = (FLOAT)m_RenderResolution.y;
 
 	viewport.MinDepth = 0;
 	viewport.MaxDepth = 1;
 
 	m_Context->RSSetViewports(1, &viewport);
+
+	// Create necessary const buffer
+	if (FAILED(CreateConstBuffer()))
+		return E_FAIL;
 
 	return S_OK;
 }
@@ -126,6 +133,14 @@ int CDevice::CreateView()
 
 	// 5.Output Merge Set Render Targets
 	m_Context->OMSetRenderTargets(1, m_RTV.GetAddressOf(), m_DSV.Get());
+
+	return S_OK;
+}
+
+int CDevice::CreateConstBuffer()
+{
+	m_CB[(UINT)CB_TYPE::TRANSFORM] = new CConstBuffer;
+	m_CB[(UINT)CB_TYPE::TRANSFORM]->Create(sizeof(TTransform), CB_TYPE::TRANSFORM);
 
 	return S_OK;
 }

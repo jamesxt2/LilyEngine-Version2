@@ -3,150 +3,94 @@
 
 #include "CDevice.h"
 
-ComPtr<ID3D11Buffer> g_VB;
+#include "CTimeMgr.h"
+#include "CKeyMgr.h"
+#include "CPathMgr.h"
 
-ComPtr<ID3D11InputLayout> g_Layout;
+#include "CMesh.h"
+
+#include "CConstBuffer.h"
+
+#include "CGraphicsShader.h"
+
+
+Ptr<CMesh> g_RectMesh = nullptr;
+Ptr<CMesh> g_CircleMesh = nullptr;
 
 // system memory
-Vtx g_arrVtx[3] = {};
+Vtx g_arrVtx[4] = {};
 
-// HLSL
-// Vertex Shader
-ComPtr<ID3DBlob>				g_VSBlob; // Compile shader code
-ComPtr<ID3D11VertexShader>		g_VS;
+TTransform g_Transform = {};
 
-// Pixel Shader
-ComPtr<ID3DBlob>				g_PSBlob;
-ComPtr<ID3D11PixelShader>		g_PS;
-
-// Error Blob
-ComPtr<ID3DBlob> g_ErrBlob;
+// Shader
+Ptr<CGraphicsShader> g_Shader = nullptr;
 
 
 int TempInit()
 {
-	g_arrVtx[0].vPos = Vec3(0.f, 1.f, 0.f);
+	/***************/
+	// Rect Mesh
+	/***************/
+	// Vertex Buffer
+	g_arrVtx[0].vPos = Vec3(-0.5f, 0.5f, 0.f);
 	g_arrVtx[0].vColor = Vec4(1.f, 0.f, 0.f, 1.f);
-
-	g_arrVtx[1].vPos = Vec3(1.f, -1.f, 0.f);
+	g_arrVtx[1].vPos = Vec3(0.5f, 0.5f, 0.f);
 	g_arrVtx[1].vColor = Vec4(0.f, 1.f, 0.f, 1.f);
-
-	g_arrVtx[2].vPos = Vec3(-1.f, -1.f, 0.f);
+	g_arrVtx[2].vPos = Vec3(0.5f, -0.5f, 0.f);
 	g_arrVtx[2].vColor = Vec4(0.f, 0.f, 1.f, 1.f);
+	g_arrVtx[3].vPos = Vec3(-0.5f, -0.5f, 0.f);
+	g_arrVtx[3].vColor = Vec4(0.f, 1.f, 0.f, 1.f);
 
-	D3D11_BUFFER_DESC VBDesc = {};
-
-	VBDesc.ByteWidth = sizeof(Vtx) * 3;
-	VBDesc.MiscFlags = 0;
-
-	VBDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-
-	// Allow changing from CPU like move the triangle
-	VBDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
-	VBDesc.Usage = D3D11_USAGE_DYNAMIC;
-
-	D3D11_SUBRESOURCE_DATA SubDesc = {};
-	SubDesc.pSysMem = g_arrVtx;
-
-	if (FAILED(DEVICE->CreateBuffer(&VBDesc, &SubDesc, g_VB.GetAddressOf())))
-		return E_FAIL;
-
+	UINT arrIdx[6] = { 0, 2, 3, 0, 1, 2 };
 	
-	wchar_t szBuffer[255] = {};
-	GetCurrentDirectory(255, szBuffer);
+	g_RectMesh = new CMesh;
+	g_RectMesh->Create(g_arrVtx, 4, arrIdx, 6);
 
-	size_t len = wcslen(szBuffer);
 
-	for (size_t i = len - 1; i > 0; --i)
+
+	/***************/
+	// Circle Mesh
+	/***************/
+	std::vector<Vtx> vecVtx;
+	std::vector<UINT> vecIdx;
+
+	Vtx v;
+	v.vPos = Vec3(0.f, 0.f, 0.f);
+	v.vColor = Vec4(1.f, 1.f, 1.f, 1.f);
+	vecVtx.push_back(v);
+
+	float Radius = 0.5f;
+	UINT Slice = 60;
+	float AngleStep = 2 * XM_PI / Slice;
+
+	float Angle = 0.f;
+	for (int i = 0; i <= Slice; ++i, Angle += AngleStep)
 	{
-		if (szBuffer[i] == '\\')
-		{
-			szBuffer[i] = '\0';
-			break;
-		}
+		v.vPos = Vec3(cosf(Angle) * Radius, sinf(Angle) * Radius, 0.f);
+		v.vColor = Vec4(1.f, 1.f, 1.f, 1.f);
+		vecVtx.push_back(v);
 	}
 
-	wcscat_s(szBuffer, L"\\content\\shader\\std2d.fx");
-
-	if (FAILED(D3DCompileFromFile(szBuffer, nullptr, D3D_COMPILE_STANDARD_FILE_INCLUDE,
-		"VS_Std2D", "vs_5_0", D3DCOMPILE_DEBUG, 0, g_VSBlob.GetAddressOf(),
-		g_ErrBlob.GetAddressOf())))
+	for (int i = 0; i < Slice; ++i)
 	{
-		if (g_ErrBlob != nullptr)
-		{
-			MessageBoxA(nullptr, (char*)g_ErrBlob->GetBufferPointer()
-				, "Vertex Shader Compile Error!", MB_OK);
-		}
-		else
-		{
-			MessageBox(nullptr, L"Invalid File Path!"
-				, L"Vertex Shader Compile Error!", MB_OK);
-		}
-
-		return E_FAIL;
+		vecIdx.push_back(0);
+		vecIdx.push_back(i + 2);
+		vecIdx.push_back(i + 1);
 	}
 
-	if (FAILED(DEVICE->CreateVertexShader(g_VSBlob->GetBufferPointer(),
-		g_VSBlob->GetBufferSize(),
-		nullptr, g_VS.GetAddressOf())))
-	{
-		return E_FAIL;
-	}
+	g_CircleMesh = new CMesh;
+	g_CircleMesh->Create(vecVtx.data(), vecVtx.size(), vecIdx.data(), vecIdx.size());
 
-	// layout
-	D3D11_INPUT_ELEMENT_DESC LayoutDesc[2] = {};
-
-	LayoutDesc[0].AlignedByteOffset = 0;
-	LayoutDesc[0].Format = DXGI_FORMAT_R32G32B32_FLOAT;
-	LayoutDesc[0].InputSlot = 0;
-	LayoutDesc[0].InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
-	LayoutDesc[0].InstanceDataStepRate = 0;
-	LayoutDesc[0].SemanticName = "POSITION";
-	LayoutDesc[0].SemanticIndex = 0;
-
-	LayoutDesc[1].AlignedByteOffset = 12;
-	LayoutDesc[1].Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
-	LayoutDesc[1].InputSlot = 0;
-	LayoutDesc[1].InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
-	LayoutDesc[1].InstanceDataStepRate = 0;
-	LayoutDesc[1].SemanticName = "COLOR";
-	LayoutDesc[1].SemanticIndex = 0;
-
-	if (FAILED(DEVICE->CreateInputLayout(LayoutDesc, 2,
-		g_VSBlob->GetBufferPointer(), g_VSBlob->GetBufferSize(),
-		g_Layout.GetAddressOf())))
-	{
-		return E_FAIL;
-	}
-
+	// Create shader
+	g_Shader = new CGraphicsShader;
 	
+	// Vertex Shader
+	std::wstring strPath = CPathMgr::GetInst()->GetContentPath();
+	strPath += L"shader\\std2d.fx";
 
-	if (FAILED(D3DCompileFromFile(szBuffer, nullptr, D3D_COMPILE_STANDARD_FILE_INCLUDE,
-		"PS_Std2D", "ps_5_0", D3DCOMPILE_DEBUG, 0, g_PSBlob.GetAddressOf(),
-		g_ErrBlob.GetAddressOf())))
-	{
-		if (g_ErrBlob != nullptr)
-		{
-			MessageBoxA(nullptr, (char*)g_ErrBlob->GetBufferPointer()
-				, "Pixel Shader Compile Error!", MB_OK);
-		}
-		else
-		{
-			MessageBox(nullptr, L"Invalid File Path!"
-				, L"Vertex Shader Compile Error!", MB_OK);
-		}
-
-		return E_FAIL;
-	}
-
-	if (FAILED(DEVICE->CreatePixelShader(g_PSBlob->GetBufferPointer(),
-		g_PSBlob->GetBufferSize(),
-		nullptr, g_PS.GetAddressOf())))
-	{
-		return E_FAIL;
-	}
+	g_Shader->CreateVertexShader(strPath, "VS_Std2D");
+	g_Shader->CreatePixelShader(strPath, "PS_Std2D");
 	
-
 	return S_OK;
 }
 
@@ -157,57 +101,38 @@ void TempRelease()
 
 void TempTick()
 {
-	if (GetAsyncKeyState('W') & 0x8001)
+	float DT = CTimeMgr::GetInst()->GetDeltaTime();
+
+	if (KEY_PRESSED(KEY::W))
 	{
-		for (int i = 0; i < 3; i++)
-		{
-			g_arrVtx[i].vPos.y += 0.001f;
-		}
+		g_Transform.Position.y += DT;
 	}
 
-	if (GetAsyncKeyState('S') & 0x8001)
+	if (KEY_PRESSED(KEY::S))
 	{
-		for (int i = 0; i < 3; i++)
-		{
-			g_arrVtx[i].vPos.y -= 0.001f;
-		}
+		g_Transform.Position.y -= DT;
 	}
 
-	if (GetAsyncKeyState('A') & 0x8001)
+	if (KEY_PRESSED(KEY::A))
 	{
-		for (int i = 0; i < 3; i++)
-		{
-			g_arrVtx[i].vPos.x -= 0.001f;
-		}
+		g_Transform.Position.x -= DT;
 	}
 
-	if (GetAsyncKeyState('D') & 0x8001)
+	if (KEY_PRESSED(KEY::D))
 	{
-		for (int i = 0; i < 3; i++)
-		{
-			g_arrVtx[i].vPos.x += 0.001f;
-		}
+		g_Transform.Position.x += DT;
 	}
 
 	// System memory -> GPU
-	D3D11_MAPPED_SUBRESOURCE tSub = {};
-	CONTEXT->Map(g_VB.Get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &tSub);
-
-	memcpy(tSub.pData, g_arrVtx, sizeof(Vtx) * 3);
-
-	CONTEXT->Unmap(g_VB.Get(), 0);
+	CConstBuffer* pCB = CDevice::GetInst()->GetConstBuffer(CB_TYPE::TRANSFORM);
+	pCB->SetData(&g_Transform);
+	pCB->Bind();
 }
 
 void TempRender()
 {
-	UINT Stride = sizeof(Vtx);
-	UINT Offset = 0;
-	CONTEXT->IASetVertexBuffers(0, 1, g_VB.GetAddressOf(), &Stride, &Offset);
-	CONTEXT->IASetInputLayout(g_Layout.Get());
-	CONTEXT->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	g_Shader->Bind();
 
-	CONTEXT->VSSetShader(g_VS.Get(), nullptr, 0);
-	CONTEXT->PSSetShader(g_PS.Get(), nullptr, 0);
-
-	CONTEXT->Draw(3, 0);
+	//g_RectMesh->Render();
+	g_CircleMesh->Render();
 }

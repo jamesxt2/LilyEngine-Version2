@@ -18,5 +18,16 @@ using namespace DirectX;
 using namespace DirectX::PackedVector;
 using namespace DirectX::SimpleMath;
 
+
+#include <vector>
+#include <list>
+#include <map>
+#include <string>
+
+
 #include "define.h"
+#include "enum.h"
 #include "struct.h"
+#include "func.h"
+#include "singleton.h"
+#include "ptr.h"

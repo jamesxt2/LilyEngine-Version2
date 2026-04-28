@@ -22,6 +22,45 @@
     <Filter Include="HLSL\2D">
       <UniqueIdentifier>{52e6e5a8-c76a-435f-8755-9eb4a2af90aa}</UniqueIdentifier>
     </Filter>
+    <Filter Include="04.Manager">
+      <UniqueIdentifier>{5a5a499d-53bb-487d-a240-c502bcc0bb29}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.Manager\01.TimeMgr">
+      <UniqueIdentifier>{344d5d1b-82b8-4784-a85d-26d2850d0f09}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.Manager\02.PathMgr">
+      <UniqueIdentifier>{65116050-ddb5-4432-90e1-94c9ae3a40b3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.Manager\03.KeyMgr">
+      <UniqueIdentifier>{3917056f-27fd-45e6-9272-da489244c813}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="05.GameObject">
+      <UniqueIdentifier>{dd507ae1-f213-4688-8882-6ce0d54e5e5a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="06.Component">
+      <UniqueIdentifier>{89250842-9ddc-4c7c-bca3-ca66bfaf6d81}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="07.Asset">
+      <UniqueIdentifier>{b23e7bf2-d643-49a3-8122-71a5d9f705aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="07.Asset\Mesh">
+      <UniqueIdentifier>{9d2d6267-239a-48c5-9687-6b1f3765332b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.Device\ConstantBuffer">
+      <UniqueIdentifier>{9e4b5877-539f-435d-a633-3189c586fb25}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="07.Asset\Shader">
+      <UniqueIdentifier>{1d6e244e-5d0f-4fa3-8def-00405ba19f0c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="07.Asset\Shader\GraphicsShader">
+      <UniqueIdentifier>{ae5ce05a-bf6b-4dd0-91bd-11f7cb0399c0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="07.Asset\Shader\ComputeShader">
+      <UniqueIdentifier>{c0c84688-6871-4148-9c2a-192fffcabad7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.Manager\04.AssetMgr">
+      <UniqueIdentifier>{14c835fa-7f35-4f3f-a21b-bffd717f9eb5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -49,6 +88,57 @@
       <Filter>01.Header</Filter>
     </ClInclude>
     <ClInclude Include="Temp.h" />
+    <ClInclude Include="singleton.h">
+      <Filter>Module</Filter>
+    </ClInclude>
+    <ClInclude Include="CTimeMgr.h">
+      <Filter>04.Manager\01.TimeMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="CPathMgr.h">
+      <Filter>04.Manager\02.PathMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="CKeyMgr.h">
+      <Filter>04.Manager\03.KeyMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="CEntity.h">
+      <Filter>Module</Filter>
+    </ClInclude>
+    <ClInclude Include="CAsset.h">
+      <Filter>07.Asset</Filter>
+    </ClInclude>
+    <ClInclude Include="CGameObject.h">
+      <Filter>05.GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="CComponent.h">
+      <Filter>06.Component</Filter>
+    </ClInclude>
+    <ClInclude Include="CMesh.h">
+      <Filter>07.Asset\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="enum.h">
+      <Filter>01.Header</Filter>
+    </ClInclude>
+    <ClInclude Include="CConstBuffer.h">
+      <Filter>03.Device\ConstantBuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="func.h">
+      <Filter>01.Header</Filter>
+    </ClInclude>
+    <ClInclude Include="CShader.h">
+      <Filter>07.Asset\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="CGraphicsShader.h">
+      <Filter>07.Asset\Shader\GraphicsShader</Filter>
+    </ClInclude>
+    <ClInclude Include="CComputeShader.h">
+      <Filter>07.Asset\Shader\ComputeShader</Filter>
+    </ClInclude>
+    <ClInclude Include="CAssetMgr.h">
+      <Filter>04.Manager\04.AssetMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="ptr.h">
+      <Filter>07.Asset</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -64,6 +154,48 @@
       <Filter>03.Device</Filter>
     </ClCompile>
     <ClCompile Include="Temp.cpp" />
+    <ClCompile Include="CTimeMgr.cpp">
+      <Filter>04.Manager\01.TimeMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="CPathMgr.cpp">
+      <Filter>04.Manager\02.PathMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="CKeyMgr.cpp">
+      <Filter>04.Manager\03.KeyMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="CEntity.cpp">
+      <Filter>Module</Filter>
+    </ClCompile>
+    <ClCompile Include="CAsset.cpp">
+      <Filter>07.Asset</Filter>
+    </ClCompile>
+    <ClCompile Include="CGameObject.cpp">
+      <Filter>05.GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="CComponent.cpp">
+      <Filter>06.Component</Filter>
+    </ClCompile>
+    <ClCompile Include="CMesh.cpp">
+      <Filter>07.Asset\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="CConstBuffer.cpp">
+      <Filter>03.Device\ConstantBuffer</Filter>
+    </ClCompile>
+    <ClCompile Include="CShader.cpp">
+      <Filter>07.Asset\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="CGraphicsShader.cpp">
+      <Filter>07.Asset\Shader\GraphicsShader</Filter>
+    </ClCompile>
+    <ClCompile Include="CComputeShader.cpp">
+      <Filter>07.Asset\Shader\ComputeShader</Filter>
+    </ClCompile>
+    <ClCompile Include="CAssetMgr.cpp">
+      <Filter>04.Manager\04.AssetMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="CAssetMgr_Init.cpp">
+      <Filter>04.Manager\04.AssetMgr</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="SimpleMath.inl">

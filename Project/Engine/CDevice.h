@@ -1,16 +1,12 @@
 #pragma once
 
-class CDevice
+class CConstBuffer;
+
+class CDevice : public CSingleton<CDevice>
 {
+	SINGLE(CDevice)
+
 public:
-	~CDevice();
-
-	static CDevice* GetInst()
-	{
-		static CDevice mgr;
-		return &mgr;
-	}
-
 	int Init(HWND _hWnd, POINT _Resolution);
 	void ClearTarget(float(&_ArrColor)[4]);
 	void Present() { m_SwapChain->Present(0, 0); }
@@ -19,11 +15,9 @@ public:
 	ID3D11DeviceContext* GetContext() { return m_Context.Get(); }
 
 private:
-	CDevice();
-	CDevice(const CDevice& _other) = delete;
-
 	int CreateSwapChain();
 	int CreateView();
+	int CreateConstBuffer();
 
 private:
 	HWND							m_hMainWnd;
@@ -38,5 +32,10 @@ private:
 
 	ComPtr<ID3D11Texture2D>			m_DepthStencilTex;
 	ComPtr<ID3D11DepthStencilView>	m_DSV;
+
+	CConstBuffer*					m_CB[(UINT)CB_TYPE::END];
+
+public:
+	inline CConstBuffer* GetConstBuffer(CB_TYPE type) { return m_CB[(UINT)type]; }
 };
 
