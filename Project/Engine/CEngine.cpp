@@ -6,8 +6,7 @@
 #include "CPathMgr.h"
 #include "CKeyMgr.h"
 #include "CAssetMgr.h"
-
-#include "Temp.h"
+#include "CLevelMgr.h"
 
 CEngine::CEngine()
 	: m_hMainHwnd(nullptr), m_Resolution{}
@@ -16,7 +15,6 @@ CEngine::CEngine()
 
 CEngine::~CEngine()
 {
-	TempRelease();
 }
 
 int CEngine::Init(HWND _hWnd, POINT _Resolution)
@@ -41,13 +39,7 @@ int CEngine::Init(HWND _hWnd, POINT _Resolution)
 	CTimeMgr::GetInst()->Init();
 	CKeyMgr::GetInst()->Init();
 	CAssetMgr::GetInst()->Init();
-
-
-	if (FAILED(TempInit()))
-	{
-		MessageBox(nullptr, L"Fail to init temp!", L"Error", MB_OK);
-		return E_FAIL;
-	}
+	CLevelMgr::GetInst()->Init();
 
 	return S_OK;
 }
@@ -62,7 +54,7 @@ void CEngine::Progress()
 	CKeyMgr::GetInst()->Tick();
 
 	// Object Tick
-	TempTick();
+	CLevelMgr::GetInst()->Tick();
 
 	/*************/
 	// Rendering
@@ -72,7 +64,7 @@ void CEngine::Progress()
 	CDevice::GetInst()->ClearTarget(ClearColor);
 
 	// Object Render
-	TempRender();
+	CLevelMgr::GetInst()->Render();
 
 	// Present
 	CDevice::GetInst()->Present();

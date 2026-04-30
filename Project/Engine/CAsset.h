@@ -8,6 +8,8 @@ public:
 	CAsset(const CAsset& _Origin) = delete;
 	~CAsset();
 
+	friend class CAssetMgr;
+
 	template<typename T>
 	friend class Ptr;
 

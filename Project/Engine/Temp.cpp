@@ -6,133 +6,63 @@
 #include "CTimeMgr.h"
 #include "CKeyMgr.h"
 #include "CPathMgr.h"
+#include "CAssetMgr.h"
 
 #include "CMesh.h"
-
 #include "CConstBuffer.h"
-
 #include "CGraphicsShader.h"
 
+#include "CGameObject.h"
+#include "CTransform.h"
+#include "CMeshRender.h"
+#include "CPlayerScript.h"
 
-Ptr<CMesh> g_RectMesh = nullptr;
-Ptr<CMesh> g_CircleMesh = nullptr;
-
-// system memory
-Vtx g_arrVtx[4] = {};
-
-TTransform g_Transform = {};
-
-// Shader
-Ptr<CGraphicsShader> g_Shader = nullptr;
+CGameObject* pObject1 = nullptr;
+CGameObject* pObject2 = nullptr;
 
 
 int TempInit()
 {
-	/***************/
-	// Rect Mesh
-	/***************/
-	// Vertex Buffer
-	g_arrVtx[0].vPos = Vec3(-0.5f, 0.5f, 0.f);
-	g_arrVtx[0].vColor = Vec4(1.f, 0.f, 0.f, 1.f);
-	g_arrVtx[1].vPos = Vec3(0.5f, 0.5f, 0.f);
-	g_arrVtx[1].vColor = Vec4(0.f, 1.f, 0.f, 1.f);
-	g_arrVtx[2].vPos = Vec3(0.5f, -0.5f, 0.f);
-	g_arrVtx[2].vColor = Vec4(0.f, 0.f, 1.f, 1.f);
-	g_arrVtx[3].vPos = Vec3(-0.5f, -0.5f, 0.f);
-	g_arrVtx[3].vColor = Vec4(0.f, 1.f, 0.f, 1.f);
-
-	UINT arrIdx[6] = { 0, 2, 3, 0, 1, 2 };
-	
-	g_RectMesh = new CMesh;
-	g_RectMesh->Create(g_arrVtx, 4, arrIdx, 6);
+	pObject1 = new CGameObject;
+	pObject1->AddComponent(new CTransform);
+	pObject1->AddComponent(new CMeshRender);
+	pObject1->AddComponent(new CPlayerScript);
+		   
+	pObject1->GetTransformComp()->SetRelativeScale(.2f, .2f, .2f);
+		   
+	pObject1->GetMeshRenderComp()->SetMesh(CAssetMgr::GetInst()->FindAsset<CMesh>(L"RectMesh"));
+	pObject1->GetMeshRenderComp()->SetShader(CAssetMgr::GetInst()->FindAsset<CGraphicsShader>(L"Std2DShader"));
 
 
+	pObject2 = new CGameObject;
+	pObject2->AddComponent(new CTransform);
+	pObject2->AddComponent(new CMeshRender);
 
-	/***************/
-	// Circle Mesh
-	/***************/
-	std::vector<Vtx> vecVtx;
-	std::vector<UINT> vecIdx;
+	pObject2->GetTransformComp()->SetRelativeScale(.4f, .4f, .4f);
 
-	Vtx v;
-	v.vPos = Vec3(0.f, 0.f, 0.f);
-	v.vColor = Vec4(1.f, 1.f, 1.f, 1.f);
-	vecVtx.push_back(v);
+	pObject2->GetMeshRenderComp()->SetMesh(CAssetMgr::GetInst()->FindAsset<CMesh>(L"RectMesh"));
+	pObject2->GetMeshRenderComp()->SetShader(CAssetMgr::GetInst()->FindAsset<CGraphicsShader>(L"Std2DShader"));
 
-	float Radius = 0.5f;
-	UINT Slice = 60;
-	float AngleStep = 2 * XM_PI / Slice;
-
-	float Angle = 0.f;
-	for (int i = 0; i <= Slice; ++i, Angle += AngleStep)
-	{
-		v.vPos = Vec3(cosf(Angle) * Radius, sinf(Angle) * Radius, 0.f);
-		v.vColor = Vec4(1.f, 1.f, 1.f, 1.f);
-		vecVtx.push_back(v);
-	}
-
-	for (int i = 0; i < Slice; ++i)
-	{
-		vecIdx.push_back(0);
-		vecIdx.push_back(i + 2);
-		vecIdx.push_back(i + 1);
-	}
-
-	g_CircleMesh = new CMesh;
-	g_CircleMesh->Create(vecVtx.data(), vecVtx.size(), vecIdx.data(), vecIdx.size());
-
-	// Create shader
-	g_Shader = new CGraphicsShader;
-	
-	// Vertex Shader
-	std::wstring strPath = CPathMgr::GetInst()->GetContentPath();
-	strPath += L"shader\\std2d.fx";
-
-	g_Shader->CreateVertexShader(strPath, "VS_Std2D");
-	g_Shader->CreatePixelShader(strPath, "PS_Std2D");
-	
 	return S_OK;
 }
 
 void TempRelease()
 {
-
+	delete pObject1;
+	delete pObject2;
 }
 
 void TempTick()
 {
-	float DT = CTimeMgr::GetInst()->GetDeltaTime();
+	pObject1->Tick();
+	pObject2->Tick();
 
-	if (KEY_PRESSED(KEY::W))
-	{
-		g_Transform.Position.y += DT;
-	}
-
-	if (KEY_PRESSED(KEY::S))
-	{
-		g_Transform.Position.y -= DT;
-	}
-
-	if (KEY_PRESSED(KEY::A))
-	{
-		g_Transform.Position.x -= DT;
-	}
-
-	if (KEY_PRESSED(KEY::D))
-	{
-		g_Transform.Position.x += DT;
-	}
-
-	// System memory -> GPU
-	CConstBuffer* pCB = CDevice::GetInst()->GetConstBuffer(CB_TYPE::TRANSFORM);
-	pCB->SetData(&g_Transform);
-	pCB->Bind();
+	pObject1->FinalTick();
+	pObject2->FinalTick();
 }
 
 void TempRender()
 {
-	g_Shader->Bind();
-
-	//g_RectMesh->Render();
-	g_CircleMesh->Render();
+	pObject1->Render();
+	pObject2->Render();
 }

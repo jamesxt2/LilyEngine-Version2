@@ -23,6 +23,7 @@ using namespace DirectX::SimpleMath;
 #include <list>
 #include <map>
 #include <string>
+#include <typeinfo>
 
 
 #include "define.h"

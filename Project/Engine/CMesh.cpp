@@ -2,6 +2,7 @@
 #include "CMesh.h"
 
 #include "CDevice.h"
+#include "CGameObject.h"
 
 CMesh::CMesh()
 	: CAsset(ASSET_TYPE::MESH),
@@ -21,8 +22,8 @@ CMesh::~CMesh()
 
 int CMesh::Create(Vtx* vtxSysMem, size_t vtxCount, UINT* idxSysMem, size_t idxCount)
 {
-	m_VtxCount = vtxCount;
-	m_IdxCount = idxCount;
+	m_VtxCount = (UINT)vtxCount;
+	m_IdxCount = (UINT)idxCount;
 
 	// SysMem maintain
 	m_VtxSysMem = new Vtx[vtxCount];
