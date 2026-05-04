@@ -14,5 +14,8 @@ public:
 
 private:
 	CLevel* m_CurLevel;
+
+public:
+	inline CLevel* GetCurrentLevel() const { return m_CurLevel; }
 };
 

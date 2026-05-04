@@ -11,6 +11,9 @@ public:
 	int Create(Vtx* vtxSysMem, size_t vtxCount, UINT* idxSysMem, size_t idxCount);
 	void Render();
 
+	virtual int Load(const std::wstring& filePath) override { return S_OK; }
+	virtual int Save(const std::wstring& filePath) override { return S_OK; }
+
 private:
 	void Bind();
 

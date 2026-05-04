@@ -6,6 +6,7 @@ class CRenderComponent;
 class CTransform;
 class CMeshRender;
 class CScript;
+class CCamera;
 
 class CGameObject : public CEntity
 {
@@ -19,13 +20,17 @@ public:
 	void Render();
 
 	void AddComponent(CComponent* component);
-	inline CComponent* GetComponent(COMPONENT_TYPE type) { return m_arrCom[(UINT)type]; }
-	inline CTransform* GetTransformComp() { return (CTransform*)m_arrCom[(UINT)COMPONENT_TYPE::TRANSFORM]; }
-	inline CMeshRender* GetMeshRenderComp() { return (CMeshRender*)m_arrCom[(UINT)COMPONENT_TYPE::MESHRENDER]; }
+	
 
 private:
-	CComponent*				m_arrCom[(UINT)COMPONENT_TYPE::END];
-	CRenderComponent*		m_RenderCom;
+	CComponent*				m_arrComp[(UINT)COMPONENT_TYPE::END];
+	CRenderComponent*		m_RenderComp;
 	std::vector<CScript*>	m_vecScript;
+
+public:
+	inline CComponent* GetComponent(COMPONENT_TYPE type) const { return m_arrComp[(UINT)type]; }
+	inline CTransform* GetTransformComp() const { return (CTransform*)m_arrComp[(UINT)COMPONENT_TYPE::TRANSFORM]; }
+	inline CMeshRender* GetMeshRenderComp() const { return (CMeshRender*)m_arrComp[(UINT)COMPONENT_TYPE::MESHRENDER]; }
+	inline CCamera* GetCameraComp() const { return (CCamera*)m_arrComp[(UINT)COMPONENT_TYPE::CAMERA]; }
 };
 

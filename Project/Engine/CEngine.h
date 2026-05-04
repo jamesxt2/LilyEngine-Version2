@@ -12,7 +12,7 @@ public:
 	void Progress();
 
 private:
-	HWND	m_hMainHwnd;
-	POINT   m_Resolution;
+	HWND	 m_hMainHwnd;
+	POINT    m_Resolution;
 
 };

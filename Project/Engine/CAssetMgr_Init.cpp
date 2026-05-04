@@ -26,23 +26,28 @@ void CAssetMgr::CreateDefaultMesh()
 	// Vertex Buffer
 	v.vPos = Vec3(-0.5f, 0.5f, 0.f);
 	v.vColor = Vec4(1.f, 0.f, 0.f, 1.f);
+	v.vUV = Vec2(0.f, 0.f);
 	vecVtx.push_back(v);
 
 	v.vPos = Vec3(0.5f, 0.5f, 0.f);
 	v.vColor = Vec4(0.f, 1.f, 0.f, 1.f);
+	v.vUV = Vec2(1.f, 0.f);
 	vecVtx.push_back(v);
 
 	v.vPos = Vec3(0.5f, -0.5f, 0.f);
 	v.vColor = Vec4(0.f, 0.f, 1.f, 1.f);
+	v.vUV = Vec2(1.f, 1.f);
 	vecVtx.push_back(v);
 
 	v.vPos = Vec3(-0.5f, -0.5f, 0.f);
 	v.vColor = Vec4(0.f, 1.f, 0.f, 1.f);
+	v.vUV = Vec2(0.f, 1.f);
 	vecVtx.push_back(v);
 
 	vecIdx.push_back(0);
-	vecIdx.push_back(2);
 	vecIdx.push_back(3);
+	vecIdx.push_back(2);
+
 	vecIdx.push_back(0);
 	vecIdx.push_back(1);
 	vecIdx.push_back(2);
@@ -91,6 +96,7 @@ void CAssetMgr::CreateDefaultMesh()
 
 void CAssetMgr::CreateDefaultTexture()
 {
+	Ptr<CTexture> pTex = Load<CTexture>(L"texture/pistol.png", L"texture/pistol.png");
 }
 
 void CAssetMgr::CreateDefaultMaterial()
@@ -107,6 +113,7 @@ void CAssetMgr::CreateDefaultGraphicsShader()
 	pShader = new CGraphicsShader;;
 	pShader->CreateVertexShader(strPath, "VS_Std2D");
 	pShader->CreatePixelShader(strPath, "PS_Std2D");
+	pShader->SetRSType(RS_TYPE::CULL_NONE);
 
 	AddAsset<CGraphicsShader>(L"Std2DShader", pShader);
 }

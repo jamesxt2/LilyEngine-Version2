@@ -23,7 +23,10 @@ private:
 
 	D3D11_PRIMITIVE_TOPOLOGY	m_Topology;
 
+	RS_TYPE						m_RSType;
+
 public:
 	inline void SetTopology(D3D11_PRIMITIVE_TOPOLOGY topology) { m_Topology = topology; }
+	inline void SetRSType(RS_TYPE type) { m_RSType = type; }
 };
 

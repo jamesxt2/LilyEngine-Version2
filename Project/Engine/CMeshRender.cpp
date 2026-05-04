@@ -20,5 +20,6 @@ void CMeshRender::Render()
 {
 	GetOwner()->GetTransformComp()->Bind();
 	GetShader()->Bind();
+	GetTexture()->Bind(0);
 	GetMesh()->Render();
 }

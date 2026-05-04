@@ -1,6 +1,7 @@
 #pragma once
 #include "singleton.h"
 
+#include "CPathMgr.h"
 #include "assets.h"
 
 class CAssetMgr : public CSingleton<CAssetMgr>
@@ -16,6 +17,9 @@ public:
 	void CreateDefaultComputeShader();
 
 	template<typename T>
+	Ptr<T> Load(const std::wstring& key, const std::wstring& relativePath);
+
+	template<typename T>
 	Ptr<T> FindAsset(const std::wstring& key);
 
 	template<typename T>
@@ -23,7 +27,6 @@ public:
 
 private:
 	std::map<std::wstring, Ptr<CAsset>> m_AssetMap[(UINT)ASSET_TYPE::END];
-
 
 };
 
@@ -36,6 +39,33 @@ ASSET_TYPE GetAssetType()
 		return ASSET_TYPE::GRAPHICS_SHADER;
 	if constexpr (std::is_same_v<T, CComputeShader>)
 		return ASSET_TYPE::COMPUTE_SHADER;
+	if constexpr (std::is_same_v<T, CTexture>)
+		return ASSET_TYPE::TEXTURE;
+}
+
+template<typename T>
+inline Ptr<T> CAssetMgr::Load(const std::wstring& key, const std::wstring& relativePath)
+{
+	Ptr<CAsset> pAsset = FindAsset<T>(key).Get();
+	if (pAsset.Get() != nullptr)
+	{
+		return (T*)pAsset.Get();
+	}
+
+	std::wstring fullPath = CPathMgr::GetInst()->GetContentPath() + relativePath;
+	pAsset = new T;
+	if (FAILED(pAsset->Load(fullPath)))
+	{
+		MessageBox(nullptr, fullPath.c_str(), L"Error : Fail to load asset", MB_OK);
+		return nullptr;
+	}
+
+	ASSET_TYPE type = GetAssetType<T>();
+
+	m_AssetMap[(UINT)type].insert(std::make_pair(key, pAsset.Get()));
+	pAsset->m_Key = key;
+
+	return (T*)pAsset.Get();
 }
 
 template<typename T>

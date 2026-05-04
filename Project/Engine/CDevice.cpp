@@ -5,7 +5,9 @@
 
 CDevice::CDevice()
 	: m_hMainWnd(nullptr),
-	  m_RenderResolution({})
+	  m_RenderResolution(),
+	  m_CB{},
+	  m_Sampler{}
 {
 }
 
@@ -55,6 +57,13 @@ int CDevice::Init(HWND _hWnd, POINT _Resolution)
 
 	// Create necessary const buffer
 	if (FAILED(CreateConstBuffer()))
+		return E_FAIL;
+
+	// For texture
+	if (FAILED(CreateSamplerState()))
+		return E_FAIL;
+
+	if (FAILED(CreateRasterizerState()))
 		return E_FAIL;
 
 	return S_OK;
@@ -141,6 +150,51 @@ int CDevice::CreateConstBuffer()
 {
 	m_CB[(UINT)CB_TYPE::TRANSFORM] = new CConstBuffer;
 	m_CB[(UINT)CB_TYPE::TRANSFORM]->Create(sizeof(TTransform), CB_TYPE::TRANSFORM);
+
+	return S_OK;
+}
+
+int CDevice::CreateSamplerState()
+{
+	D3D11_SAMPLER_DESC Desc[2] = {};
+
+	Desc[0].AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
+	Desc[0].AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
+	Desc[0].AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
+	Desc[0].Filter = D3D11_FILTER_ANISOTROPIC;
+	DEVICE->CreateSamplerState(Desc, m_Sampler[0].GetAddressOf());
+	CONTEXT->PSSetSamplers(0, 1, m_Sampler[0].GetAddressOf());
+
+	Desc[1].AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
+	Desc[1].AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
+	Desc[1].AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
+	Desc[1].Filter = D3D11_FILTER_MIN_MAG_MIP_POINT;
+	DEVICE->CreateSamplerState(Desc + 1, m_Sampler[1].GetAddressOf());
+	CONTEXT->PSSetSamplers(1, 1, m_Sampler[1].GetAddressOf());
+
+	return 0;
+}
+
+int CDevice::CreateRasterizerState()
+{
+	// CULL_BACK is default choice, so set it as nullptr
+	m_RS[(UINT)RS_TYPE::CULL_BACK] = nullptr;
+
+	// CULL_FRONT
+	D3D11_RASTERIZER_DESC Desc = {};
+	Desc.CullMode = D3D11_CULL_FRONT;
+	Desc.FillMode = D3D11_FILL_SOLID;
+	DEVICE->CreateRasterizerState(&Desc, m_RS[(UINT)RS_TYPE::CULL_FRONT].GetAddressOf());
+
+	// CULL_NONE
+	Desc.CullMode = D3D11_CULL_NONE;
+	Desc.FillMode = D3D11_FILL_SOLID;
+	DEVICE->CreateRasterizerState(&Desc, m_RS[(UINT)RS_TYPE::CULL_NONE].GetAddressOf());
+
+	// WIRE_FRAME
+	Desc.CullMode = D3D11_CULL_NONE;
+	Desc.FillMode = D3D11_FILL_WIREFRAME;
+	DEVICE->CreateRasterizerState(&Desc, m_RS[(UINT)RS_TYPE::WIRE_FRAME].GetAddressOf());
 
 	return S_OK;
 }

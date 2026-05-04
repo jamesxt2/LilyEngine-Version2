@@ -3,8 +3,10 @@
 
 enum class KEY
 {
-	W, A, S, D, _0, _1, _2, _3, _4, _5, _6, _7, _8, _9, 
+	A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W, X, Y, Z,
+	_0, _1, _2, _3, _4, _5, _6, _7, _8, _9, 
 	LEFT, RIGHT, UP, DOWN, 
+	LBUTTON, RBUTTON,
 	ENTER, ESC, SPACE, LSHIFT, CTRL, ALT, 
 
 	KEY_END
@@ -35,9 +37,15 @@ public:
 	void Tick();
 
 private:
-	std::vector<TKeyInfo> m_VecKey;
-
+	std::vector<TKeyInfo>	m_VecKey;
+	Vec2					m_CurMousePos;
+	Vec2					m_PrevMousePos;
+	Vec2					m_MouseMoveDir;
 public:
 	inline KEY_STATE GetKeyState(KEY _Key) { return m_VecKey[(UINT)_Key].State; }
+
+	inline Vec2 GetCurMousePos() const { return m_CurMousePos; }
+	inline Vec2 GetPrevMousePos() const { return m_PrevMousePos; }
+	inline Vec2 GetMouseMoveDir() const { return m_MouseMoveDir; }
 };
 

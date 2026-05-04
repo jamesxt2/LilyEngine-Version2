@@ -11,9 +11,12 @@ public:
 	void Bind();
 
 private:
-	Vec3 m_RelativePosition;
-	Vec3 m_RelativeRotation;
-	Vec3 m_RelativeScale;
+	Vec3		m_RelativePosition;
+	Vec3		m_RelativeRotation;
+	Vec3		m_RelativeScale;
+	Matrix		m_matWorld;
+
+	Vec3		m_RelativeDir[3];
 
 public:
 	inline Vec3 GetRelativePosition() const { return m_RelativePosition; }
@@ -27,5 +30,7 @@ public:
 	inline void SetRelativePosition(float x, float y, float z) { m_RelativePosition = Vec3(x, y, z); }
 	inline void SetRelativeRotation(float x, float y, float z) { m_RelativeRotation = Vec3(x, y, z); }
 	inline void SetRelativeScale(float x, float y, float z) { m_RelativeScale = Vec3(x, y, z); }
+
+	inline Vec3 GetRelativeDir(DIR_TYPE type) const { return m_RelativeDir[(UINT)type]; }
 };
 

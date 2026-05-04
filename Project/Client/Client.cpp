@@ -8,9 +8,9 @@
 #include "Engine/CEngine.h"
 
 #ifdef _DEBUG
-    #pragma comment(lib, "Engine//Engine_d.lib")
+    #pragma comment(lib, "Engine/Engine_d.lib")
 #else
-    #pragma comment(lib, "Engine//Engine.lib")
+    #pragma comment(lib, "Engine/Engine.lib")
 #endif
 
 // Global Variables:
@@ -53,7 +53,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     // CEngine
     if (FAILED(CEngine::GetInst()->Init(hWnd, POINT{1280, 768})))
     {
-        MessageBox(nullptr, L"Fail to create engine!", L"Error", MB_OK);
+        MessageBox(nullptr, L"Fail to initialize the engine!", L"Error", MB_OK);
         return 0;
     }
 

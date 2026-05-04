@@ -19,5 +19,8 @@ public:
 
 private:
 	CLayer* m_arrLayer[MAX_LAYER];
+
+public:
+	inline CLayer* GetLayer(int layerIndex) const { return m_arrLayer[layerIndex]; }
 };
 

@@ -6,21 +6,21 @@
 #include "CScript.h"
 
 CGameObject::CGameObject()
-	: m_arrCom{}, m_RenderCom(nullptr)
+	: m_arrComp{}, m_RenderComp(nullptr)
 {
 }
 
 CGameObject::~CGameObject()
 {
-	Safe_Del_Array(m_arrCom);
+	Safe_Del_Array(m_arrComp);
 }
 
 void CGameObject::Begin()
 {
 	for (UINT i = 0; i < (UINT)COMPONENT_TYPE::END; ++i)
 	{
-		if (m_arrCom[i] != nullptr)
-			m_arrCom[i]->Begin();
+		if (m_arrComp[i] != nullptr)
+			m_arrComp[i]->Begin();
 	}
 	for (size_t i = 0; i < m_vecScript.size(); ++i)
 	{
@@ -32,8 +32,8 @@ void CGameObject::Tick()
 {
 	for (UINT i = 0; i < (UINT)COMPONENT_TYPE::END; ++i)
 	{
-		if (m_arrCom[i] != nullptr)
-			m_arrCom[i]->Tick();
+		if (m_arrComp[i] != nullptr)
+			m_arrComp[i]->Tick();
 	}
 	for (size_t i = 0; i < m_vecScript.size(); ++i)
 	{
@@ -45,16 +45,16 @@ void CGameObject::FinalTick()
 {
 	for (UINT i = 0; i < (UINT)COMPONENT_TYPE::END; ++i)
 	{
-		if (m_arrCom[i] != nullptr)
-			m_arrCom[i]->FinalTick();
+		if (m_arrComp[i] != nullptr)
+			m_arrComp[i]->FinalTick();
 	}
 }
 
 void CGameObject::Render()
 {
-	if (m_RenderCom)
+	if (m_RenderComp)
 	{
-		m_RenderCom->Render();
+		m_RenderComp->Render();
 	}
 }
 
@@ -68,16 +68,16 @@ void CGameObject::AddComponent(CComponent* component)
 	}
 	else
 	{
-		assert(!m_arrCom[(UINT)type]);
+		assert(!m_arrComp[(UINT)type]);
 
 		CRenderComponent* pRenderCom = dynamic_cast<CRenderComponent*>(component);
 		if (pRenderCom != nullptr)
 		{
-			assert(!m_RenderCom);
-			m_RenderCom = pRenderCom;
+			assert(!m_RenderComp);
+			m_RenderComp = pRenderCom;
 		}
 
-		m_arrCom[(UINT)type] = component;
+		m_arrComp[(UINT)type] = component;
 	}
 
 	

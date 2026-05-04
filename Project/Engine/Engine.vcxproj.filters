@@ -118,6 +118,12 @@
     <Filter Include="04.Manager\05.LevelMgr">
       <UniqueIdentifier>{00fc2d37-9de9-4083-967a-f153e230d756}</UniqueIdentifier>
     </Filter>
+    <Filter Include="08.Asset\Texture">
+      <UniqueIdentifier>{a1ecf712-900c-4347-831c-878252ad8719}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.Manager\06.RenderMgr">
+      <UniqueIdentifier>{901eebcd-cf2f-4dcf-bc58-806c078b614e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -144,7 +150,6 @@
     <ClInclude Include="struct.h">
       <Filter>01.Header</Filter>
     </ClInclude>
-    <ClInclude Include="Temp.h" />
     <ClInclude Include="singleton.h">
       <Filter>Module</Filter>
     </ClInclude>
@@ -226,6 +231,18 @@
     <ClInclude Include="CLevelMgr.h">
       <Filter>04.Manager\05.LevelMgr</Filter>
     </ClInclude>
+    <ClInclude Include="CTexture.h">
+      <Filter>08.Asset\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="CCamera.h">
+      <Filter>07.Component\02.Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="CRenderMgr.h">
+      <Filter>04.Manager\06.RenderMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="CCameraMoveScript.h">
+      <Filter>Scripts</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -240,7 +257,6 @@
     <ClCompile Include="CDevice.cpp">
       <Filter>03.Device</Filter>
     </ClCompile>
-    <ClCompile Include="Temp.cpp" />
     <ClCompile Include="CTimeMgr.cpp">
       <Filter>04.Manager\01.TimeMgr</Filter>
     </ClCompile>
@@ -306,6 +322,21 @@
     </ClCompile>
     <ClCompile Include="CLevelMgr.cpp">
       <Filter>04.Manager\05.LevelMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="CTexture.cpp">
+      <Filter>08.Asset\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="CCamera.cpp">
+      <Filter>07.Component\02.Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="CRenderMgr.cpp">
+      <Filter>04.Manager\06.RenderMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="extern.cpp">
+      <Filter>01.Header</Filter>
+    </ClCompile>
+    <ClCompile Include="CCameraMoveScript.cpp">
+      <Filter>Scripts</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

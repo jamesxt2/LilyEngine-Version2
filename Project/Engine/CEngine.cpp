@@ -7,6 +7,7 @@
 #include "CKeyMgr.h"
 #include "CAssetMgr.h"
 #include "CLevelMgr.h"
+#include "CRenderMgr.h"
 
 CEngine::CEngine()
 	: m_hMainHwnd(nullptr), m_Resolution{}
@@ -40,6 +41,7 @@ int CEngine::Init(HWND _hWnd, POINT _Resolution)
 	CKeyMgr::GetInst()->Init();
 	CAssetMgr::GetInst()->Init();
 	CLevelMgr::GetInst()->Init();
+	CRenderMgr::GetInst()->Init();
 
 	return S_OK;
 }
@@ -59,13 +61,5 @@ void CEngine::Progress()
 	/*************/
 	// Rendering
 	/*************/
-	// Target Clear
-	float ClearColor[4] = { 0.3f, 0.3f, 0.3f, 1.f };
-	CDevice::GetInst()->ClearTarget(ClearColor);
-
-	// Object Render
-	CLevelMgr::GetInst()->Render();
-
-	// Present
-	CDevice::GetInst()->Present();
+	CRenderMgr::GetInst()->Render();
 }

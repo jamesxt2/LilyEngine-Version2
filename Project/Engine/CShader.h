@@ -9,6 +9,9 @@ public:
 
 	virtual void Bind() = 0;
 
+	virtual int Load(const std::wstring& filePath) override { return S_OK; }
+	virtual int Save(const std::wstring& filePath) override { return S_OK; }
+
 protected:
 	ComPtr<ID3DBlob> m_ErrBlob;
 };

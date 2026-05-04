@@ -45,3 +45,25 @@ enum class CB_TYPE
 	GLOBAL,
 	END
 };
+
+// Rasterizer State
+enum class RS_TYPE
+{
+	CULL_BACK,		// counter clock wise (CCW)
+	CULL_FRONT,		// clock wisw (CW)
+	CULL_NONE,
+	WIRE_FRAME,
+
+	END
+};
+
+enum class DIR_TYPE
+{
+	RIGHT,
+	UP,
+	FORWARD
+};
+
+extern Vec3 XAxis;
+extern Vec3 YAxis;
+extern Vec3 ZAxis;
