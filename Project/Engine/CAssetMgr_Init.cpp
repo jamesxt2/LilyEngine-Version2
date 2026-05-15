@@ -7,9 +7,9 @@ void CAssetMgr::Init()
 {
 	CreateDefaultMesh();
 	CreateDefaultTexture();
-	CreateDefaultMaterial();
 	CreateDefaultGraphicsShader();
 	CreateDefaultComputeShader();
+	CreateDefaultMaterial();
 }
 
 void CAssetMgr::CreateDefaultMesh()
@@ -56,6 +56,18 @@ void CAssetMgr::CreateDefaultMesh()
 	pMesh->Create(vecVtx.data(), vecVtx.size(), vecIdx.data(), vecIdx.size());
 	AddAsset(L"RectMesh", pMesh);
 
+	vecIdx.clear();
+
+	vecIdx.push_back(0);
+	vecIdx.push_back(1);
+	vecIdx.push_back(2);
+	vecIdx.push_back(3);
+	vecIdx.push_back(0);
+
+	pMesh = new CMesh;
+	pMesh->Create(vecVtx.data(), vecVtx.size(), vecIdx.data(), vecIdx.size());
+	AddAsset(L"RectMesh_Debug", pMesh);
+
 	vecVtx.clear();
 	vecIdx.clear();
 
@@ -89,6 +101,18 @@ void CAssetMgr::CreateDefaultMesh()
 	pMesh->Create(vecVtx.data(), vecVtx.size(), vecIdx.data(), vecIdx.size());
 	AddAsset(L"CircleMesh", pMesh);
 
+	vecIdx.clear();
+
+	for (UINT i = 0; i < Slice; ++i)
+	{
+		vecIdx.push_back(i + 1);
+	}
+	vecIdx.push_back(1);
+
+	pMesh = new CMesh;
+	pMesh->Create(vecVtx.data(), vecVtx.size(), vecIdx.data(), vecIdx.size());
+	AddAsset(L"CircleMesh_Debug", pMesh);
+
 	vecVtx.clear();
 	vecIdx.clear();
 
@@ -96,28 +120,57 @@ void CAssetMgr::CreateDefaultMesh()
 
 void CAssetMgr::CreateDefaultTexture()
 {
-	Ptr<CTexture> pTex = Load<CTexture>(L"texture/pistol.png", L"texture/pistol.png");
-}
-
-void CAssetMgr::CreateDefaultMaterial()
-{
+	Load<CTexture>(L"texture/mountain.png", L"texture/mountain.png");
+	Load<CTexture>(L"texture/pistol.png", L"texture/pistol.png");
 }
 
 void CAssetMgr::CreateDefaultGraphicsShader()
 {
+	std::wstring strPath = CPathMgr::GetInst()->GetContentPath();
+
 	Ptr<CGraphicsShader> pShader = nullptr;
 
-	std::wstring strPath = CPathMgr::GetInst()->GetContentPath();
-	strPath += L"shader\\std2d.fx";
-
+	// Std2DShader
 	pShader = new CGraphicsShader;;
-	pShader->CreateVertexShader(strPath, "VS_Std2D");
-	pShader->CreatePixelShader(strPath, "PS_Std2D");
+	pShader->CreateVertexShader(strPath + L"shader\\std2d.fx", "VS_Std2D");
+	pShader->CreatePixelShader(strPath + L"shader\\std2d.fx", "PS_Std2D");
 	pShader->SetRSType(RS_TYPE::CULL_NONE);
+	pShader->SetDSType(DS_TYPE::LESS);
+	pShader->SetBSType(BS_TYPE::ALPHA_BLEND);
 
 	AddAsset<CGraphicsShader>(L"Std2DShader", pShader);
+
+	// DebugShapeShader
+	pShader = new CGraphicsShader;;
+	pShader->CreateVertexShader(strPath + L"shader\\debug_shape.fx", "VS_DebugShape");
+	pShader->CreatePixelShader(strPath + L"shader\\debug_shape.fx", "PS_DebugShape");
+	pShader->SetRSType(RS_TYPE::WIRE_FRAME);
+	pShader->SetBSType(BS_TYPE::DEFAULT);
+	pShader->SetDSType(DS_TYPE::NO_TEST_NO_WRITE);
+	pShader->SetTopology(D3D11_PRIMITIVE_TOPOLOGY_LINESTRIP);
+
+	AddAsset<CGraphicsShader>(L"DebugShapeShader", pShader);
 }
 
 void CAssetMgr::CreateDefaultComputeShader()
 {
+}
+
+void CAssetMgr::CreateDefaultMaterial()
+{
+	Ptr<CMaterial> pMaterial = nullptr;
+
+	// Std2DMaterial
+	pMaterial = new CMaterial;
+	pMaterial->SetName(L"Std2DMaterial");
+	pMaterial->SetShader(FindAsset<CGraphicsShader>(L"Std2DShader"));
+
+	AddAsset<CMaterial>(pMaterial->GetName(), pMaterial);
+
+	// DebugShapeMaterial
+	pMaterial = new CMaterial;
+	pMaterial->SetName(L"DebugShapeMaterial");
+	pMaterial->SetShader(FindAsset<CGraphicsShader>(L"DebugShapeShader"));
+
+	AddAsset<CMaterial>(pMaterial->GetName(), pMaterial);
 }

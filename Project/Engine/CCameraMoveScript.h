@@ -9,6 +9,10 @@ public:
 	virtual void Tick() override;
 
 private:
+	void MoveByPerspective();
+	void MoveByOrthographic();
+
+private:
 	float m_Speed;
 };
 

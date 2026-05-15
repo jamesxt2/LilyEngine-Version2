@@ -56,9 +56,41 @@ public:
 		return m_Asset;
 	}
 
-	T* Get() { return m_Asset; }
-	T** GetAddressOf() { return &m_Asset; }
+	T* Get() const { return m_Asset; }
+	T** GetAddressOf() const { return &m_Asset; }
+
+	bool operator==(T* asset) const
+	{
+		return m_Asset == asset;
+	}
+
+	bool operator!=(T* asset) const
+	{
+		return m_Asset != asset;
+	}
+
+	bool operator==(const Ptr<T>& asset) const
+	{
+		return m_Asset == asset.m_Asset;
+	}
+
+	bool operator!=(const Ptr<T>& asset) const
+	{
+		return m_Asset != asset.m_Asset;
+	}
 
 private:
 	T* m_Asset;
 };
+
+template<typename T>
+bool operator==(void* asset, const Ptr<T>& pAsset)
+{
+	return asset == pAsset.Get();
+}
+
+template<typename T>
+bool operator!=(void* asset, const Ptr<T>& pAsset)
+{
+	return asset != pAsset.Get();
+}

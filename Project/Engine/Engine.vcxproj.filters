@@ -121,8 +121,17 @@
     <Filter Include="08.Asset\Texture">
       <UniqueIdentifier>{a1ecf712-900c-4347-831c-878252ad8719}</UniqueIdentifier>
     </Filter>
-    <Filter Include="04.Manager\06.RenderMgr">
+    <Filter Include="08.Asset\Material">
+      <UniqueIdentifier>{3d0019f9-436e-4251-90fa-ba5cd659bc1c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.Manager\07.RenderMgr">
       <UniqueIdentifier>{901eebcd-cf2f-4dcf-bc58-806c078b614e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.Manager\08.DebugRenderMgr">
+      <UniqueIdentifier>{6cacf794-a3bb-4757-899b-becd2181dd5a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.Manager\06.CollisionMgr">
+      <UniqueIdentifier>{b7db854f-770a-4d7c-bfea-0ede1cc255f9}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -238,10 +247,22 @@
       <Filter>07.Component\02.Camera</Filter>
     </ClInclude>
     <ClInclude Include="CRenderMgr.h">
-      <Filter>04.Manager\06.RenderMgr</Filter>
+      <Filter>04.Manager\07.RenderMgr</Filter>
     </ClInclude>
     <ClInclude Include="CCameraMoveScript.h">
       <Filter>Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="CMaterial.h">
+      <Filter>08.Asset\Material</Filter>
+    </ClInclude>
+    <ClInclude Include="CDebugRenderMgr.h">
+      <Filter>04.Manager\08.DebugRenderMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="CCollision2D.h">
+      <Filter>07.Component\03.Collision2D</Filter>
+    </ClInclude>
+    <ClInclude Include="CCollisionMgr.h">
+      <Filter>04.Manager\06.CollisionMgr</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -330,13 +351,28 @@
       <Filter>07.Component\02.Camera</Filter>
     </ClCompile>
     <ClCompile Include="CRenderMgr.cpp">
-      <Filter>04.Manager\06.RenderMgr</Filter>
+      <Filter>04.Manager\07.RenderMgr</Filter>
     </ClCompile>
     <ClCompile Include="extern.cpp">
       <Filter>01.Header</Filter>
     </ClCompile>
     <ClCompile Include="CCameraMoveScript.cpp">
       <Filter>Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="CMaterial.cpp">
+      <Filter>08.Asset\Material</Filter>
+    </ClCompile>
+    <ClCompile Include="CDebugRenderMgr.cpp">
+      <Filter>04.Manager\08.DebugRenderMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="func.cpp">
+      <Filter>01.Header</Filter>
+    </ClCompile>
+    <ClCompile Include="CCollision2D.cpp">
+      <Filter>07.Component\03.Collision2D</Filter>
+    </ClCompile>
+    <ClCompile Include="CCollisionMgr.cpp">
+      <Filter>04.Manager\06.CollisionMgr</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -346,6 +382,12 @@
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="std2d.fx">
+      <Filter>HLSL\2D</Filter>
+    </FxCompile>
+    <FxCompile Include="value.fx">
+      <Filter>HLSL\2D</Filter>
+    </FxCompile>
+    <FxCompile Include="debug_shape.fx">
       <Filter>HLSL\2D</Filter>
     </FxCompile>
   </ItemGroup>

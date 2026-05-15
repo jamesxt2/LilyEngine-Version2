@@ -7,6 +7,9 @@
 
 #include "CTransform.h"
 
+class CCollision2D;
+class CGameObject;
+
 class CScript : public CComponent
 {
 public:
@@ -15,5 +18,9 @@ public:
 
 	virtual void Tick() = 0;
 	virtual void FinalTick() final {}
+
+	virtual void BeginOverlap(CCollision2D* ownCollision, CGameObject* otherObj, CCollision2D* otherCollision) {}
+	virtual void Overlap(CCollision2D* ownCollision, CGameObject* otherObj, CCollision2D* otherCollision) {}
+	virtual void EndOverlap(CCollision2D* ownCollision, CGameObject* otherObj, CCollision2D* otherCollision) {}
 };
 

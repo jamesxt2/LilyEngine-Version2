@@ -6,7 +6,7 @@
 
 CTransform::CTransform()
 	: CComponent(COMPONENT_TYPE::TRANSFORM),
-	m_RelativeScale(Vec3(1.f, 1.f, 1.f))
+	m_RelativeScale(Vec3(1.f, 1.f, 1.f)), m_Absolute(false)
 {
 }
 
@@ -28,15 +28,41 @@ void CTransform::FinalTick()
 
 	m_matWorld = matScale * matRot * matTranslation;
 
-	m_RelativeDir[(UINT)DIR_TYPE::RIGHT] = XAxis;
-	m_RelativeDir[(UINT)DIR_TYPE::UP] = YAxis;
-	m_RelativeDir[(UINT)DIR_TYPE::FORWARD] = ZAxis;
+	m_WorldDir[(UINT)DIR_TYPE::RIGHT] = m_RelativeDir[(UINT)DIR_TYPE::RIGHT] = XAxis;
+	m_WorldDir[(UINT)DIR_TYPE::UP] = m_RelativeDir[(UINT)DIR_TYPE::UP] = YAxis;
+	m_WorldDir[(UINT)DIR_TYPE::FORWARD] = m_RelativeDir[(UINT)DIR_TYPE::FORWARD] = ZAxis;
 
 	for (int i = 0; i < 3; ++i)
 	{
 		m_RelativeDir[i] = XMVector3TransformNormal(m_RelativeDir[i], matRot);
 		m_RelativeDir[i].Normalize();
 	}
+
+	if (GetOwner()->GetParent())
+	{
+		const Matrix& matParent = GetOwner()->GetParent()->GetTransformComp()->GetWorldMat();
+		
+		if (m_Absolute)
+		{
+			Vec3 parentScale = GetOwner()->GetParent()->GetTransformComp()->GetWorldScale();
+			Matrix matScaleInv = XMMatrixInverse(nullptr, XMMatrixScaling(parentScale.x, parentScale.y, parentScale.z));
+			m_matWorld = m_matWorld * matScaleInv * matParent;
+		}
+		else
+			m_matWorld *= matParent;
+
+		for (int i = 0; i < 3; ++i)
+		{
+			m_WorldDir[i] = XMVector3TransformNormal(m_RelativeDir[i], m_matWorld);
+			m_WorldDir[i].Normalize();
+		}
+	}
+	else
+	{
+		for (int i = 0; i < 3; ++i)
+			m_WorldDir[i] = m_RelativeDir[i];
+	}
+
 }
 
 void CTransform::Bind()
@@ -48,4 +74,30 @@ void CTransform::Bind()
 
 	pCB->SetData(&g_Trans);
 	pCB->Bind();
+}
+
+Vec3 CTransform::GetWorldPosition() const
+{
+	return m_matWorld.Translation();
+}
+
+Vec3 CTransform::GetWorldRotation() const
+{
+	return Vec3();
+}
+
+Vec3 CTransform::GetWorldScale()
+{
+	CGameObject* pObj = GetOwner();
+	Vec3 worldScale = Vec3(1.f, 1.f, 1.f);
+
+	while (pObj)
+	{
+		worldScale *= pObj->GetTransformComp()->GetRelativeScale();
+		if (pObj->GetTransformComp()->IsAbsolute())
+			break;
+		pObj = pObj->GetParent();
+	}
+
+	return worldScale;
 }

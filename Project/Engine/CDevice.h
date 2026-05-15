@@ -17,6 +17,8 @@ private:
 	int CreateConstBuffer();
 	int CreateSamplerState();
 	int CreateRasterizerState();
+	int CreateDepthStencilState();
+	int CreateBlendState();
 
 private:
 	HWND							m_hMainWnd;
@@ -35,14 +37,20 @@ private:
 	ComPtr<ID3D11SamplerState>		m_Sampler[2];
 	ComPtr<ID3D11RasterizerState>	m_RS[(UINT)RS_TYPE::END];
 
+	ComPtr<ID3D11BlendState>		m_BS[(UINT)BS_TYPE::END];
+	ComPtr<ID3D11DepthStencilState> m_DS[(UINT)DS_TYPE::END];
 	CConstBuffer*					m_CB[(UINT)CB_TYPE::END];
 
 public:
 	inline ID3D11Device* GetDevice() const { return m_Device.Get(); }
 	inline ID3D11DeviceContext* GetContext() const { return m_Context.Get(); }
-	inline CConstBuffer* GetConstBuffer(CB_TYPE type) { return m_CB[(UINT)type]; }
-	inline ComPtr<ID3D11RasterizerState> GetRasterizerState(RS_TYPE type) const { return m_RS[(UINT)type]; }
+
 	inline Vec2 GetRenderResolution() const { return Vec2((float)m_RenderResolution.x, (float)m_RenderResolution.y); }
 	inline float GetAspectRatio() const { return (float)m_RenderResolution.x / (float)m_RenderResolution.y; }
+
+	inline CConstBuffer* GetConstBuffer(CB_TYPE type) { return m_CB[(UINT)type]; }
+	inline ComPtr<ID3D11RasterizerState> GetRasterizerState(RS_TYPE type) const { return m_RS[(UINT)type]; }
+	inline ComPtr<ID3D11DepthStencilState> GetDS(DS_TYPE type) { return m_DS[(UINT)type]; }
+	inline ComPtr<ID3D11BlendState> GetBS(BS_TYPE type) { return m_BS[(UINT)type]; }
 };
 

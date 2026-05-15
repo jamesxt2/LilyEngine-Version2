@@ -11,8 +11,13 @@
 #include "CDevice.h"
 
 CCamera::CCamera()
-	: CComponent(COMPONENT_TYPE::CAMERA), m_CamPriority(-1), m_Far(1000.f)
+	: CComponent(COMPONENT_TYPE::CAMERA), 
+	m_ProjType(PROJ_TYPE::PERSPECTIVE) , m_CamPriority(-1),
+	m_FOV(XM_PI / 3.f), m_Far(10000.f), m_Width(0.f), m_AspectRatio(1.f),
+	m_Scale(1.f), m_LayerCheck(0)
 {
+	m_Width = CDevice::GetInst()->GetRenderResolution().x;
+	m_AspectRatio = CDevice::GetInst()->GetAspectRatio();
 }
 
 CCamera::~CCamera()
@@ -37,7 +42,10 @@ void CCamera::FinalTick()
 	m_matView = matViewTrans * matViewRot;
 
 	// Projection
-	m_matProj = XMMatrixPerspectiveFovLH((XM_PI / 3.f), CDevice::GetInst()->GetAspectRatio(), 1.f, m_Far);
+	if (m_ProjType == PROJ_TYPE::PERSPECTIVE)
+		m_matProj = XMMatrixPerspectiveFovLH(m_FOV, m_AspectRatio, 1.f, m_Far);
+	else
+		m_matProj = XMMatrixOrthographicLH(m_Scale * m_Width, m_Scale * m_Width / m_AspectRatio, 1.f, m_Far);
 }
 
 void CCamera::Render()
@@ -49,9 +57,22 @@ void CCamera::Render()
 
 	for (UINT i = 0; i < MAX_LAYER; ++i)
 	{
-		CLayer* pLayer = pCurLevel->GetLayer(i);
-		pLayer->Render();
+		if (m_LayerCheck & (1 << i))
+		{
+			CLayer* pLayer = pCurLevel->GetLayer(i);
+			const std::vector<CGameObject*>& obj = pLayer->GetObjects();
+			for (size_t i = 0; i < obj.size(); ++i)
+				obj[i]->Render();
+		}
 	}
+}
+
+void CCamera::LayerCheck(int layerIdx)
+{
+	if (m_LayerCheck & (1 << layerIdx))
+		m_LayerCheck &= ~(1 << layerIdx);
+	else
+		m_LayerCheck |= (1 << layerIdx);
 }
 
 void CCamera::SetCameraPriority(int priority)

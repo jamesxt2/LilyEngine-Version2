@@ -8,15 +8,23 @@ class CLayer : public CEntity
 public:
 	CLayer();
 	~CLayer();
+	friend class CLevel;
 
 	void Begin();
 	void Tick();
 	void FinalTick();
-	void Render();
 
-	inline void AddObject(CGameObject* object) { m_vecObject.push_back(object); }
+	void AddObject(CGameObject* object, bool bChildMove = false);
+	inline void RegisterObject(CGameObject* object) { m_vecObject.push_back(object); }
+
+	inline void Clear() { m_vecObject.clear(); }
 
 private:
+	std::vector<CGameObject*> m_vecParent;
 	std::vector<CGameObject*> m_vecObject;
+	int m_LayerIdx;
+
+public:
+	inline const std::vector<CGameObject*>& GetObjects() const { return m_vecObject; }
 };
 

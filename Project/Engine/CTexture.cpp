@@ -17,6 +17,12 @@ void CTexture::Bind(int registerSlot)
     CONTEXT->PSSetShaderResources(registerSlot, 1, m_SRV.GetAddressOf());
 }
 
+void CTexture::Clear(int registerSlot)
+{
+    ID3D11ShaderResourceView* pSRV = nullptr;
+    CONTEXT->PSSetShaderResources(registerSlot, 1, &pSRV);
+}
+
 int CTexture::Load(const std::wstring& filePath)
 {
     wchar_t Ext[50] = {};

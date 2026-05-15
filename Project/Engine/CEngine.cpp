@@ -8,6 +8,8 @@
 #include "CAssetMgr.h"
 #include "CLevelMgr.h"
 #include "CRenderMgr.h"
+#include "CDebugRenderMgr.h"
+#include "CCollisionMgr.h"
 
 CEngine::CEngine()
 	: m_hMainHwnd(nullptr), m_Resolution{}
@@ -57,9 +59,14 @@ void CEngine::Progress()
 
 	// Object Tick
 	CLevelMgr::GetInst()->Tick();
+	CCollisionMgr::GetInst()->Tick();
 
 	/*************/
 	// Rendering
 	/*************/
 	CRenderMgr::GetInst()->Render();
+	CDebugRenderMgr::GetInst()->Render();
+
+	// Present
+	CDevice::GetInst()->Present();
 }

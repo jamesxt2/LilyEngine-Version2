@@ -9,6 +9,7 @@ CLevel::CLevel()
 	for (UINT i = 0; i < MAX_LAYER; ++i)
 	{
 		m_arrLayer[i] = new CLayer;
+		m_arrLayer[i]->m_LayerIdx = i;
 	}
 }
 
@@ -29,6 +30,11 @@ void CLevel::Tick()
 {
 	for (UINT i = 0; i < MAX_LAYER; ++i)
 	{
+		m_arrLayer[i]->Clear();
+	}
+
+	for (UINT i = 0; i < MAX_LAYER; ++i)
+	{
 		m_arrLayer[i]->Tick();
 	}
 }
@@ -41,15 +47,7 @@ void CLevel::FinalTick()
 	}
 }
 
-void CLevel::Render()
+void CLevel::AddObject(UINT layerIdx, CGameObject* object, bool bChildMove)
 {
-	for (UINT i = 0; i < MAX_LAYER; ++i)
-	{
-		m_arrLayer[i]->Render();
-	}
-}
-
-void CLevel::AddObject(UINT layerIdx, CGameObject* object)
-{
-	m_arrLayer[layerIdx]->AddObject(object);
+	m_arrLayer[layerIdx]->AddObject(object, bChildMove);
 }

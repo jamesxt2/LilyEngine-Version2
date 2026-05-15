@@ -41,6 +41,8 @@ ASSET_TYPE GetAssetType()
 		return ASSET_TYPE::COMPUTE_SHADER;
 	if constexpr (std::is_same_v<T, CTexture>)
 		return ASSET_TYPE::TEXTURE;
+	if constexpr (std::is_same_v<T, CMaterial>)
+		return ASSET_TYPE::MATERIAL;
 }
 
 template<typename T>

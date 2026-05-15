@@ -39,3 +39,15 @@ void CPlayerScript::Tick()
 	}
 	GetOwner()->GetTransformComp()->SetRelativePosition(vCurPos);
 }
+
+void CPlayerScript::BeginOverlap(CCollision2D* ownCollision, CGameObject* otherObj, CCollision2D* otherCollision)
+{
+}
+
+void CPlayerScript::Overlap(CCollision2D* ownCollision, CGameObject* otherObj, CCollision2D* otherCollision)
+{
+}
+
+void CPlayerScript::EndOverlap(CCollision2D* ownCollision, CGameObject* otherObj, CCollision2D* otherCollision)
+{
+}

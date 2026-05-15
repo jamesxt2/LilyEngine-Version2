@@ -13,9 +13,8 @@ public:
 	void Begin();
 	void Tick();
 	void FinalTick();
-	void Render();
 
-	void AddObject(UINT layerIdx, CGameObject* object);
+	void AddObject(UINT layerIdx, CGameObject* object, bool bChildMove = false);
 
 private:
 	CLayer* m_arrLayer[MAX_LAYER];

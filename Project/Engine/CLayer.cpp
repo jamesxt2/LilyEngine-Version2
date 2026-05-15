@@ -9,37 +9,60 @@ CLayer::CLayer()
 
 CLayer::~CLayer()
 {
-	Safe_Del_Vector(m_vecObject);
+	Safe_Del_Vector(m_vecParent);
 }
 
 void CLayer::Begin()
 {
-	for (size_t i = 0; i < m_vecObject.size(); ++i)
+	for (size_t i = 0; i < m_vecParent.size(); ++i)
 	{
-		m_vecObject[i]->Begin();
+		m_vecParent[i]->Begin();
 	}
 }
 
 void CLayer::Tick()
 {
-	for (size_t i = 0; i < m_vecObject.size(); ++i)
+	for (size_t i = 0; i < m_vecParent.size(); ++i)
 	{
-		m_vecObject[i]->Tick();
+		m_vecParent[i]->Tick();
 	}
 }
 
 void CLayer::FinalTick()
 {
-	for (size_t i = 0; i < m_vecObject.size(); ++i)
+	for (size_t i = 0; i < m_vecParent.size(); ++i)
 	{
-		m_vecObject[i]->FinalTick();
+		m_vecParent[i]->FinalTick();
 	}
 }
 
-void CLayer::Render()
+void CLayer::AddObject(CGameObject* object, bool bChildMove)
 {
-	for (size_t i = 0; i < m_vecObject.size(); ++i)
+	if (!object->GetParent())
+		m_vecParent.push_back(object);
+
+	static std::list<CGameObject*> queue;
+	queue.clear();
+	queue.push_back(object);
+
+	while (!queue.empty())
 	{
-		m_vecObject[i]->Render();
+		CGameObject* pObject = queue.front();
+		queue.pop_front();
+
+		if (bChildMove)
+			pObject->m_LayerIdx = m_LayerIdx;
+		else
+		{
+			if (pObject == object || pObject->m_LayerIdx == -1)
+				pObject->m_LayerIdx = m_LayerIdx;
+		}
+
+		const std::vector<CGameObject*>& vecChild = pObject->GetChild();
+		for (size_t i = 0; i < vecChild.size(); ++i)
+		{
+			queue.push_back(vecChild[i]);
+		}
 	}
+
 }

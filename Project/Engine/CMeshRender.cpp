@@ -19,7 +19,6 @@ void CMeshRender::FinalTick()
 void CMeshRender::Render()
 {
 	GetOwner()->GetTransformComp()->Bind();
-	GetShader()->Bind();
-	GetTexture()->Bind(0);
+	GetMaterial()->Bind();
 	GetMesh()->Render();
 }

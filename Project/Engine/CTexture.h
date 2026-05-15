@@ -8,6 +8,7 @@ public:
 	~CTexture();
 
 	void Bind(int registerSlot);
+	static void Clear(int registerSlot);
 
 private:
 	virtual int Load(const std::wstring& filePath) override;
