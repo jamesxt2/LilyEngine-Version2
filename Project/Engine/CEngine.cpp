@@ -10,6 +10,8 @@
 #include "CRenderMgr.h"
 #include "CDebugRenderMgr.h"
 #include "CCollisionMgr.h"
+#include "CTaskMgr.h"
+
 
 CEngine::CEngine()
 	: m_hMainHwnd(nullptr), m_Resolution{}
@@ -69,4 +71,7 @@ void CEngine::Progress()
 
 	// Present
 	CDevice::GetInst()->Present();
+
+	// Task execute
+	CTaskMgr::GetInst()->Tick();
 }

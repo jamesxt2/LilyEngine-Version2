@@ -1,6 +1,6 @@
 # Directories
 .vs/
-OutputFile/
+OutputFile/bin/
 Project/Engine/x64/
 Project/Client/x64/
 External/include/Engine

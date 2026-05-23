@@ -62,6 +62,8 @@ inline Ptr<T> CAssetMgr::Load(const std::wstring& key, const std::wstring& relat
 		return nullptr;
 	}
 
+	pAsset->m_RelativePath = relativePath;
+
 	ASSET_TYPE type = GetAssetType<T>();
 
 	m_AssetMap[(UINT)type].insert(std::make_pair(key, pAsset.Get()));

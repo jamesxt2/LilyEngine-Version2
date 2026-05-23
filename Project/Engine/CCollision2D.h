@@ -6,12 +6,16 @@ class CCollision2D : public CComponent
 public:
 	CCollision2D();
 	~CCollision2D();
+	friend class CTaskMgr;
 
 	virtual void FinalTick() override;
 
 	void BeginOverlap(CCollision2D* otherCollision);
 	void Overlap(CCollision2D* otherCollision);
 	void EndOverlap(CCollision2D* otherCollision);
+
+	void Activate();
+	void Deactivate();
 
 private:
 	Vec3 m_Offset;
@@ -24,6 +28,11 @@ private:
 	bool m_Absolute;
 
 	Matrix m_matWorld;
+
+	int m_OverlapCount;
+
+	bool m_Active;
+	bool m_SemiActive;
 
 public:
 	inline void SetOffset(Vec3 offset) { m_Offset = offset; }
@@ -38,5 +47,8 @@ public:
 	inline float GetRotationZ() const { return m_Rotation.z; }
 
 	inline const Matrix& GetWorldMat() const { return m_matWorld; }
+
+	inline bool IsActive() const { return m_Active; }
+	inline bool IsSemiDeactive() const { return m_SemiActive; }
 };
 

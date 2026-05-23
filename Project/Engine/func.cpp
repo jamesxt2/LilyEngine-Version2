@@ -1,5 +1,7 @@
 #include "pch.h"
 #include "CDebugRenderMgr.h"
+#include "CTaskMgr.h"
+#include "CGameObject.h"
 
 void DrawDebugRect(Vec3 worldPos, Vec3 worldRot, Vec3 worldScale, Vec4 color, float duration)
 {
@@ -43,4 +45,41 @@ void DrawDebugCircle(Vec3 worldPos, float radius, Vec4 color, float duration)
 	info.Age = 0.f;
 
 	CDebugRenderMgr::GetInst()->AddDebugShapeInfo(info);
+}
+
+void SaveWString(const std::wstring& str, FILE* file)
+{
+	size_t len = str.length();
+	fwrite(&len, sizeof(size_t), 1, file);
+	fwrite(str.c_str(), sizeof(wchar_t), len, file);
+}
+
+void LoadWString(std::wstring& str, FILE* file)
+{
+	size_t len = 0;
+	fread(&len, sizeof(size_t), 1, file);
+	str.resize(len);
+	fread((wchar_t*)str.c_str(), sizeof(wchar_t), len, file);
+}
+
+void SpawnObject(int layerIdx, CGameObject* object)
+{
+	TTask task = {};
+	task.type = TASK_TYPE::SPAWN_OBJECT;
+	task.dwParam_0 = 0;
+	task.dwParam_1 = (DWORD_PTR)object;
+
+	CTaskMgr::GetInst()->AddTask(task);
+}
+
+bool IsValid(CGameObject*& object)
+{
+	if (object == nullptr)
+		return false;
+	else if (object->IsDead())
+	{
+		object = nullptr;
+		return false;
+	}
+	return true;
 }

@@ -18,5 +18,9 @@ public:
 
 private:
 	float m_Speed;
+	CGameObject* m_Target;
+
+public:
+	inline void SetTarget(CGameObject* target) { m_Target = target; }
 };
 

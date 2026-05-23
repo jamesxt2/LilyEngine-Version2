@@ -61,12 +61,6 @@
     <Filter Include="07.Component\04.Collision3D">
       <UniqueIdentifier>{5b4f89ed-0525-403a-bb5a-8dcf81cbaea0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="07.Component\05.Animation2D">
-      <UniqueIdentifier>{c3197fb1-7660-413b-900f-d2aeb353d8ae}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="07.Component\06.Animation3D">
-      <UniqueIdentifier>{85ebf7b3-510c-4929-acd4-2825fd99ed55}</UniqueIdentifier>
-    </Filter>
     <Filter Include="07.Component\07.Light2D">
       <UniqueIdentifier>{ae9db85f-e1e8-450a-8248-d6028383d280}</UniqueIdentifier>
     </Filter>
@@ -132,6 +126,18 @@
     </Filter>
     <Filter Include="04.Manager\06.CollisionMgr">
       <UniqueIdentifier>{b7db854f-770a-4d7c-bfea-0ede1cc255f9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="07.Component\05.Animator2D">
+      <UniqueIdentifier>{c3197fb1-7660-413b-900f-d2aeb353d8ae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="07.Component\06.Animator3D">
+      <UniqueIdentifier>{85ebf7b3-510c-4929-acd4-2825fd99ed55}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="07.Component\05.Animator2D\Animation">
+      <UniqueIdentifier>{4801f8ce-1986-4cc6-b586-181346ca4a1d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.Manager\09.TaskMgr">
+      <UniqueIdentifier>{6d53f8fa-c6ab-4a3d-915e-1607310ef675}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -264,6 +270,18 @@
     <ClInclude Include="CCollisionMgr.h">
       <Filter>04.Manager\06.CollisionMgr</Filter>
     </ClInclude>
+    <ClInclude Include="CAnimator2D.h">
+      <Filter>07.Component\05.Animator2D</Filter>
+    </ClInclude>
+    <ClInclude Include="CAnim2D.h">
+      <Filter>07.Component\05.Animator2D\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="CTaskMgr.h">
+      <Filter>04.Manager\09.TaskMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="CMissileScript.h">
+      <Filter>Scripts</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -373,6 +391,18 @@
     </ClCompile>
     <ClCompile Include="CCollisionMgr.cpp">
       <Filter>04.Manager\06.CollisionMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="CAnimator2D.cpp">
+      <Filter>07.Component\05.Animator2D</Filter>
+    </ClCompile>
+    <ClCompile Include="CAnim2D.cpp">
+      <Filter>07.Component\05.Animator2D\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="CTaskMgr.cpp">
+      <Filter>04.Manager\09.TaskMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="CMissileScript.cpp">
+      <Filter>Scripts</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

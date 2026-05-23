@@ -18,5 +18,11 @@ private:
 	ScratchImage						m_Image;
 	ComPtr<ID3D11Texture2D>				m_Tex2D;
 	ComPtr<ID3D11ShaderResourceView>	m_SRV;
+
+	D3D11_TEXTURE2D_DESC				m_Desc;
+
+public:
+	inline UINT GetWidth() const { return m_Desc.Width; }
+	inline UINT GetHeight() const { return m_Desc.Height; }
 };
 

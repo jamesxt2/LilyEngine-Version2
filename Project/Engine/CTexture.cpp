@@ -61,6 +61,7 @@ int CTexture::Load(const std::wstring& filePath)
     }
 
     m_SRV->GetResource((ID3D11Resource**)m_Tex2D.GetAddressOf());
+    m_Tex2D->GetDesc(&m_Desc);
 
     return hr;
 }

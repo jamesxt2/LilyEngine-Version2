@@ -7,8 +7,8 @@ enum class COMPONENT_TYPE
 	CAMERA,
 	COLLISION2D,
 	COLLISION3D,
-	ANIMATION2D,
-	ANIMATION3D,
+	ANIMATOR2D,
+	ANIMATOR3D,
 	LIGHT2D,
 	LIGHT3D,
 
@@ -155,4 +155,21 @@ enum class PROJ_TYPE
 {
 	ORTHOGRAPHIC,
 	PERSPECTIVE
+};
+
+enum class TASK_TYPE
+{
+	// Param0: Layer Index
+	// Param1: Object Address
+	SPAWN_OBJECT,
+
+	// Param0: Object Address
+	DESTROY_OBJECT,
+	
+	// Param0: Collision2D Address
+	COLLISION2D_SEMI_DEACTIVATE,
+	COLLISION2D_DEACTIVATE,
+
+	//
+	CHANGE_LEVEL
 };

@@ -4,10 +4,13 @@
 #include "CTransform.h"
 #include "CScript.h"
 
+#include "CTaskMgr.h"
+
 CCollision2D::CCollision2D()
 	: CComponent(COMPONENT_TYPE::COLLISION2D),
 	m_Scale(Vec3(1.f, 1.f, 1.f)),
-	m_Absolute(false)
+	m_Absolute(false), m_OverlapCount(0),
+	m_Active(true), m_SemiActive(false)
 {
 }
 
@@ -17,6 +20,11 @@ CCollision2D::~CCollision2D()
 
 void CCollision2D::FinalTick()
 {
+	if (m_SemiActive)
+		CTaskMgr::GetInst()->AddTask(TTask{ TASK_TYPE::COLLISION2D_DEACTIVATE, (DWORD_PTR)this });
+	else if (!m_Active)
+		return;
+
 	m_FinalPos = GetOwner()->GetTransformComp()->GetRelativePosition() + m_Offset;
 	
 	Matrix matScale = XMMatrixScaling(m_Scale.x, m_Scale.y, m_Scale.z);
@@ -36,11 +44,16 @@ void CCollision2D::FinalTick()
 
 		m_matWorld *= ((Matrix)XMMatrixInverse(nullptr, matObjScale) * GetOwner()->GetTransformComp()->GetWorldMat());
 	}
-	DrawDebugRect(m_matWorld, Vec4(0.f, 1.f, 0.f, 1.f), 0.f);
+
+	if (m_OverlapCount == 0)
+		DrawDebugRect(m_matWorld, Vec4(0.f, 1.f, 0.f, 1.f), 0.f);
+	else if (m_OverlapCount >= 1)
+		DrawDebugRect(m_matWorld, Vec4(1.f, 0.f, 0.f, 1.f), 0.f);
 }
 
 void CCollision2D::BeginOverlap(CCollision2D* otherCollision)
 {
+	++m_OverlapCount;
 	const std::vector<CScript*>& script = GetOwner()->GetScript();
 	for (size_t i = 0; i < script.size(); ++i)
 	{
@@ -59,9 +72,23 @@ void CCollision2D::Overlap(CCollision2D* otherCollision)
 
 void CCollision2D::EndOverlap(CCollision2D* otherCollision)
 {
+	--m_OverlapCount;
 	const std::vector<CScript*>& script = GetOwner()->GetScript();
 	for (size_t i = 0; i < script.size(); ++i)
 	{
 		script[i]->EndOverlap(this, otherCollision->GetOwner(), otherCollision);
 	}
+}
+
+void CCollision2D::Activate()
+{
+	m_Active = true;
+}
+
+void CCollision2D::Deactivate()
+{
+	TTask task = {};
+	task.type = TASK_TYPE::COLLISION2D_SEMI_DEACTIVATE;
+	task.dwParam_0 = (DWORD_PTR)this;
+	CTaskMgr::GetInst()->AddTask(task);
 }

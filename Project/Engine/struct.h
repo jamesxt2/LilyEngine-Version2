@@ -37,3 +37,23 @@ struct TDebugShapeInfo
 	float Duration;
 	float Age;
 };
+
+struct TAnim2DInfo
+{
+	Vec2 vLeftTop;
+	Vec2 vSliceSize;
+
+	Vec2 vOffset;
+	Vec2 vBackground;
+
+	int UseAnim2D;
+	int padding[3];
+};
+
+struct TTask
+{
+	TASK_TYPE type;
+	DWORD_PTR dwParam_0;
+	DWORD_PTR dwParam_1;
+	DWORD_PTR dwParam_2;
+};

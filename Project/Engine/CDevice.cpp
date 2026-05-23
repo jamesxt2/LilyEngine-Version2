@@ -160,6 +160,9 @@ int CDevice::CreateConstBuffer()
 	m_CB[(UINT)CB_TYPE::MATERIAL] = new CConstBuffer;
 	m_CB[(UINT)CB_TYPE::MATERIAL]->Create(sizeof(TMaterialConst), CB_TYPE::MATERIAL);
 
+	m_CB[(UINT)CB_TYPE::ANIMATION] = new CConstBuffer;
+	m_CB[(UINT)CB_TYPE::ANIMATION]->Create(sizeof(TAnim2DInfo), CB_TYPE::ANIMATION);
+
 	return S_OK;
 }
 

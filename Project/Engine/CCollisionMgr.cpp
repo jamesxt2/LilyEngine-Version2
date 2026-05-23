@@ -64,14 +64,32 @@ void CCollisionMgr::CollisionBetweenLayers(UINT left, UINT right)
 	const std::vector<CGameObject*>& leftObj = pLeftLayer->GetObjects();
 	const std::vector<CGameObject*>& rightObj = pRightLayer->GetObjects();
 
-	for (size_t i = 0; i < leftObj.size(); ++i)
+	if (left != right)
 	{
-		if (leftObj[i]->GetCollision2DComp() == nullptr)
-			continue;
-		for (size_t j = 0; j < rightObj.size(); ++j)
+		for (size_t i = 0; i < leftObj.size(); ++i)
 		{
-			if (rightObj[j]->GetCollision2DComp() == nullptr)
+			if (leftObj[i]->GetCollision2DComp() == nullptr)
 				continue;
+			for (size_t j = 0; j < rightObj.size(); ++j)
+			{
+				if (rightObj[j]->GetCollision2DComp() == nullptr)
+					continue;
+				CollisionBtwCollision2D(leftObj[i]->GetCollision2DComp(), rightObj[j]->GetCollision2DComp());
+			}
+		}
+	}
+	else
+	{
+		for (size_t i = 0; i < leftObj.size(); ++i)
+		{
+			if (leftObj[i]->GetCollision2DComp() == nullptr)
+				continue;
+			for (size_t j = i + 1; j < rightObj.size(); ++j)
+			{
+				if (rightObj[j]->GetCollision2DComp() == nullptr)
+					continue;
+				CollisionBtwCollision2D(leftObj[i]->GetCollision2DComp(), rightObj[j]->GetCollision2DComp());
+			}
 		}
 	}
 }
@@ -89,20 +107,38 @@ void CCollisionMgr::CollisionBtwCollision2D(CCollision2D* leftCol, CCollision2D*
 		iter = m_ColInfo.find(id.ID);
 	}
 
+	bool bDead = leftCol->GetOwner()->IsDead() || rightCol->GetOwner()->IsDead();
+	bool bActive = leftCol->IsActive() && rightCol->IsActive();
+	bool bSemiDeactive = leftCol->IsSemiDeactive() || rightCol->IsSemiDeactive();
+
+	if (!bActive) return;
+
 	if (IsCollision(leftCol, rightCol))
 	{
 		if (iter->second)
 		{
 			// Overlap
-			leftCol->Overlap(rightCol);
-			rightCol->Overlap(leftCol);
+			if (bDead || bSemiDeactive)
+			{
+				leftCol->EndOverlap(rightCol);
+				rightCol->EndOverlap(leftCol);
+				iter->second = false;
+			}
+			else
+			{
+				leftCol->Overlap(rightCol);
+				rightCol->Overlap(leftCol);
+			}
 		}
 		else
 		{
 			// Begin Overlap
-			leftCol->BeginOverlap(rightCol);
-			rightCol->BeginOverlap(leftCol);
-			iter->second = true;
+			if (!bDead && !bSemiDeactive)
+			{
+				leftCol->BeginOverlap(rightCol);
+				rightCol->BeginOverlap(leftCol);
+				iter->second = true;
+			}
 		}
 	}
 	else
@@ -137,6 +173,10 @@ bool CCollisionMgr::IsCollision(CCollision2D* leftCol, CCollision2D* rightCol)
 		vRightCol[i] = XMVector3TransformCoord(vLocal[i], rightCol->GetWorldMat());
 	}
 
+	Vec3 vLeftCenter = XMVector3TransformCoord(Vec3(0.f, 0.f, 0.f), leftCol->GetWorldMat());
+	Vec3 vRightCenter = XMVector3TransformCoord(Vec3(0.f, 0.f, 0.f), rightCol->GetWorldMat());
+	Vec3 vCenter = vRightCenter - vLeftCenter;
+
 	Vec3 arrProj[4] =
 	{
 		vLeftCol[1] - vLeftCol[0],
@@ -155,7 +195,13 @@ bool CCollisionMgr::IsCollision(CCollision2D* leftCol, CCollision2D* rightCol)
 		{
 			projLen += fabs(arrProj[j].Dot(vProj));
 		}
+
+		projLen *= 0.5f;
+		float centerLen = fabs(vCenter.Dot(vProj));
+
+		if (centerLen > projLen)
+			return false;
 	}
 
-	return false;
+	return true;
 }

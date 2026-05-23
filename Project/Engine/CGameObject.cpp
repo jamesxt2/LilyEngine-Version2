@@ -9,8 +9,10 @@
 #include "CRenderComponent.h"
 #include "CScript.h"
 
+#include "CTaskMgr.h"
+
 CGameObject::CGameObject()
-	: m_arrComp{}, m_RenderComp(nullptr), m_Parent(nullptr), m_LayerIdx(-1)
+	: m_arrComp{}, m_RenderComp(nullptr), m_Parent(nullptr), m_LayerIdx(-1), m_Dead(false)
 {
 }
 
@@ -81,6 +83,8 @@ void CGameObject::Render()
 
 void CGameObject::AddComponent(CComponent* component)
 {
+	if (component == nullptr) return;
+
 	COMPONENT_TYPE type = component->GetComponentType();
 
 	if (type == COMPONENT_TYPE::SCRIPT)
@@ -100,7 +104,6 @@ void CGameObject::AddComponent(CComponent* component)
 
 		m_arrComp[(UINT)type] = component;
 	}
-
 	
 	component->m_Owner = this;
 }
@@ -109,4 +112,12 @@ void CGameObject::AddChild(CGameObject* obj)
 {
 	obj->m_Parent = this;
 	m_vecChild.push_back(obj);
+}
+
+void CGameObject::Destroy()
+{
+	TTask task = {};
+	task.type = TASK_TYPE::DESTROY_OBJECT;
+	task.dwParam_0 = (DWORD_PTR)this;
+	CTaskMgr::GetInst()->AddTask(task);
 }

@@ -12,6 +12,8 @@
 
 #include "CCollisionMgr.h"
 
+#include "CAnim2D.h"
+
 CLevelMgr::CLevelMgr()
 	: m_CurLevel(nullptr)
 {
@@ -51,9 +53,10 @@ void CLevelMgr::Init()
 	pPlayer->AddComponent(new CTransform);
 	pPlayer->AddComponent(new CMeshRender);
 	pPlayer->AddComponent(new CCollision2D);
+	pPlayer->AddComponent(new CAnimator2D);
 	pPlayer->AddComponent(new CPlayerScript);
 
-	pPlayer->GetTransformComp()->SetRelativePosition(0.f, 0.f, 100.f);
+	pPlayer->GetTransformComp()->SetRelativePosition(0.f, 200.f, 100.f);
 	pPlayer->GetTransformComp()->SetRelativeScale(100.f, 100.f, 1.f);
 
 	pPlayer->GetMeshRenderComp()->SetMesh(CAssetMgr::GetInst()->FindAsset<CMesh>(L"RectMesh"));
@@ -63,9 +66,17 @@ void CLevelMgr::Init()
 
 	//pObject->GetCollision2DComp()->SetAbsolute(true);
 	pPlayer->GetCollision2DComp()->SetOffset(Vec3(0.f, 0.f, 0.f));
-	pPlayer->GetCollision2DComp()->SetScale(Vec3(0.8f, 0.8f, 1.f));
+	pPlayer->GetCollision2DComp()->SetScale(Vec3(1.f, 1.f, 1.f));
 
+	//Ptr<CTexture> pAtlas = CAssetMgr::GetInst()->Load<CTexture>(L"texture/link.png", L"texture/link.png");
+	//pPlayer->GetAnimator2DComp()->CreateAnimation(L"MOVE_DOWN", pAtlas, Vec2(0.f, 520.f), Vec2(120.f, 130.f), Vec2(240.f, 260.f), 10, 16);
+	//pPlayer->GetAnimator2DComp()->CreateAnimation(L"IDLE_RIGHT", pAtlas, Vec2(0.f, 390.f), Vec2(120.f, 130.f), Vec2(240.f, 260.f), 3, 2);
 	
+	//pPlayer->GetAnimator2DComp()->FindAnimation(L"MOVE_DOWN")->Save(L"animation/");
+
+	pPlayer->GetAnimator2DComp()->LoadAnimation(L"animation/MOVE_DOWN.anim");
+
+	pPlayer->GetAnimator2DComp()->Play(L"MOVE_DOWN", true);
 
 	// Monster object
 	CGameObject* pMonster = new CGameObject;
@@ -74,7 +85,7 @@ void CLevelMgr::Init()
 	pMonster->AddComponent(new CMeshRender);
 	pMonster->AddComponent(new CCollision2D);
 
-	pMonster->GetTransformComp()->SetRelativePosition(500.f, 0.f, 300.f);
+	pMonster->GetTransformComp()->SetRelativePosition(10.f, 0.f, 100.f);
 	pMonster->GetTransformComp()->SetRelativeScale(200.f, 200.f, 1.f);
 	pMonster->GetTransformComp()->SetAbsolute(true);
 
@@ -85,11 +96,15 @@ void CLevelMgr::Init()
 
 	//pObject->GetCollision2DComp()->SetAbsolute(true);
 	pMonster->GetCollision2DComp()->SetOffset(Vec3(0.f, 0.f, 0.f));
-	pMonster->GetCollision2DComp()->SetScale(Vec3(0.8f, 0.8f, 1.f));
+	pMonster->GetCollision2DComp()->SetScale(Vec3(1.f, 1.f, 1.f));
 
-	pPlayer->AddChild(pMonster);
-	m_CurLevel->AddObject(0, pPlayer);
+	//pPlayer->AddChild(pMonster);
+	m_CurLevel->AddObject(1, pPlayer);
+	m_CurLevel->AddObject(1, pMonster);
 
+	pPlayer->GetScript<CPlayerScript>()->SetTarget(pMonster);
+
+	CCollisionMgr::GetInst()->LayerCheck(1, 1);
 	CCollisionMgr::GetInst()->LayerCheck(1, 2);
 }
 

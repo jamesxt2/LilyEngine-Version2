@@ -4,6 +4,7 @@
 #include "CGameObject.h"
 
 CLayer::CLayer()
+	: m_LayerIdx(0)
 {
 }
 
@@ -30,9 +31,14 @@ void CLayer::Tick()
 
 void CLayer::FinalTick()
 {
-	for (size_t i = 0; i < m_vecParent.size(); ++i)
+	std::vector<CGameObject*>::iterator iter = m_vecParent.begin();
+	for (; iter != m_vecParent.end(); )
 	{
-		m_vecParent[i]->FinalTick();
+		(*iter)->FinalTick();
+		if ((*iter)->IsDead())
+			iter = m_vecParent.erase(iter);
+		else
+			++iter;
 	}
 }
 
