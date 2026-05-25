@@ -7,6 +7,7 @@ public:
 	CMissileScript();
 	~CMissileScript();
 
+	virtual void Begin() override;
 	virtual void Tick() override;
 
 private:

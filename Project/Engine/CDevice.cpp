@@ -21,6 +21,8 @@ int CDevice::Init(HWND _hWnd, POINT _Resolution)
 	m_hMainWnd = _hWnd;
 	m_RenderResolution = _Resolution;
 
+	g_GlobalData.vResolution = GetRenderResolution();
+
 	UINT iFlag = 0;
 #ifdef _DEBUG
 	iFlag = D3D11_CREATE_DEVICE_DEBUG;
@@ -162,6 +164,9 @@ int CDevice::CreateConstBuffer()
 
 	m_CB[(UINT)CB_TYPE::ANIMATION] = new CConstBuffer;
 	m_CB[(UINT)CB_TYPE::ANIMATION]->Create(sizeof(TAnim2DInfo), CB_TYPE::ANIMATION);
+
+	m_CB[(UINT)CB_TYPE::GLOBAL] = new CConstBuffer;
+	m_CB[(UINT)CB_TYPE::GLOBAL]->Create(sizeof(TGlobalData), CB_TYPE::GLOBAL);
 
 	return S_OK;
 }

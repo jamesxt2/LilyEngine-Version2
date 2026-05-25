@@ -43,6 +43,7 @@ enum class CB_TYPE
 	MATERIAL,
 	ANIMATION,
 	GLOBAL,
+
 	END
 };
 
@@ -172,4 +173,11 @@ enum class TASK_TYPE
 
 	//
 	CHANGE_LEVEL
+};
+
+enum class LIGHT_TYPE
+{
+	DIRECTIONAL,
+	POINT,
+	SPOT
 };

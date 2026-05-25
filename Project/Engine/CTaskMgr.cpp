@@ -44,6 +44,7 @@ void CTaskMgr::ExecuteTask(TTask& task)
 		CGameObject* pSpawnObj = (CGameObject*)task.dwParam_1;
 		CLevel* pCurLevel = CLevelMgr::GetInst()->GetCurrentLevel();
 		pCurLevel->AddObject(LayerIdx, pSpawnObj);
+		pSpawnObj->Begin();
 	}
 		break;
 	case TASK_TYPE::DESTROY_OBJECT:

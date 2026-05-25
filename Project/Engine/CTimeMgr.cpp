@@ -43,4 +43,7 @@ void CTimeMgr::Tick()
 		m_AccTime -= 1.f;
 		m_FrmCount = 0;
 	}
+
+	g_GlobalData.DeltaTime = m_DT;
+	g_GlobalData.Time = m_Time;
 }

@@ -1,6 +1,8 @@
 #ifndef _VALUE
 #define _VALUE
 
+#include "struct.fx"
+
 cbuffer TRANSFORM : register(b0)
 {
     row_major matrix g_matWorld;
@@ -46,6 +48,18 @@ cbuffer ANIMATION2D : register(b2)
     int3 padding;
 }
 
+cbuffer GLOBAL : register(b3)
+{
+    float2 vResolution;
+    float DeltaTime;
+    float Time;
+
+    int Light2DCount;
+    int Light3DCount;
+
+    float2 Padding;
+}
+
 SamplerState g_sam_0 : register(s0);
 SamplerState g_sam_1 : register(s1);
 
@@ -65,7 +79,16 @@ Texture2DArray g_texarr_0 : register(t10);
 Texture2DArray g_texarr_1 : register(t11);
 Texture2DArray g_texarr_2 : register(t12);
 Texture2DArray g_texarr_3 : register(t13);
-    
+
+// Animation Atlas
 Texture2D g_Atlas : register(t14);
+
+// Light2DInfo
+StructuredBuffer<TLightInfo> g_Light2D : register(t15);
+
+// Light3DInfo
+StructuredBuffer<TLightInfo> g_Light3D : register(t16);
+
+#define PI 3.14159265f
 
 #endif

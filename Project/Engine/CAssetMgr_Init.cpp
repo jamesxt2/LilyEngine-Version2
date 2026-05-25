@@ -164,13 +164,17 @@ void CAssetMgr::CreateDefaultMaterial()
 	pMaterial = new CMaterial;
 	pMaterial->SetName(L"Std2DMaterial");
 	pMaterial->SetShader(FindAsset<CGraphicsShader>(L"Std2DShader"));
+	AddAsset<CMaterial>(pMaterial->GetName(), pMaterial);
 
+	// Background Material
+	pMaterial = new CMaterial;
+	pMaterial->SetName(L"BackgroundMaterial");
+	pMaterial->SetShader(FindAsset<CGraphicsShader>(L"Std2DShader"));
 	AddAsset<CMaterial>(pMaterial->GetName(), pMaterial);
 
 	// DebugShapeMaterial
 	pMaterial = new CMaterial;
 	pMaterial->SetName(L"DebugShapeMaterial");
 	pMaterial->SetShader(FindAsset<CGraphicsShader>(L"DebugShapeShader"));
-
 	AddAsset<CMaterial>(pMaterial->GetName(), pMaterial);
 }

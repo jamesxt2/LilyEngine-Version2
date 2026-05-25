@@ -19,9 +19,6 @@
     <Filter Include="HLSL">
       <UniqueIdentifier>{24904f5c-4e80-455a-bbd0-6ce102c26cb5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="HLSL\2D">
-      <UniqueIdentifier>{52e6e5a8-c76a-435f-8755-9eb4a2af90aa}</UniqueIdentifier>
-    </Filter>
     <Filter Include="04.Manager">
       <UniqueIdentifier>{5a5a499d-53bb-487d-a240-c502bcc0bb29}</UniqueIdentifier>
     </Filter>
@@ -138,6 +135,15 @@
     </Filter>
     <Filter Include="04.Manager\09.TaskMgr">
       <UniqueIdentifier>{6d53f8fa-c6ab-4a3d-915e-1607310ef675}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.Device\StructuredBuffer">
+      <UniqueIdentifier>{2d47a1b2-0869-413c-8a90-78f3de803c61}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="HLSL\02.2D">
+      <UniqueIdentifier>{52e6e5a8-c76a-435f-8755-9eb4a2af90aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="HLSL\01.Header">
+      <UniqueIdentifier>{8fb9c2c5-ea91-4155-9ac6-d96de7732a5e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -282,6 +288,12 @@
     <ClInclude Include="CMissileScript.h">
       <Filter>Scripts</Filter>
     </ClInclude>
+    <ClInclude Include="CStructuredBuffer.h">
+      <Filter>03.Device\StructuredBuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="CLight2D.h">
+      <Filter>07.Component\07.Light2D</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -404,6 +416,12 @@
     <ClCompile Include="CMissileScript.cpp">
       <Filter>Scripts</Filter>
     </ClCompile>
+    <ClCompile Include="CStructuredBuffer.cpp">
+      <Filter>03.Device\StructuredBuffer</Filter>
+    </ClCompile>
+    <ClCompile Include="CLight2D.cpp">
+      <Filter>07.Component\07.Light2D</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="SimpleMath.inl">
@@ -412,13 +430,19 @@
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="std2d.fx">
-      <Filter>HLSL\2D</Filter>
-    </FxCompile>
-    <FxCompile Include="value.fx">
-      <Filter>HLSL\2D</Filter>
+      <Filter>HLSL\02.2D</Filter>
     </FxCompile>
     <FxCompile Include="debug_shape.fx">
-      <Filter>HLSL\2D</Filter>
+      <Filter>HLSL\02.2D</Filter>
+    </FxCompile>
+    <FxCompile Include="struct.fx">
+      <Filter>HLSL\01.Header</Filter>
+    </FxCompile>
+    <FxCompile Include="value.fx">
+      <Filter>HLSL\01.Header</Filter>
+    </FxCompile>
+    <FxCompile Include="func.fx">
+      <Filter>HLSL\01.Header</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>

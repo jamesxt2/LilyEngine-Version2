@@ -47,6 +47,49 @@ void CLevelMgr::Init()
 
 	m_CurLevel->AddObject(0, pCamera);
 
+	// Light2D
+	CGameObject* pLight2D = new CGameObject;
+
+	pLight2D->AddComponent(new CTransform);
+	pLight2D->AddComponent(new CLight2D);
+
+	pLight2D->GetTransformComp()->SetRelativePosition(Vec3(-300.f, 0.f, 0.f));
+
+	pLight2D->GetLight2DComp()->SetLightType(LIGHT_TYPE::POINT);
+	pLight2D->GetLight2DComp()->SetDiffuse(Vec3(1.f, 0.5f, 0.2f));
+	pLight2D->GetLight2DComp()->SetAmbient(Vec3(0.f, 0.f, 0.f));
+	pLight2D->GetLight2DComp()->SetRange(500.f);
+
+	m_CurLevel->AddObject(0, pLight2D);
+
+	pLight2D = new CGameObject;
+
+	pLight2D->AddComponent(new CTransform);
+	pLight2D->AddComponent(new CLight2D);
+
+	pLight2D->GetTransformComp()->SetRelativePosition(Vec3(300.f, 0.f, 0.f));
+
+	pLight2D->GetLight2DComp()->SetLightType(LIGHT_TYPE::POINT);
+	pLight2D->GetLight2DComp()->SetDiffuse(Vec3(0.3f, 0.5f, 1.f));
+	pLight2D->GetLight2DComp()->SetAmbient(Vec3(0.f, 0.f, 0.f));
+	pLight2D->GetLight2DComp()->SetRange(500.f);
+
+	m_CurLevel->AddObject(0, pLight2D);
+
+	// Background
+	CGameObject* pBackground = new CGameObject;
+	pBackground->AddComponent(new CTransform);
+	pBackground->AddComponent(new CMeshRender);
+
+	pBackground->GetTransformComp()->SetRelativePosition(Vec3(0.f, 0.f, 200.f));
+	pBackground->GetTransformComp()->SetRelativeScale(Vec3(3200.f, 1800.f, 1.f));
+
+	pBackground->GetMeshRenderComp()->SetMesh(CAssetMgr::GetInst()->FindAsset<CMesh>(L"RectMesh"));
+	pBackground->GetMeshRenderComp()->SetMaterial(CAssetMgr::GetInst()->FindAsset<CMaterial>(L"BackgroundMaterial"));
+	pBackground->GetMeshRenderComp()->GetMaterial()->SetTexParam(TEX_0, CAssetMgr::GetInst()->Load<CTexture>(L"texture/Cape_may.jpg", L"texture/Cape_may.jpg"));
+
+	m_CurLevel->AddObject(0, pBackground);
+
 	// Player object
 	CGameObject* pPlayer = new CGameObject;
 	pPlayer->SetName(L"Player");
@@ -78,6 +121,8 @@ void CLevelMgr::Init()
 
 	pPlayer->GetAnimator2DComp()->Play(L"MOVE_DOWN", true);
 
+	m_CurLevel->AddObject(1, pPlayer);
+
 	// Monster object
 	CGameObject* pMonster = new CGameObject;
 	pMonster->SetName(L"Monster");
@@ -99,13 +144,14 @@ void CLevelMgr::Init()
 	pMonster->GetCollision2DComp()->SetScale(Vec3(1.f, 1.f, 1.f));
 
 	//pPlayer->AddChild(pMonster);
-	m_CurLevel->AddObject(1, pPlayer);
 	m_CurLevel->AddObject(1, pMonster);
 
 	pPlayer->GetScript<CPlayerScript>()->SetTarget(pMonster);
 
 	CCollisionMgr::GetInst()->LayerCheck(1, 1);
 	CCollisionMgr::GetInst()->LayerCheck(1, 2);
+
+	m_CurLevel->Begin();
 }
 
 void CLevelMgr::Tick()

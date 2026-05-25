@@ -2,6 +2,7 @@
 #define _STD2D
 
 #include "value.fx"
+#include "func.fx"
 
 struct VS_IN
 {
@@ -15,6 +16,8 @@ struct VS_OUT
     float4 vPosition : SV_Position;
     float4 vColor : COLOR;
     float2 vUV : TEXCOORD;
+    
+    float3 vWorldPos : POSITION;
 };
 
 VS_OUT VS_Std2D(VS_IN _in)
@@ -25,6 +28,7 @@ VS_OUT VS_Std2D(VS_IN _in)
     float4 vViewPos = mul(vWorldPos, g_matView);
     float4 vProjPos = mul(vViewPos, g_matProj);
     
+    output.vWorldPos = vWorldPos;
     output.vPosition = vProjPos;
     output.vColor = _in.vColor;
     output.vUV = _in.vUV;
@@ -51,6 +55,14 @@ float4 PS_Std2D(VS_OUT _in) : SV_Target
     {
         vColor = g_tex_0.Sample(g_sam_0, _in.vUV);    
     }
+
+    // Light
+    float3 vLightPow = (float3) 0.f;
+    for (int i = 0; i < Light2DCount; ++i)
+    {
+        vLightPow += CalculateLight2D(i, _in.vWorldPos);
+    }
+    vColor.rgb *= vLightPow;
     
     return vColor;
 }

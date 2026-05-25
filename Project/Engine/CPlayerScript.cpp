@@ -7,14 +7,22 @@
 #include "CLevel.h"
 #include "CCollision2D.h"
 
+#include "CStructuredBuffer.h"
 
 CPlayerScript::CPlayerScript()
 	: m_Speed(100.f), m_Target(nullptr)
 {
+
 }
 
 CPlayerScript::~CPlayerScript()
 {
+
+}
+
+void CPlayerScript::Begin()
+{
+
 }
 
 void CPlayerScript::Tick()
@@ -36,14 +44,14 @@ void CPlayerScript::Tick()
 	{
 		vCurPos.x += DT * m_Speed;
 	}
-
+	/*
 	if (IsValid(m_Target))
 	{
 		Vec3 vDir = m_Target->GetTransformComp()->GetWorldPosition() - GetOwner()->GetTransformComp()->GetWorldPosition();
 		vDir.Normalize();
 		vCurPos += vDir * m_Speed * DT;
 	}
-
+	*/
 	GetOwner()->GetTransformComp()->SetRelativePosition(vCurPos);
 
 	Vec3 vCurRot = GetOwner()->GetTransformComp()->GetRelativeRotation();

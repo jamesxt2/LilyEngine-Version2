@@ -9,6 +9,7 @@ class CScript;
 class CCamera;
 class CCollision2D;
 class CAnimator2D;
+class CLight2D;
 
 class CGameObject : public CEntity
 {
@@ -30,11 +31,11 @@ public:
 	void Destroy();
 
 private:
-	CComponent*					m_arrComp[(UINT)COMPONENT_TYPE::END];
-	CRenderComponent*			m_RenderComp;
+	CComponent* m_arrComp[(UINT)COMPONENT_TYPE::END];
+	CRenderComponent* m_RenderComp;
 	std::vector<CScript*>		m_vecScript;
 
-	CGameObject*				m_Parent;
+	CGameObject* m_Parent;
 	std::vector<CGameObject*>	m_vecChild;
 
 	int							m_LayerIdx;
@@ -51,6 +52,7 @@ public:
 	inline CCamera* GetCameraComp() const { return (CCamera*)m_arrComp[(UINT)COMPONENT_TYPE::CAMERA]; }
 	inline CCollision2D* GetCollision2DComp() const { return (CCollision2D*)m_arrComp[(UINT)COMPONENT_TYPE::COLLISION2D]; }
 	inline CAnimator2D* GetAnimator2DComp() const { return (CAnimator2D*)m_arrComp[(UINT)COMPONENT_TYPE::ANIMATOR2D]; }
+	inline CLight2D* GetLight2DComp() const { return (CLight2D*)m_arrComp[(UINT)COMPONENT_TYPE::LIGHT2D]; }
 
 	inline const std::vector<CGameObject*>& GetChild() const { return m_vecChild; }
 	inline CGameObject* GetParent() const { return m_Parent; }

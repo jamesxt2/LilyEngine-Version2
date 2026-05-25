@@ -42,6 +42,7 @@ public:
 	inline const Matrix& GetWorldMat() const { return m_matWorld; }
 
 	inline Vec3 GetRelativeDir(DIR_TYPE type) const { return m_RelativeDir[(UINT)type]; }
+	inline Vec3 GetWorldDir(DIR_TYPE type) const { return m_WorldDir[(UINT)type]; }
 
 	inline void SetAbsolute(bool bAbsolute) { m_Absolute = bAbsolute; }
 	inline bool IsAbsolute() const { return m_Absolute; }

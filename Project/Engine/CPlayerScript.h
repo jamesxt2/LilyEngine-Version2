@@ -4,12 +4,15 @@
 class CCollision2D;
 class CGameObject;
 
+class CStructuredBuffer;
+
 class CPlayerScript : public CScript
 {
 public:
 	CPlayerScript();
 	~CPlayerScript();
 
+	virtual void Begin() override;
 	virtual void Tick() override;
 
 	virtual void BeginOverlap(CCollision2D* ownCollision, CGameObject* otherObj, CCollision2D* otherCollision) override;

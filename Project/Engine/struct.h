@@ -57,3 +57,40 @@ struct TTask
 	DWORD_PTR dwParam_1;
 	DWORD_PTR dwParam_2;
 };
+
+/***************************LIGHT************************************/
+struct TLight
+{
+	Vec4 vDiffuse;	// color of the light
+	Vec4 vAmbient;  // lowest brightness
+	Vec4 vMaxSpecular; // highest brightness
+};
+
+struct TLightInfo
+{
+	TLight		Light;
+	
+	UINT		LightType; // 0: DirectionalLight 1: PointLight 2: SpotLight
+	Vec3		WorldDir;
+	Vec3		WorldPos;
+	float		Range; // SpotLight or PointLight
+	float		Angle; // SpotLight
+
+	Vec3		Padding;
+};
+
+/***************************LIGHT************************************/
+
+struct TGlobalData
+{
+	Vec2 vResolution;
+	float DeltaTime;
+	float Time;
+
+	int Light2DCount;
+	int Light3DCount;
+
+	Vec2 Padding;
+};
+
+extern TGlobalData g_GlobalData;
