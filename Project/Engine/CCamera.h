@@ -13,6 +13,8 @@ public:
 	void LayerCheck(int layerIdx);
 	inline void LayerCheckAll() { m_LayerCheck = 0xffffffff; }
 
+	void SortObject();
+
 private:
 	PROJ_TYPE		m_ProjType;
 
@@ -30,6 +32,19 @@ private:
 	Matrix			m_matProj;
 
 	UINT			m_LayerCheck;
+
+	std::vector<CGameObject*> m_vecOpaque;
+	std::vector<CGameObject*> m_vecMasked;
+	std::vector<CGameObject*> m_vecTransparent;
+	std::vector<CGameObject*> m_vecParticle;
+	std::vector<CGameObject*> m_vecPostProcess;
+
+private:
+	void Render_Opaque();
+	void Render_Masked();
+	void Render_Transparent();
+	void Render_Particle();
+	void Render_PostProcess();
 
 public:
 	inline void SetProjType(PROJ_TYPE type) { m_ProjType = type; }

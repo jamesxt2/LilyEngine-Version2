@@ -29,7 +29,7 @@ public:
 			m_Asset->Release();
 	}
 
-	void operator=(T* asset)
+	Ptr<T>& operator=(T* asset)
 	{
 		if (m_Asset != nullptr)
 			m_Asset->Release();
@@ -38,9 +38,11 @@ public:
 
 		if (m_Asset != nullptr)
 			m_Asset->AddRef();
+
+		return *this;
 	}
 
-	void operator=(const Ptr<T>& other)
+	Ptr<T>& operator=(const Ptr<T>& other)
 	{
 		if (m_Asset != nullptr)
 			m_Asset->Release();
@@ -49,6 +51,8 @@ public:
 
 		if (m_Asset != nullptr)
 			m_Asset->AddRef();
+
+		return *this;
 	}
 
 	T* operator->()

@@ -27,10 +27,15 @@ private:
 	DS_TYPE						m_DSType;
 	BS_TYPE						m_BSType;
 
+	SHADER_DOMAIN				m_Domain;
+
 public:
 	inline void SetTopology(D3D11_PRIMITIVE_TOPOLOGY topology) { m_Topology = topology; }
 	inline void SetRSType(RS_TYPE type) { m_RSType = type; }
 	inline void SetDSType(DS_TYPE type) { m_DSType = type; }
 	inline void SetBSType(BS_TYPE type) { m_BSType = type; }
+
+	inline void SetShaderDomain(SHADER_DOMAIN domain) { m_Domain = domain; }
+	inline SHADER_DOMAIN GetShaderDomain() const { return m_Domain; }
 };
 

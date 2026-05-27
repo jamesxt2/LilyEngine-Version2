@@ -7,7 +7,7 @@ class CAsset : public CEntity
 {
 public:
 	CAsset(ASSET_TYPE type);
-	CAsset(const CAsset& _Origin) = delete;
+	CAsset(const CAsset& _Origin);
 	~CAsset();
 
 	friend class CAssetMgr;

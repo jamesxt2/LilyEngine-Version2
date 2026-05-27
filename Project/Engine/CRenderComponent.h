@@ -13,13 +13,20 @@ public:
 
 private:
 	Ptr<CMesh>					m_Mesh;
-	Ptr<CMaterial>				m_Material;
+
+	Ptr<CMaterial>				m_CurMtrl;
+	Ptr<CMaterial>				m_SharedMtrl;
+	Ptr<CMaterial>				m_DynamicMtrl;
 
 public:
 	inline void SetMesh(Ptr<CMesh> mesh) { m_Mesh = mesh; }
 	inline Ptr<CMesh> GetMesh() const { return m_Mesh; }
 
-	inline void SetMaterial(Ptr<CMaterial> material) { m_Material = material; }
-	inline Ptr<CMaterial> GetMaterial() const { return m_Material; }
+	void SetMaterial(Ptr<CMaterial> material);
+	inline Ptr<CMaterial> GetMaterial() const { return m_CurMtrl; }
+
+	Ptr<CMaterial> GetDynamicMaterial();
+	inline void RestoreMaterial() { m_CurMtrl = m_SharedMtrl; m_DynamicMtrl = nullptr; }
+
 };
 

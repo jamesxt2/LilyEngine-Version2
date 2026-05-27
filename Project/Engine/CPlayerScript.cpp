@@ -27,6 +27,16 @@ void CPlayerScript::Begin()
 
 void CPlayerScript::Tick()
 {
+	if (KEY_TAP(KEY::_1))
+	{
+		Ptr<CMaterial> pMtrl = GetOwner()->GetRenderComp()->GetDynamicMaterial();
+		pMtrl->SetScalarParam(INT_0, 1);
+	}
+	if (KEY_TAP(KEY::_2))
+	{
+		GetOwner()->GetRenderComp()->RestoreMaterial();
+	}
+
 	Vec3 vCurPos = GetOwner()->GetTransformComp()->GetRelativePosition();
 	if (KEY_PRESSED(KEY::UP))
 	{

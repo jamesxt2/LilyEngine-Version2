@@ -31,8 +31,8 @@ public:
 	void Destroy();
 
 private:
-	CComponent* m_arrComp[(UINT)COMPONENT_TYPE::END];
-	CRenderComponent* m_RenderComp;
+	CComponent*					m_arrComp[(UINT)COMPONENT_TYPE::END];
+	CRenderComponent*			m_RenderComp;
 	std::vector<CScript*>		m_vecScript;
 
 	CGameObject* m_Parent;
@@ -48,6 +48,7 @@ private:
 public:
 	inline CComponent* GetComponent(COMPONENT_TYPE type) const { return m_arrComp[(UINT)type]; }
 	inline CTransform* GetTransformComp() const { return (CTransform*)m_arrComp[(UINT)COMPONENT_TYPE::TRANSFORM]; }
+	inline CRenderComponent* GetRenderComp() const { return m_RenderComp; }
 	inline CMeshRender* GetMeshRenderComp() const { return (CMeshRender*)m_arrComp[(UINT)COMPONENT_TYPE::MESHRENDER]; }
 	inline CCamera* GetCameraComp() const { return (CCamera*)m_arrComp[(UINT)COMPONENT_TYPE::CAMERA]; }
 	inline CCollision2D* GetCollision2DComp() const { return (CCollision2D*)m_arrComp[(UINT)COMPONENT_TYPE::COLLISION2D]; }

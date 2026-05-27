@@ -67,14 +67,14 @@ void CRenderMgr::DataBind()
 {
 	g_GlobalData.Light2DCount = (int)m_vecLight2D.size();
 
-	static CConstBuffer* globalBuffer = CDevice::GetInst()->GetConstBuffer(CB_TYPE::GLOBAL);
+	CConstBuffer* globalBuffer = CDevice::GetInst()->GetConstBuffer(CB_TYPE::GLOBAL);
 	globalBuffer->SetData(&g_GlobalData);
 	globalBuffer->Bind();
 
 	if (m_Light2DBuffer->GetElementCount() < m_vecLight2D.size())
 		m_Light2DBuffer->Create(sizeof(TLightInfo), (UINT)m_vecLight2D.size());
 
-	static std::vector<TLightInfo> vecLightInfo;
+	std::vector<TLightInfo> vecLightInfo;
 	for (size_t i = 0; i < m_vecLight2D.size(); ++i)
 	{
 		vecLightInfo.push_back(m_vecLight2D[i]->GetLightInfo());

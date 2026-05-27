@@ -28,7 +28,7 @@ VS_OUT VS_Std2D(VS_IN _in)
     float4 vViewPos = mul(vWorldPos, g_matView);
     float4 vProjPos = mul(vViewPos, g_matProj);
     
-    output.vWorldPos = vWorldPos;
+    output.vWorldPos = vWorldPos.xyz;
     output.vPosition = vProjPos;
     output.vColor = _in.vColor;
     output.vUV = _in.vUV;
@@ -37,6 +37,40 @@ VS_OUT VS_Std2D(VS_IN _in)
 }
 
 float4 PS_Std2D(VS_OUT _in) : SV_Target
+{
+    float4 vColor = (float4) 0.f;
+
+    if (UseAnim2D)
+    {
+        float2 vBackgroundLT = vLeftTop - (vBackground - vSliceSize) * 0.5f;
+        float2 vUV = vBackgroundLT + _in.vUV * vBackground - vOffset;
+        
+        if (vUV.x < vLeftTop.x || vUV.x > vLeftTop.x + vSliceSize.x 
+            || vUV.y < vLeftTop.y || vUV.y > vLeftTop.y + vSliceSize.y)
+            discard;
+        else
+            vColor = g_Atlas.Sample(g_sam_0, vUV);
+    }
+    else
+    {
+        vColor = g_tex_0.Sample(g_sam_0, _in.vUV);
+    }
+
+    // Light
+    float3 vLightPow = (float3) 0.f;
+    for (int i = 0; i < Light2DCount; ++i)
+    {
+        vLightPow += CalculateLight2D(i, _in.vWorldPos);
+    }
+    vColor.rgb *= vLightPow;
+    
+    if (vColor.a == 0.f)
+        discard;
+    
+    return vColor;
+}
+
+float4 PS_Std2D_AB(VS_OUT _in) : SV_Target
 {
     float4 vColor = (float4) 0.f;
 
@@ -63,6 +97,9 @@ float4 PS_Std2D(VS_OUT _in) : SV_Target
         vLightPow += CalculateLight2D(i, _in.vWorldPos);
     }
     vColor.rgb *= vLightPow;
+    
+    if (g_int_0)
+        vColor.r *= 1.5f;
     
     return vColor;
 }

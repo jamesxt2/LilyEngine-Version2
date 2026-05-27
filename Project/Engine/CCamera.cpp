@@ -52,19 +52,50 @@ void CCamera::Render()
 {
 	g_Trans.matView = m_matView;
 	g_Trans.matProj = m_matProj;
+	
+	SortObject();
 
-	CLevel* pCurLevel = CLevelMgr::GetInst()->GetCurrentLevel();
+	Render_Opaque();
+	Render_Masked();
+	Render_Transparent();
+	Render_Particle();
+	Render_PostProcess();
+	
+	m_vecOpaque.clear();
+	m_vecMasked.clear();
+	m_vecTransparent.clear();
+	m_vecParticle.clear();
+	m_vecPostProcess.clear();
+}
 
-	for (UINT i = 0; i < MAX_LAYER; ++i)
-	{
-		if (m_LayerCheck & (1 << i))
-		{
-			CLayer* pLayer = pCurLevel->GetLayer(i);
-			const std::vector<CGameObject*>& obj = pLayer->GetObjects();
-			for (size_t i = 0; i < obj.size(); ++i)
-				obj[i]->Render();
-		}
-	}
+void CCamera::Render_Opaque()
+{
+	for (size_t i = 0; i < m_vecOpaque.size(); ++i)
+		m_vecOpaque[i]->Render();
+}
+
+void CCamera::Render_Masked()
+{
+	for (size_t i = 0; i < m_vecMasked.size(); ++i)
+		m_vecMasked[i]->Render();
+}
+
+void CCamera::Render_Transparent()
+{
+	for (size_t i = 0; i < m_vecTransparent.size(); ++i)
+		m_vecTransparent[i]->Render();
+}
+
+void CCamera::Render_Particle()
+{
+	for (size_t i = 0; i < m_vecParticle.size(); ++i)
+		m_vecParticle[i]->Render();
+}
+
+void CCamera::Render_PostProcess()
+{
+	for (size_t i = 0; i < m_vecPostProcess.size(); ++i)
+		m_vecPostProcess[i]->Render();
 }
 
 void CCamera::LayerCheck(int layerIdx)
@@ -73,6 +104,47 @@ void CCamera::LayerCheck(int layerIdx)
 		m_LayerCheck &= ~(1 << layerIdx);
 	else
 		m_LayerCheck |= (1 << layerIdx);
+}
+
+void CCamera::SortObject()
+{
+	CLevel* pCurLevel = CLevelMgr::GetInst()->GetCurrentLevel();
+
+	for (UINT i = 0; i < MAX_LAYER; ++i)
+	{
+		if (m_LayerCheck & (1 << i))
+		{
+			CLayer* pLayer = pCurLevel->GetLayer(i);
+			const std::vector<CGameObject*>& obj = pLayer->GetObjects();
+			for (size_t j = 0; j < obj.size(); ++j)
+			{
+				if (obj[j]->GetRenderComp() == nullptr ||
+					obj[j]->GetRenderComp()->GetMaterial() == nullptr ||
+					obj[j]->GetRenderComp()->GetMaterial()->GetShader() == nullptr)
+					continue;
+
+				SHADER_DOMAIN domain = obj[j]->GetRenderComp()->GetMaterial()->GetShader()->GetShaderDomain();
+				switch (domain)
+				{
+				case SHADER_DOMAIN::DOMAIN_OPAQUE:
+					m_vecOpaque.push_back(obj[j]);
+					break;
+				case SHADER_DOMAIN::DOMAIN_MASKED:
+					m_vecMasked.push_back(obj[j]);
+					break;
+				case SHADER_DOMAIN::DOMAIN_TRANSPARENT:
+					m_vecTransparent.push_back(obj[j]);
+					break;
+				case SHADER_DOMAIN::DOMAIN_PARTICLE:
+					m_vecParticle.push_back(obj[j]);
+					break;
+				case SHADER_DOMAIN::DOMAIN_POSTPROCESS:
+					m_vecPostProcess.push_back(obj[j]);
+					break;
+				}
+			}
+		}
+	}
 }
 
 void CCamera::SetCameraPriority(int priority)

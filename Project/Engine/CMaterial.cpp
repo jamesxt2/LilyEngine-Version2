@@ -7,7 +7,7 @@
 #include "CTexture.h"
 
 CMaterial::CMaterial()
-	: CAsset(ASSET_TYPE::MATERIAL)
+	: CAsset(ASSET_TYPE::MATERIAL), m_Dynamic(false)
 {
 }
 
@@ -33,4 +33,11 @@ void CMaterial::Bind()
 	CConstBuffer* pMaterialCB = CDevice::GetInst()->GetConstBuffer(CB_TYPE::MATERIAL);
 	pMaterialCB->SetData(&m_Const);
 	pMaterialCB->Bind();
+}
+
+Ptr<CMaterial> CMaterial::GetDynamicMaterial()
+{
+	Ptr<CMaterial> pMtrl = new CMaterial(*this);
+	pMtrl->m_Dynamic = true;
+	return pMtrl;
 }

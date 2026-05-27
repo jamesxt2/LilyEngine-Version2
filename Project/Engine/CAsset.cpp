@@ -6,6 +6,15 @@ CAsset::CAsset(ASSET_TYPE type)
 {
 }
 
+CAsset::CAsset(const CAsset& _Origin)
+	: CEntity(_Origin),
+	m_Key(_Origin.m_Key),
+	m_RelativePath(_Origin.m_RelativePath),
+	m_Type(_Origin.m_Type),
+	m_RefCount(0)
+{
+}
+
 CAsset::~CAsset()
 {
 }
