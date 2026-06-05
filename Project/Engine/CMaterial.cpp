@@ -22,9 +22,11 @@ void CMaterial::Bind()
 		if (m_arrTex[i] == nullptr)
 		{
 			CTexture::Clear(i);
+			m_Const.bTex[i] = 0;
 			continue;
 		}
 		m_arrTex[i]->Bind(i);
+		m_Const.bTex[i] = 1;
 	}
 
 	if (m_Shader.Get() != nullptr)

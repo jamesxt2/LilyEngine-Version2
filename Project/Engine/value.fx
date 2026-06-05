@@ -5,9 +5,12 @@
 
 cbuffer TRANSFORM : register(b0)
 {
-    row_major matrix g_matWorld;
+    row_major matrix g_matModel;
     row_major matrix g_matView;
     row_major matrix g_matProj;
+    
+    row_major matrix g_matMV;
+    row_major matrix g_matMVP;
 }
 
 cbuffer MATERIAL_CONST : register(b1)
@@ -36,6 +39,21 @@ cbuffer MATERIAL_CONST : register(b1)
     row_major matrix  g_mat_1;
     row_major matrix  g_mat_2;
     row_major matrix  g_mat_3;
+    
+    uint g_btex_0;
+    uint g_btex_1;
+    uint g_btex_2;
+    uint g_btex_3;
+    uint g_btex_4;
+    uint g_btex_5;
+    uint g_btex_6;
+    uint g_btex_7;
+    uint g_btex_8;
+    uint g_btex_9;
+    uint g_btex_10;
+    uint g_btex_11;
+    uint g_btex_12;
+    uint g_btex_13;
 }
 
 cbuffer ANIMATION2D : register(b2)
@@ -48,7 +66,7 @@ cbuffer ANIMATION2D : register(b2)
     int3 padding;
 }
 
-cbuffer GLOBAL : register(b3)
+cbuffer GLOBAL_DATA : register(b3)
 {
     float2 vResolution;
     float DeltaTime;
@@ -88,6 +106,13 @@ StructuredBuffer<TLightInfo> g_Light2D : register(t15);
 
 // Light3DInfo
 StructuredBuffer<TLightInfo> g_Light3D : register(t16);
+
+// TileMap
+StructuredBuffer<TTileInfo> g_TileInfo : register(t20);
+
+// Particle
+StructuredBuffer<TParticle> g_Particle : register(t17);
+
 
 #define PI 3.14159265f
 

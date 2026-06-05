@@ -24,12 +24,8 @@ VS_OUT VS_Std2D(VS_IN _in)
 {
     VS_OUT output = (VS_OUT) 0.f;
     
-    float4 vWorldPos = mul(float4(_in.vPos, 1.f), g_matWorld);  
-    float4 vViewPos = mul(vWorldPos, g_matView);
-    float4 vProjPos = mul(vViewPos, g_matProj);
-    
-    output.vWorldPos = vWorldPos.xyz;
-    output.vPosition = vProjPos;
+    output.vWorldPos = mul(float4(_in.vPos, 1.f), g_matModel).xyz;
+    output.vPosition = mul(float4(_in.vPos, 1.f), g_matMVP);
     output.vColor = _in.vColor;
     output.vUV = _in.vUV;
     
@@ -97,6 +93,17 @@ float4 PS_Std2D_AB(VS_OUT _in) : SV_Target
         vLightPow += CalculateLight2D(i, _in.vWorldPos);
     }
     vColor.rgb *= vLightPow;
+    
+    if (g_btex_1)
+    {
+        float4 vNoise = g_tex_1.Sample(g_sam_0, _in.vUV);
+        float intense = g_float_0 + vNoise.r;
+        
+        vColor.r += pow(intense * 10.f, 5.f) / pow(10, 5);
+        
+        if (intense > 1.f)
+            discard;
+    }
     
     if (g_int_0)
         vColor.r *= 1.5f;

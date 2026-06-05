@@ -13,7 +13,7 @@ VS_OUT VS_DebugShape(float3 vLocalPos : POSITION, float2 vUV : TEXCOORD)
 {
     VS_OUT output = (VS_OUT) 0.f;
     
-    output.vPosition = mul(mul(mul(float4(vLocalPos, 1.f), g_matWorld), g_matView), g_matProj);
+    output.vPosition = mul(mul(mul(float4(vLocalPos, 1.f), g_matModel), g_matView), g_matProj);
     output.vUV = vUV;
     
     return output;

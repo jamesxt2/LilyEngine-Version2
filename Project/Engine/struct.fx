@@ -21,4 +21,24 @@ struct TLightInfo
     float3      Padding;
 };
 
+struct TTileInfo
+{
+    uint ImgIdx;
+    float3 vPadding;
+};
+
+struct TParticle
+{
+    float3 vLocalPos;
+    float3 vWorldPos;
+    float3 vWorldScale;
+    float4 vColor;
+    float3 vVelocity;
+
+    float Life;
+    float Age;
+    float NormalizedAge;
+    int Active;
+};
+
 #endif

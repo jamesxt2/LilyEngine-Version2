@@ -66,6 +66,7 @@ enum class DS_TYPE
 
 	GREATER,
 
+	NO_WRITE, // Test but not record
 	NO_TEST,
 	NO_TEST_NO_WRITE,
 
@@ -76,6 +77,7 @@ enum class BS_TYPE
 {
 	DEFAULT, // Src(1) Dst(0)
 	ALPHA_BLEND, // Src(A) Dst(1-A)
+	ALPHA_BLEND_COVERAGE,
 	ONE_ONE, // Src(1) Dst(1)
 
 	END

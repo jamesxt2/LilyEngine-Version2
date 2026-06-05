@@ -46,3 +46,8 @@ void CConstBuffer::Bind()
 	CONTEXT->GSSetConstantBuffers((UINT)m_Type, 1, m_CB.GetAddressOf());
 	CONTEXT->PSSetConstantBuffers((UINT)m_Type, 1, m_CB.GetAddressOf());
 }
+
+void CConstBuffer::Bind_CS()
+{
+	CONTEXT->CSSetConstantBuffers((UINT)m_Type, 1, m_CB.GetAddressOf());
+}

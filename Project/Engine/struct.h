@@ -13,17 +13,21 @@ struct TTransform
 	Matrix matModel;
 	Matrix matView;
 	Matrix matProj;
+
+	Matrix matMV;
+	Matrix matMVP;
 };
 
 extern TTransform g_Trans;
 
 struct TMaterialConst
 {
-	int		iArr[4];
-	float	fArr[4];
+	int		iArr[4] = {};
+	float	fArr[4] = {};
 	Vec2	v2Arr[4];
 	Vec4	v4Arr[4];
 	Matrix	matArr[4];
+	UINT	bTex[16] = {};
 };
 
 struct TDebugShapeInfo
@@ -79,7 +83,7 @@ struct TLightInfo
 	Vec3		Padding;
 };
 
-/***************************LIGHT************************************/
+/***********************************************************************/
 
 struct TGlobalData
 {
@@ -94,3 +98,21 @@ struct TGlobalData
 };
 
 extern TGlobalData g_GlobalData;
+
+/***************************PARTICLE************************************/
+
+struct TParticle
+{
+	Vec3 vLocalPos;
+	Vec3 vWorldPos;
+	Vec3 vWorldScale;
+	Vec4 vColor;
+	Vec3 vVelocity;
+
+	float Life{ 0.f };
+	float Age{ 0.f };
+	float NormalizedAge{ 0.f };
+	int Active{ 1 };
+};
+
+/***********************************************************************/

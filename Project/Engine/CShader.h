@@ -7,7 +7,7 @@ public:
 	CShader(ASSET_TYPE type);
 	~CShader();
 
-	virtual void Bind() = 0;
+	virtual int Bind() = 0;
 
 	virtual int Load(const std::wstring& filePath) override { return S_OK; }
 	virtual int Save(const std::wstring& filePath) override { return S_OK; }

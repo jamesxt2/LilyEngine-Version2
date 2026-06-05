@@ -71,6 +71,8 @@ void CTransform::Bind()
 	CConstBuffer* pCB = CDevice::GetInst()->GetConstBuffer(CB_TYPE::TRANSFORM);
 
 	g_Trans.matModel = m_matWorld;
+	g_Trans.matMV = g_Trans.matModel * g_Trans.matView;
+	g_Trans.matMVP = g_Trans.matMV * g_Trans.matProj;
 
 	pCB->SetData(&g_Trans);
 	pCB->Bind();

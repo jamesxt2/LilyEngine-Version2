@@ -9,6 +9,7 @@
 
 #include "CPlayerScript.h"
 #include "CCameraMoveScript.h"
+#include "CBackgroundScript.h"
 
 #include "CCollisionMgr.h"
 
@@ -53,44 +54,34 @@ void CLevelMgr::Init()
 	pLight2D->AddComponent(new CTransform);
 	pLight2D->AddComponent(new CLight2D);
 
-	pLight2D->GetTransformComp()->SetRelativePosition(Vec3(-300.f, 0.f, 0.f));
+	//pLight2D->GetTransformComp()->SetRelativePosition(Vec3(-300.f, 0.f, 0.f));
 
-	pLight2D->GetLight2DComp()->SetLightType(LIGHT_TYPE::POINT);
-	pLight2D->GetLight2DComp()->SetDiffuse(Vec3(1.f, 0.5f, 0.2f));
-	pLight2D->GetLight2DComp()->SetAmbient(Vec3(0.f, 0.f, 0.f));
-	pLight2D->GetLight2DComp()->SetRange(500.f);
-
-	m_CurLevel->AddObject(0, pLight2D);
-
-	pLight2D = new CGameObject;
-
-	pLight2D->AddComponent(new CTransform);
-	pLight2D->AddComponent(new CLight2D);
-
-	pLight2D->GetTransformComp()->SetRelativePosition(Vec3(300.f, 0.f, 0.f));
-
-	pLight2D->GetLight2DComp()->SetLightType(LIGHT_TYPE::POINT);
-	pLight2D->GetLight2DComp()->SetDiffuse(Vec3(0.3f, 0.5f, 1.f));
+	pLight2D->GetLight2DComp()->SetLightType(LIGHT_TYPE::DIRECTIONAL);
+	pLight2D->GetLight2DComp()->SetDiffuse(Vec3(1.f, 1.f, 1.f));
 	pLight2D->GetLight2DComp()->SetAmbient(Vec3(0.f, 0.f, 0.f));
 	pLight2D->GetLight2DComp()->SetRange(500.f);
 
 	m_CurLevel->AddObject(0, pLight2D);
 
 	// Background
+	
 	CGameObject* pBackground = new CGameObject;
 	pBackground->AddComponent(new CTransform);
 	pBackground->AddComponent(new CMeshRender);
+	pBackground->AddComponent(new CBackgroundScript);
 
 	pBackground->GetTransformComp()->SetRelativePosition(Vec3(0.f, 0.f, 200.f));
-	pBackground->GetTransformComp()->SetRelativeScale(Vec3(3200.f, 1800.f, 1.f));
+	pBackground->GetTransformComp()->SetRelativeScale(Vec3(1600.f, 900.f, 1.f));
 
 	pBackground->GetMeshRenderComp()->SetMesh(CAssetMgr::GetInst()->FindAsset<CMesh>(L"RectMesh"));
 	pBackground->GetMeshRenderComp()->SetMaterial(CAssetMgr::GetInst()->FindAsset<CMaterial>(L"BackgroundMaterial"));
 	pBackground->GetMeshRenderComp()->GetMaterial()->SetTexParam(TEX_0, CAssetMgr::GetInst()->Load<CTexture>(L"texture/cave.png", L"texture/cave.png"));
+	pBackground->GetMeshRenderComp()->GetMaterial()->SetTexParam(TEX_1, CAssetMgr::GetInst()->Load<CTexture>(L"texture/noise/noise_03.jpg", L"texture/noise/noise_03.jpg"));
 
 	m_CurLevel->AddObject(0, pBackground);
-
+	
 	// Player object
+	/*
 	CGameObject* pPlayer = new CGameObject;
 	pPlayer->SetName(L"Player");
 	pPlayer->AddComponent(new CTransform);
@@ -107,23 +98,17 @@ void CLevelMgr::Init()
 	pPlayer->GetMeshRenderComp()->GetMaterial()->SetScalarParam<int>(INT_0, 0);
 	pPlayer->GetMeshRenderComp()->GetMaterial()->SetTexParam(TEX_0, CAssetMgr::GetInst()->FindAsset<CTexture>(L"texture/mountain.png"));
 
-	//pObject->GetCollision2DComp()->SetAbsolute(true);
 	pPlayer->GetCollision2DComp()->SetOffset(Vec3(0.f, 0.f, 0.f));
 	pPlayer->GetCollision2DComp()->SetScale(Vec3(1.f, 1.f, 1.f));
-
-	//Ptr<CTexture> pAtlas = CAssetMgr::GetInst()->Load<CTexture>(L"texture/link.png", L"texture/link.png");
-	//pPlayer->GetAnimator2DComp()->CreateAnimation(L"MOVE_DOWN", pAtlas, Vec2(0.f, 520.f), Vec2(120.f, 130.f), Vec2(240.f, 260.f), 10, 16);
-	//pPlayer->GetAnimator2DComp()->CreateAnimation(L"IDLE_RIGHT", pAtlas, Vec2(0.f, 390.f), Vec2(120.f, 130.f), Vec2(240.f, 260.f), 3, 2);
-	
-	//pPlayer->GetAnimator2DComp()->FindAnimation(L"MOVE_DOWN")->Save(L"animation/");
 
 	pPlayer->GetAnimator2DComp()->LoadAnimation(L"animation/MOVE_DOWN.anim");
 
 	pPlayer->GetAnimator2DComp()->Play(L"MOVE_DOWN", true);
 
 	m_CurLevel->AddObject(1, pPlayer);
-
+	*/
 	// Monster object
+	/*
 	CGameObject* pMonster = new CGameObject;
 	pMonster->SetName(L"Monster");
 	pMonster->AddComponent(new CTransform);
@@ -138,19 +123,30 @@ void CLevelMgr::Init()
 	pMonster->GetMeshRenderComp()->SetMaterial(CAssetMgr::GetInst()->FindAsset<CMaterial>(L"Std2DMaterial"));
 	pMonster->GetMeshRenderComp()->GetMaterial()->SetScalarParam<int>(INT_0, 0);
 	pMonster->GetMeshRenderComp()->GetMaterial()->SetTexParam(TEX_0, CAssetMgr::GetInst()->FindAsset<CTexture>(L"texture/mountain.png"));
-
-	//pObject->GetCollision2DComp()->SetAbsolute(true);
 	pMonster->GetCollision2DComp()->SetOffset(Vec3(0.f, 0.f, 0.f));
 	pMonster->GetCollision2DComp()->SetScale(Vec3(1.f, 1.f, 1.f));
 
-	//pPlayer->AddChild(pMonster);
 	m_CurLevel->AddObject(1, pMonster);
+	*/
+	//pPlayer->GetScript<CPlayerScript>()->SetTarget(pMonster);
+	
 
-	pPlayer->GetScript<CPlayerScript>()->SetTarget(pMonster);
+	// Particle System
+	CGameObject* pParticle = new CGameObject;
+	pParticle->SetName(L"Particle");
+	pParticle->AddComponent(new CTransform);
+	pParticle->AddComponent(new CParticleSystem);
+
+	pParticle->GetTransformComp()->SetRelativePosition(Vec3(0.f, 0.f, 50.f));
+	
+	pParticle->GetParticleSystemComp()->SetParticleTexture(CAssetMgr::GetInst()->Load<CTexture>(L"texture/particle/AlphaCircle.png", L"texture/particle/AlphaCircle.png"));
+
+	m_CurLevel->AddObject(0, pParticle);
+
 
 	CCollisionMgr::GetInst()->LayerCheck(1, 1);
 	CCollisionMgr::GetInst()->LayerCheck(1, 2);
-
+	
 	m_CurLevel->Begin();
 }
 

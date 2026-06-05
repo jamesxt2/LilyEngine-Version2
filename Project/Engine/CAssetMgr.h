@@ -10,11 +10,11 @@ class CAssetMgr : public CSingleton<CAssetMgr>
 
 public:
 	void Init();
-	void CreateDefaultMesh();
-	void CreateDefaultTexture();
-	void CreateDefaultMaterial();
-	void CreateDefaultGraphicsShader();
-	void CreateDefaultComputeShader();
+
+	Ptr<CTexture> CreateTexture(const std::wstring& key, UINT width, UINT height,
+		DXGI_FORMAT format, UINT bindFlag, D3D11_USAGE usage = D3D11_USAGE_DEFAULT);
+
+	Ptr<CTexture> CreateTexture(const std::wstring& key, ComPtr<ID3D11Texture2D> tex2D);
 
 	template<typename T>
 	Ptr<T> Load(const std::wstring& key, const std::wstring& relativePath);
@@ -24,6 +24,13 @@ public:
 
 	template<typename T>
 	void AddAsset(const std::wstring& key, Ptr<T> pAsset);
+
+private:
+	void CreateDefaultMesh();
+	void CreateDefaultTexture();
+	void CreateDefaultMaterial();
+	void CreateDefaultGraphicsShader();
+	void CreateDefaultComputeShader();
 
 private:
 	std::map<std::wstring, Ptr<CAsset>> m_AssetMap[(UINT)ASSET_TYPE::END];

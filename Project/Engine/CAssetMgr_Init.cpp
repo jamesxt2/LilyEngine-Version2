@@ -3,6 +3,9 @@
 
 #include "CPathMgr.h"
 
+#include "CSetColorCS.h"
+#include "CParticleTickCS.h"
+
 void CAssetMgr::Init()
 {
 	CreateDefaultMesh();
@@ -19,6 +22,19 @@ void CAssetMgr::CreateDefaultMesh()
 	std::vector<Vtx> vecVtx;
 	std::vector<UINT> vecIdx;
 	Vtx v;
+
+	/***************/
+	// Point Mesh
+	/***************/
+	v.vPos = Vec3(0.f, 0.f, 0.f);
+	v.vColor = Vec4(1.f, 1.f, 1.f, 1.f);
+	v.vUV = Vec2(0.f, 0.f);
+
+	UINT idx = 0;
+
+	pMesh = new CMesh;
+	pMesh->Create(&v, 1, &idx, 1);
+	AddAsset(L"PointMesh", pMesh);
 
 	/***************/
 	// Rect Mesh
@@ -152,6 +168,30 @@ void CAssetMgr::CreateDefaultGraphicsShader()
 
 	AddAsset<CGraphicsShader>(L"Std2DAlphaBlendShader", pShader);
 
+	// TileMap Shader
+	pShader = new CGraphicsShader;;
+	pShader->CreateVertexShader(strPath + L"shader\\tilemap.fx", "VS_TileMap");
+	pShader->CreatePixelShader(strPath + L"shader\\tilemap.fx", "PS_TileMap");
+	pShader->SetRSType(RS_TYPE::CULL_NONE);
+	pShader->SetDSType(DS_TYPE::LESS);
+	pShader->SetBSType(BS_TYPE::DEFAULT);
+	pShader->SetShaderDomain(SHADER_DOMAIN::DOMAIN_MASKED);
+
+	AddAsset<CGraphicsShader>(L"TileMapShader", pShader);
+
+	// Particle Render Shader
+	pShader = new CGraphicsShader;;
+	pShader->CreateVertexShader(strPath + L"shader\\particle.fx", "VS_Particle");
+	pShader->CreateGeometryShader(strPath + L"shader\\particle.fx", "GS_Particle");
+	pShader->CreatePixelShader(strPath + L"shader\\particle.fx", "PS_Particle");
+	pShader->SetTopology(D3D11_PRIMITIVE_TOPOLOGY_POINTLIST);
+	pShader->SetRSType(RS_TYPE::CULL_NONE);
+	pShader->SetDSType(DS_TYPE::NO_WRITE);
+	pShader->SetBSType(BS_TYPE::ALPHA_BLEND);
+	pShader->SetShaderDomain(SHADER_DOMAIN::DOMAIN_TRANSPARENT);
+
+	AddAsset<CGraphicsShader>(L"ParticleRenderShader", pShader);
+
 	// DebugShapeShader
 	pShader = new CGraphicsShader;;
 	pShader->CreateVertexShader(strPath + L"shader\\debug_shape.fx", "VS_DebugShape");
@@ -166,6 +206,19 @@ void CAssetMgr::CreateDefaultGraphicsShader()
 
 void CAssetMgr::CreateDefaultComputeShader()
 {
+	std::wstring strPath = CPathMgr::GetInst()->GetContentPath();
+
+	Ptr<CComputeShader> pComputeShader = nullptr;
+
+	// SetColor
+	pComputeShader = new CSetColorCS;
+	pComputeShader->CreateComputeShader(strPath + L"shader\\setcolor.fx", "CS_SetColor");
+	AddAsset<CComputeShader>(L"SetColorCS", pComputeShader);
+
+	// ParticleTick
+	pComputeShader = new CParticleTickCS;
+	pComputeShader->CreateComputeShader(strPath + L"shader\\particletick.fx", "CS_ParticleTick");
+	AddAsset<CComputeShader>(L"ParticleCS", pComputeShader);
 }
 
 void CAssetMgr::CreateDefaultMaterial()
@@ -182,6 +235,18 @@ void CAssetMgr::CreateDefaultMaterial()
 	pMaterial = new CMaterial;
 	pMaterial->SetName(L"BackgroundMaterial");
 	pMaterial->SetShader(FindAsset<CGraphicsShader>(L"Std2DAlphaBlendShader"));
+	AddAsset<CMaterial>(pMaterial->GetName(), pMaterial);
+
+	// TileMap Material
+	pMaterial = new CMaterial;
+	pMaterial->SetName(L"TileMapMaterial");
+	pMaterial->SetShader(FindAsset<CGraphicsShader>(L"TileMapShader"));
+	AddAsset<CMaterial>(pMaterial->GetName(), pMaterial);
+
+	// Particle Material
+	pMaterial = new CMaterial;
+	pMaterial->SetName(L"ParticleMaterial");
+	pMaterial->SetShader(FindAsset<CGraphicsShader>(L"ParticleRenderShader"));
 	AddAsset<CMaterial>(pMaterial->GetName(), pMaterial);
 
 	// DebugShapeMaterial

@@ -41,6 +41,8 @@ inline void CMaterial::SetScalarParam(SCALAR_PARAM param, const T& value)
 {
 	if constexpr (std::is_same_v<T, int>)
 		m_Const.iArr[param - INT_0] = value;
+	if constexpr (std::is_same_v<T, UINT>)
+		m_Const.iArr[param - INT_0] = value;
 	if constexpr (std::is_same_v<T, float>)
 		m_Const.fArr[param - FLOAT_0] = value;
 	if constexpr (std::is_same_v<T, Vec2>)

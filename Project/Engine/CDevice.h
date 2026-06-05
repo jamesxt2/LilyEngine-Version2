@@ -28,11 +28,8 @@ private:
 	ComPtr<ID3D11DeviceContext>		m_Context; // GPU Render Command
 	ComPtr<IDXGISwapChain>			m_SwapChain; // Create view, upload on screen
 
-	ComPtr<ID3D11Texture2D>			m_RenderTargetTex;
-	ComPtr<ID3D11RenderTargetView>	m_RTV;
-
-	ComPtr<ID3D11Texture2D>			m_DepthStencilTex;
-	ComPtr<ID3D11DepthStencilView>	m_DSV;
+	Ptr<CTexture>					m_RTTex; // Render Target Texture
+	Ptr<CTexture>					m_DSTex; // Depth Stencil Texture
 
 	ComPtr<ID3D11SamplerState>		m_Sampler[2];
 	ComPtr<ID3D11RasterizerState>	m_RS[(UINT)RS_TYPE::END];
