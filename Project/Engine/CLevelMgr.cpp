@@ -64,7 +64,6 @@ void CLevelMgr::Init()
 	m_CurLevel->AddObject(0, pLight2D);
 
 	// Background
-	
 	CGameObject* pBackground = new CGameObject;
 	pBackground->AddComponent(new CTransform);
 	pBackground->AddComponent(new CMeshRender);

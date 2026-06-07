@@ -29,16 +29,49 @@ struct TTileInfo
 
 struct TParticle
 {
-    float3 vLocalPos;
-    float3 vWorldPos;
-    float3 vWorldScale;
     float4 vColor;
+
+    float3 vLocalPosition;
+    float3 vWorldPosition;
+    float3 vWorldRotation;
+    float3 vWorldScale;
+
+    float3 vForce;
     float3 vVelocity;
 
     float Life;
     float Age;
     float NormalizedAge;
     int Active;
+    
+    float2 padding;
+};
+
+struct TSpawnCount
+{
+    int SpawnCount;
+    uint3 padding;
+};
+
+struct TParticleModule
+{
+    uint SpawnRate;
+    float4 vSpawnColor;
+    float3 vSpawnMinScale;
+    float3 vSpawnMaxScale;
+
+    float MinLife;
+    float MaxLife;
+
+    // Spawn Burst
+    uint SpawnBurstCount;
+    uint SpawnBurstRepeat;
+    float SpawnBurstRepeatTime;
+    
+	// Module on/off
+    int Module[3];
+    
+    float padding;
 };
 
 #endif

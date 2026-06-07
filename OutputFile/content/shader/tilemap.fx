@@ -4,6 +4,8 @@
 #include "value.fx"
 #include "struct.fx"
 
+
+
 struct VS_IN
 {
     float3 vLocalPos : POSITION;

@@ -44,7 +44,7 @@ void GS_Particle(point VS_PARTICLE_OUT _in[1], inout TriangleStream<GS_PARTICLE_
     GS_PARTICLE_OUT output[4] = { (GS_PARTICLE_OUT) 0.f, (GS_PARTICLE_OUT) 0.f, 
         (GS_PARTICLE_OUT) 0.f, (GS_PARTICLE_OUT) 0.f };
     
-    float4 vViewPos = mul(float4(g_Particle[_in[0].InstID].vWorldPos, 1.f), g_matView);
+    float4 vViewPos = mul(float4(g_Particle[_in[0].InstID].vWorldPosition, 1.f), g_matView);
     
     // View Space
     // 0---1
@@ -95,7 +95,7 @@ float4 PS_Particle(GS_PARTICLE_OUT _in) : SV_Target
     else
         vColor = float4(1.f, 0.f, 1.f, 1.f);
     
-    //vColor.rgb *= g_Particle[_in.InstID].vColor.rgb;
+    vColor.rgb *= g_Particle[_in.InstID].vColor.rgb;
     
     return vColor;
 }

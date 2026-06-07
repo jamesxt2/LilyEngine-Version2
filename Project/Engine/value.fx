@@ -68,9 +68,9 @@ cbuffer ANIMATION2D : register(b2)
 
 cbuffer GLOBAL_DATA : register(b3)
 {
-    float2 vResolution;
-    float DeltaTime;
-    float Time;
+    float2 g_vResolution;
+    float g_DeltaTime;
+    float g_Time;
 
     int Light2DCount;
     int Light3DCount;

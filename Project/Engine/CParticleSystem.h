@@ -26,16 +26,19 @@ private:
 private:
 	CStructuredBuffer* m_ParticleBuffer;
 	CStructuredBuffer* m_SpawnCountBuffer;
+	CStructuredBuffer* m_ModuleBuffer;
 
 	Ptr<CTexture> m_ParticleTex;
 
 	Ptr<CParticleTickCS> m_TickCS;
 
-	int m_SpawnCount; // Spawn Count per tick
 	float m_Time;
+	float m_BurstTime;
 
 	UINT m_MaxParticle;
-	UINT m_SpawnRate; // spawn per second
+
+	TParticleModule m_Module;
+
 public:
 	inline void SetParticleTexture(const Ptr<CTexture>& tex) { m_ParticleTex = tex; }
 };

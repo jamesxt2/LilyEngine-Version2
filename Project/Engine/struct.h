@@ -103,16 +103,43 @@ extern TGlobalData g_GlobalData;
 
 struct TParticle
 {
-	Vec3 vLocalPos;
-	Vec3 vWorldPos;
-	Vec3 vWorldScale;
 	Vec4 vColor;
+
+	Vec3 vLocalPosition;
+	Vec3 vWorldPosition;
+	Vec3 vWorldRotation;
+	Vec3 vWorldScale;
+
+	Vec3 vForce;
 	Vec3 vVelocity;
 
 	float Life{ 0.f };
 	float Age{ 0.f };
 	float NormalizedAge{ 0.f };
 	int Active{ 1 };
+
+	Vec2 padding;
+};
+
+struct TParticleModule
+{
+	UINT SpawnRate{ 0 }; // per second
+	Vec4 vSpawnColor;
+	Vec3 vSpawnMinScale;
+	Vec3 vSpawnMaxScale;
+
+	float MinLife{ 0.f };
+	float MaxLife{ 0.f };
+
+	// Spawn Burst
+	UINT SpawnBurstCount{ 0 };
+	UINT SpawnBurstRepeat{ 0 };
+	float SpawnBurstRepeatTime{ 0.f };
+
+	// Module on/off
+	int Module[(UINT)PARTICLE_MODULE::END];
+
+	float padding;
 };
 
 /***********************************************************************/

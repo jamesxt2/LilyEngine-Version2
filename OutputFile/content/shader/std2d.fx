@@ -2,7 +2,6 @@
 #define _STD2D
 
 #include "value.fx"
-#include "func.fx"
 
 struct VS_IN
 {
@@ -30,6 +29,32 @@ VS_OUT VS_Std2D(VS_IN _in)
     output.vUV = _in.vUV;
     
     return output;
+}
+
+float3 CalculateLight2D(int lightIdx, float3 vWorldPos)
+{
+    TLightInfo info = g_Light2D[lightIdx];
+    
+    float3 vLightPow = (float3) 0.f;
+    
+    if (info.LightType == 0) // Directional Light
+    {
+        vLightPow = info.Light.vDiffuse.rgb + info.Light.vAmbient.rgb;
+    }
+    else if (info.LightType == 1) // Point Light
+    {
+        float fDist = distance(info.WorldPos.xy, vWorldPos.xy);
+        float fRatio = cos((fDist / info.Range) * (PI / 2.f));
+        
+        if (fDist < info.Range)
+            vLightPow = info.Light.vDiffuse.rgb * fRatio;
+    }
+    else // Spot Light
+    {
+        
+    }
+    
+    return vLightPow;
 }
 
 float4 PS_Std2D(VS_OUT _in) : SV_Target
@@ -110,5 +135,7 @@ float4 PS_Std2D_AB(VS_OUT _in) : SV_Target
     
     return vColor;
 }
+
+
 
 #endif
