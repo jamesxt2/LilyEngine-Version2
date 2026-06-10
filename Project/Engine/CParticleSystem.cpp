@@ -20,15 +20,7 @@ CParticleSystem::CParticleSystem()
 	float term = vResolution.x / (m_MaxParticle + 1);
 
 	TParticle arrParticle[100] = {};
-	for (UINT i = 0; i < m_MaxParticle; ++i)
-	{
-		arrParticle[i].vLocalPosition = Vec3(0.f, 0.f, 0.f);
-		arrParticle[i].vWorldPosition = Vec3(0.f, 0.f, 0.f);
-		arrParticle[i].vWorldScale = Vec3(20.f, 20.f, 1.f);
-		arrParticle[i].vColor = Vec4(1.f, 0.2f, 0.f, 1.f);
-		arrParticle[i].Active = 0;
-	}
-
+	
 	m_ParticleBuffer = new CStructuredBuffer;
 	m_ParticleBuffer->Create(sizeof(TParticle), m_MaxParticle, SB_TYPE::SRV_UAV, false, arrParticle);
 
@@ -38,11 +30,20 @@ CParticleSystem::CParticleSystem()
 	// Spawn Module
 	m_Module.Module[(UINT)PARTICLE_MODULE::SPAWN] = 1;
 	m_Module.SpawnRate = 20;
-	m_Module.vSpawnColor = Vec4(1.f, 1.f, 1.f, 1.f);
-	m_Module.MinLife = 1.f;
-	m_Module.MaxLife = 4.f;
-	m_Module.vSpawnMinScale = Vec3(2.f, 2.f, 1.f);
-	m_Module.vSpawnMaxScale = Vec3(20.f, 20.f, 1.f);
+	m_Module.vSpawnColor = Vec4(1.f, 0.8f, 0.2f, 1.f);
+	m_Module.MinLife = 5.f;
+	m_Module.MaxLife = 5.f;
+	m_Module.Mass = 1.f;
+	m_Module.vSpawnMinScale = Vec3(120.f, 10.f, 1.f);
+	m_Module.vSpawnMaxScale = Vec3(120.f, 10.f, 1.f);
+
+	m_Module.SpawnShape = 1;
+	m_Module.SpawnShapeScale.x = 100.f;
+
+	m_Module.BlockSpawnShape = 1;
+	m_Module.BlockSpawnShapeScale.x = 0.f;
+
+	m_Module.SpaceType = 0;
 
 	// Spawn Burst Module
 	m_Module.Module[(UINT)PARTICLE_MODULE::SPAWN_BURST] = 1;
@@ -50,8 +51,37 @@ CParticleSystem::CParticleSystem()
 	m_Module.SpawnBurstCount = 100;
 	m_Module.SpawnBurstRepeatTime = 4.f;
 
+	// Add Velocity Module
+	m_Module.Module[(UINT)PARTICLE_MODULE::ADD_VELOCITY] = 1;
+	m_Module.AddVelocityType = 1;
+	m_Module.AddVelocityFixedDir = Vec3(0.f, 1.f, 0.f);
+	m_Module.AddMinSpeed = 50.f;
+	m_Module.AddMaxSpeed = 50.f;
+
+	// Scale Module
+	m_Module.Module[(UINT)PARTICLE_MODULE::SCALE] = 0;
+	m_Module.StartScale = 0.5f;
+	m_Module.EndScale = 3.f;
+
+	// Drag Module
+	m_Module.Module[(UINT)PARTICLE_MODULE::DRAG] = 0;
+	m_Module.DstNormalizedAge = 0.5f;
+	m_Module.LimitSpeed = 0.f;
+
+	// Noise Force Module
+	m_Module.Module[(UINT)PARTICLE_MODULE::NOISE_FORCE] = 0;
+	m_Module.NoiseForceTerm = 0.3f;
+	m_Module.NoiseForceScale = 400.f;
+
+	// Render Module
+	m_Module.Module[(UINT)PARTICLE_MODULE::RENDER] = 1;
+	m_Module.EndColor = Vec3(1.f, 0.2f, 0.8f);
+	m_Module.FadeOut = 1;
+	m_Module.StartRatio = 0.5f;
+	m_Module.VelocityAlignment = 1;
+
 	m_ModuleBuffer = new CStructuredBuffer;
-	m_ModuleBuffer->Create(sizeof(TParticleModule) + 16 - sizeof(TParticleModule) % 16, 1, SB_TYPE::SRV_UAV, true, &m_Module);
+	m_ModuleBuffer->Create(sizeof(TParticleModule), 1, SB_TYPE::SRV_UAV, true, &m_Module);
 }
 
 CParticleSystem::~CParticleSystem()
@@ -114,6 +144,7 @@ void CParticleSystem::CalculateSpawnCount()
 void CParticleSystem::Render()
 {
 	m_ParticleBuffer->Bind(17);
+	m_ModuleBuffer->Bind(18);
 	GetOwner()->GetTransformComp()->Bind();
 
 	GetMaterial()->SetTexParam(TEX_1, m_ParticleTex);
@@ -122,5 +153,6 @@ void CParticleSystem::Render()
 	GetMesh()->Render_Particle(m_MaxParticle);
 
 	m_ParticleBuffer->Clear(17);
+	m_ModuleBuffer->Clear(18);
 }
 

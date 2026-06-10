@@ -110,8 +110,7 @@ StructuredBuffer<TLightInfo> g_Light3D : register(t16);
 // TileMap
 StructuredBuffer<TTileInfo> g_TileInfo : register(t20);
 
-// Particle
-StructuredBuffer<TParticle> g_Particle : register(t17);
+
 
 
 #define PI 3.14159265f

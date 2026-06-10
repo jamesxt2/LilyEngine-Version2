@@ -1,6 +1,8 @@
 #pragma once
 #include "singleton.h"
 
+#include "CTexture.h"
+
 class CCamera;
 class CLight2D;
 class CStructuredBuffer;
@@ -21,6 +23,8 @@ public:
 		return (int)m_vecLight2D.size() - 1;
 	}
 
+	void CopyRenderTarget();
+
 private:
 	void DataBind();
 	void DataClear();
@@ -29,5 +33,7 @@ private:
 	std::vector<CCamera*> m_vecCam;
 	std::vector<CLight2D*> m_vecLight2D;
 	CStructuredBuffer* m_Light2DBuffer;
+
+	Ptr<CTexture> m_RenderTargetCopyTex;
 };
 

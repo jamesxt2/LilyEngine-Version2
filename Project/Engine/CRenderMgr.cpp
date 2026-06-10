@@ -6,6 +6,7 @@
 #include "CStructuredBuffer.h"
 #include "CLight2D.h"
 #include "CConstBuffer.h"
+#include "CAssetMgr.h"
 
 CRenderMgr::CRenderMgr()
 	: m_Light2DBuffer(nullptr)
@@ -20,7 +21,9 @@ CRenderMgr::~CRenderMgr()
 
 void CRenderMgr::Init()
 {
-
+	Vec2 vRenderResolution = CDevice::GetInst()->GetRenderResolution();
+	m_RenderTargetCopyTex = CAssetMgr::GetInst()->CreateTexture(L"RenderTargetCopyTex", (UINT)vRenderResolution.x,
+		(UINT)vRenderResolution.y, DXGI_FORMAT_R8G8B8A8_UNORM, D3D11_BIND_SHADER_RESOURCE);
 }
 
 void CRenderMgr::Tick()
@@ -61,6 +64,12 @@ void CRenderMgr::RegisterCamera(CCamera* camera, int priority)
 	if (priority >= m_vecCam.size())
 		m_vecCam.resize(priority + 1);
 	m_vecCam[priority] = camera;
+}
+
+void CRenderMgr::CopyRenderTarget()
+{
+	Ptr<CTexture> pRenderTargetTex = CAssetMgr::GetInst()->FindAsset<CTexture>(L"RenderTargetTex");
+	CONTEXT->CopyResource(m_RenderTargetCopyTex->GetTex2D().Get(), pRenderTargetTex->GetTex2D().Get());
 }
 
 void CRenderMgr::DataBind()

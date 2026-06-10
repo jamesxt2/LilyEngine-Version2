@@ -192,6 +192,16 @@ void CAssetMgr::CreateDefaultGraphicsShader()
 
 	AddAsset<CGraphicsShader>(L"ParticleRenderShader", pShader);
 
+	// PostProcess Distortion Shader
+	pShader = new CGraphicsShader;;
+	pShader->CreateVertexShader(strPath + L"shader\\postprocess.fx", "VS_Distortion");
+	pShader->CreatePixelShader(strPath + L"shader\\postprocess.fx", "PS_Distortion");
+	pShader->SetRSType(RS_TYPE::CULL_NONE);
+	pShader->SetDSType(DS_TYPE::NO_TEST_NO_WRITE);
+	pShader->SetShaderDomain(SHADER_DOMAIN::DOMAIN_POSTPROCESS);
+
+	AddAsset<CGraphicsShader>(L"DistortionShader", pShader);
+
 	// DebugShapeShader
 	pShader = new CGraphicsShader;;
 	pShader->CreateVertexShader(strPath + L"shader\\debug_shape.fx", "VS_DebugShape");
@@ -247,6 +257,12 @@ void CAssetMgr::CreateDefaultMaterial()
 	pMaterial = new CMaterial;
 	pMaterial->SetName(L"ParticleMaterial");
 	pMaterial->SetShader(FindAsset<CGraphicsShader>(L"ParticleRenderShader"));
+	AddAsset<CMaterial>(pMaterial->GetName(), pMaterial);
+
+	// Distortion Material
+	pMaterial = new CMaterial;
+	pMaterial->SetName(L"DistortionMaterial");
+	pMaterial->SetShader(FindAsset<CGraphicsShader>(L"DistortionShader"));
 	AddAsset<CMaterial>(pMaterial->GetName(), pMaterial);
 
 	// DebugShapeMaterial

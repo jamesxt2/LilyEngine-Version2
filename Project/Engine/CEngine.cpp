@@ -44,8 +44,8 @@ int CEngine::Init(HWND _hWnd, POINT _Resolution)
 	CTimeMgr::GetInst()->Init();
 	CKeyMgr::GetInst()->Init();
 	CAssetMgr::GetInst()->Init();
-	CLevelMgr::GetInst()->Init();
 	CRenderMgr::GetInst()->Init();
+	CLevelMgr::GetInst()->Init();
 
 	return S_OK;
 }

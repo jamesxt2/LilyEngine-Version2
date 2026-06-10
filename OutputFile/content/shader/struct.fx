@@ -34,11 +34,16 @@ struct TParticle
     float3 vLocalPosition;
     float3 vWorldPosition;
     float3 vWorldRotation;
-    float3 vWorldScale;
+    float3 vWorldInitScale;
+    float3 vWorldCurrentScale;
 
     float3 vForce;
     float3 vVelocity;
 
+    float NoiseForceAccTime;
+    float3 NoiseForceDir;
+    
+    float Mass;
     float Life;
     float Age;
     float NormalizedAge;
@@ -62,14 +67,48 @@ struct TParticleModule
 
     float MinLife;
     float MaxLife;
+    
+    float Mass;
+    
+    uint SpawnShape;
+    float3 SpawnShapeScale;
+    
+    uint BlockSpawnShape;
+    float3 BlockSpawnShapeScale;
 
+    uint SpaceType;
+    
     // Spawn Burst
     uint SpawnBurstCount;
     uint SpawnBurstRepeat;
     float SpawnBurstRepeatTime;
     
+    // Add Velocity
+    uint AddVelocityType;
+    float3 AddVelocityFixedDir;
+    float AddMinSpeed;
+    float AddMaxSpeed;
+    
+    // Scale
+    float StartScale;
+    float EndScale;
+    
+    // Drag
+    float DstNormalizedAge;
+    float LimitSpeed;
+    
+    // Noise Force
+    float NoiseForceTerm;
+    float NoiseForceScale;
+    
+    // Render
+    float3 EndColor;
+    uint FadeOut;
+    float StartRatio;
+    uint VelocityAlignment;
+    
 	// Module on/off
-    int Module[3];
+    int Module[7];
     
     float padding;
 };

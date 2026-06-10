@@ -103,20 +103,25 @@ extern TGlobalData g_GlobalData;
 
 struct TParticle
 {
-	Vec4 vColor;
+	Vec4 vColor{ 1.f, 1.f, 1.f, 1.f };
 
-	Vec3 vLocalPosition;
-	Vec3 vWorldPosition;
-	Vec3 vWorldRotation;
-	Vec3 vWorldScale;
+	Vec3 vLocalPosition{ 0.f, 0.f, 0.f };
+	Vec3 vWorldPosition{ 0.f, 0.f, 0.f };
+	Vec3 vWorldRotation{ 0.f, 0.f, 0.f };
+	Vec3 vWorldInitScale{ 1.f, 1.f, 1.f };
+	Vec3 vWorldCurrentScale{ 1.f, 1.f, 1.f };
 
 	Vec3 vForce;
 	Vec3 vVelocity;
 
+	float NoiseForceAccTime{ 0.f };
+	Vec3 NoiseForceDir;
+
+	float Mass{ 1.f };
 	float Life{ 0.f };
 	float Age{ 0.f };
 	float NormalizedAge{ 0.f };
-	int Active{ 1 };
+	int Active{ 0 };
 
 	Vec2 padding;
 };
@@ -128,16 +133,50 @@ struct TParticleModule
 	Vec3 vSpawnMinScale;
 	Vec3 vSpawnMaxScale;
 
+	float Mass{ 1.f };
+
 	float MinLife{ 0.f };
 	float MaxLife{ 0.f };
+
+	UINT SpawnShape{ 1 }; // 0: Box, 1: Sphere
+	Vec3 SpawnShapeScale; // x == Radius
+
+	UINT BlockSpawnShape{ 1 }; // 0: Box, 1: Sphere
+	Vec3 BlockSpawnShapeScale; // x == Radius
+
+	UINT SpaceType{ 0 }; // 0: LocalSpace, 1: WorldSpace
 
 	// Spawn Burst
 	UINT SpawnBurstCount{ 0 };
 	UINT SpawnBurstRepeat{ 0 };
 	float SpawnBurstRepeatTime{ 0.f };
 
+	// Add Velocity
+	UINT AddVelocityType{ 0 }; // 0: Random, 1: FromCenter, 2: ToCenter, 3: Fixed
+	Vec3 AddVelocityFixedDir;
+	float AddMinSpeed{ 0.f };
+	float AddMaxSpeed{ 0.f };
+
+	// Scale
+	float StartScale{ 1.f }; //Modify spawn scale
+	float EndScale{ 1.f }; // Modify spawn scale
+
+	// Drag
+	float DstNormalizedAge{ 0.f };
+	float LimitSpeed{ 0.f };
+
+	// Noise Force
+	float NoiseForceTerm{ 0.f };
+	float NoiseForceScale{ 0.f };
+
+	// Render
+	Vec3 EndColor;
+	UINT FadeOut{ 0 }; // 0: Off, 1: NormalizedAge
+	float StartRatio{ 0.f }; // Normalized age when start to fade out
+	UINT VelocityAlignment{ 0 };
+
 	// Module on/off
-	int Module[(UINT)PARTICLE_MODULE::END];
+	int Module[(UINT)PARTICLE_MODULE::END] = {};
 
 	float padding;
 };

@@ -118,7 +118,7 @@ float4 PS_Std2D_AB(VS_OUT _in) : SV_Target
         vLightPow += CalculateLight2D(i, _in.vWorldPos);
     }
     vColor.rgb *= vLightPow;
-    
+    /*
     if (g_btex_1)
     {
         float4 vNoise = g_tex_1.Sample(g_sam_0, _in.vUV);
@@ -129,7 +129,7 @@ float4 PS_Std2D_AB(VS_OUT _in) : SV_Target
         if (intense > 1.f)
             discard;
     }
-    
+    */
     if (g_int_0)
         vColor.r *= 1.5f;
     

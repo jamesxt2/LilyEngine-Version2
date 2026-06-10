@@ -157,6 +157,9 @@
     <Filter Include="HLSL\04.ComputeShader\ParticleTickCS">
       <UniqueIdentifier>{91c1ece7-5508-40b5-9e37-a6ccb81b633e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="08.Asset\Prefab">
+      <UniqueIdentifier>{62b3ddfa-017e-4ca1-aa35-962ed3034c3e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -321,6 +324,9 @@
     <ClInclude Include="CBackgroundScript.h">
       <Filter>Scripts</Filter>
     </ClInclude>
+    <ClInclude Include="CPrefab.h">
+      <Filter>08.Asset\Prefab</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -464,6 +470,9 @@
     <ClCompile Include="CBackgroundScript.cpp">
       <Filter>Scripts</Filter>
     </ClCompile>
+    <ClCompile Include="CPrefab.cpp">
+      <Filter>08.Asset\Prefab</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="SimpleMath.inl">
@@ -497,6 +506,9 @@
     </FxCompile>
     <FxCompile Include="particletick.fx">
       <Filter>HLSL\04.ComputeShader\ParticleTickCS</Filter>
+    </FxCompile>
+    <FxCompile Include="postprocess.fx">
+      <Filter>HLSL\02.2D</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>

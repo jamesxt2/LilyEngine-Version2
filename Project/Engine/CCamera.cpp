@@ -95,7 +95,10 @@ void CCamera::Render_Particle()
 void CCamera::Render_PostProcess()
 {
 	for (size_t i = 0; i < m_vecPostProcess.size(); ++i)
+	{
+		CRenderMgr::GetInst()->CopyRenderTarget();
 		m_vecPostProcess[i]->Render();
+	}
 }
 
 void CCamera::LayerCheck(int layerIdx)

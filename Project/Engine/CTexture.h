@@ -34,6 +34,8 @@ private:
 	D3D11_TEXTURE2D_DESC				m_Desc;
 
 public:
+	inline ComPtr<ID3D11Texture2D> GetTex2D() const { return m_Tex2D; }
+
 	inline UINT GetWidth() const { return m_Desc.Width; }
 	inline UINT GetHeight() const { return m_Desc.Height; }
 

@@ -67,25 +67,25 @@ void CLevelMgr::Init()
 	CGameObject* pBackground = new CGameObject;
 	pBackground->AddComponent(new CTransform);
 	pBackground->AddComponent(new CMeshRender);
-	pBackground->AddComponent(new CBackgroundScript);
+	//pBackground->AddComponent(new CBackgroundScript);
 
 	pBackground->GetTransformComp()->SetRelativePosition(Vec3(0.f, 0.f, 200.f));
 	pBackground->GetTransformComp()->SetRelativeScale(Vec3(1600.f, 900.f, 1.f));
 
 	pBackground->GetMeshRenderComp()->SetMesh(CAssetMgr::GetInst()->FindAsset<CMesh>(L"RectMesh"));
 	pBackground->GetMeshRenderComp()->SetMaterial(CAssetMgr::GetInst()->FindAsset<CMaterial>(L"BackgroundMaterial"));
-	pBackground->GetMeshRenderComp()->GetMaterial()->SetTexParam(TEX_0, CAssetMgr::GetInst()->Load<CTexture>(L"texture/cave.png", L"texture/cave.png"));
+	pBackground->GetMeshRenderComp()->GetMaterial()->SetTexParam(TEX_0, CAssetMgr::GetInst()->Load<CTexture>(L"texture/mountain.png", L"texture/mountain.png"));
 	pBackground->GetMeshRenderComp()->GetMaterial()->SetTexParam(TEX_1, CAssetMgr::GetInst()->Load<CTexture>(L"texture/noise/noise_03.jpg", L"texture/noise/noise_03.jpg"));
 
 	m_CurLevel->AddObject(0, pBackground);
 	
 	// Player object
-	/*
+	
 	CGameObject* pPlayer = new CGameObject;
 	pPlayer->SetName(L"Player");
 	pPlayer->AddComponent(new CTransform);
 	pPlayer->AddComponent(new CMeshRender);
-	pPlayer->AddComponent(new CCollision2D);
+	//pPlayer->AddComponent(new CCollision2D);
 	pPlayer->AddComponent(new CAnimator2D);
 	pPlayer->AddComponent(new CPlayerScript);
 
@@ -97,15 +97,15 @@ void CLevelMgr::Init()
 	pPlayer->GetMeshRenderComp()->GetMaterial()->SetScalarParam<int>(INT_0, 0);
 	pPlayer->GetMeshRenderComp()->GetMaterial()->SetTexParam(TEX_0, CAssetMgr::GetInst()->FindAsset<CTexture>(L"texture/mountain.png"));
 
-	pPlayer->GetCollision2DComp()->SetOffset(Vec3(0.f, 0.f, 0.f));
-	pPlayer->GetCollision2DComp()->SetScale(Vec3(1.f, 1.f, 1.f));
+	//pPlayer->GetCollision2DComp()->SetOffset(Vec3(0.f, 0.f, 0.f));
+	//pPlayer->GetCollision2DComp()->SetScale(Vec3(1.f, 1.f, 1.f));
 
 	pPlayer->GetAnimator2DComp()->LoadAnimation(L"animation/MOVE_DOWN.anim");
 
 	pPlayer->GetAnimator2DComp()->Play(L"MOVE_DOWN", true);
 
 	m_CurLevel->AddObject(1, pPlayer);
-	*/
+	
 	// Monster object
 	/*
 	CGameObject* pMonster = new CGameObject;
@@ -126,10 +126,10 @@ void CLevelMgr::Init()
 	pMonster->GetCollision2DComp()->SetScale(Vec3(1.f, 1.f, 1.f));
 
 	m_CurLevel->AddObject(1, pMonster);
-	*/
+	
 	//pPlayer->GetScript<CPlayerScript>()->SetTarget(pMonster);
 	
-
+	*/
 	// Particle System
 	CGameObject* pParticle = new CGameObject;
 	pParticle->SetName(L"Particle");
@@ -142,6 +142,21 @@ void CLevelMgr::Init()
 
 	m_CurLevel->AddObject(0, pParticle);
 
+	// PostProcess Filter
+	CGameObject* pFilterObj = new CGameObject;
+	pFilterObj->SetName(L"Filter");
+	pFilterObj->AddComponent(new CTransform);
+	pFilterObj->AddComponent(new CMeshRender);
+
+	pFilterObj->GetTransformComp()->SetRelativePosition(500.f, 0.f, 50.f);
+	pFilterObj->GetTransformComp()->SetRelativeScale(400.f, 400.f, 1.f);
+
+	pFilterObj->GetMeshRenderComp()->SetMesh(CAssetMgr::GetInst()->FindAsset<CMesh>(L"RectMesh"));
+	pFilterObj->GetMeshRenderComp()->SetMaterial(CAssetMgr::GetInst()->FindAsset<CMaterial>(L"DistortionMaterial"));
+	pFilterObj->GetMeshRenderComp()->GetMaterial()->SetTexParam(TEX_0, CAssetMgr::GetInst()->FindAsset<CTexture>(L"RenderTargetCopyTex"));
+	pFilterObj->GetMeshRenderComp()->GetMaterial()->SetTexParam(TEX_1, CAssetMgr::GetInst()->Load<CTexture>(L"texture/noise/noise_03.jpg", L"texture/noise/noise_03.jpg"));
+
+	m_CurLevel->AddObject(0, pFilterObj);
 
 	CCollisionMgr::GetInst()->LayerCheck(1, 1);
 	CCollisionMgr::GetInst()->LayerCheck(1, 2);
