@@ -50,6 +50,8 @@ ASSET_TYPE GetAssetType()
 		return ASSET_TYPE::TEXTURE;
 	if constexpr (std::is_same_v<T, CMaterial>)
 		return ASSET_TYPE::MATERIAL;
+	if constexpr (std::is_same_v<T, CPrefab>)
+		return ASSET_TYPE::PREFAB;
 }
 
 template<typename T>

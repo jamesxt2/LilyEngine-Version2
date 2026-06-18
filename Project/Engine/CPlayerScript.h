@@ -11,6 +11,7 @@ class CPlayerScript : public CScript
 public:
 	CPlayerScript();
 	~CPlayerScript();
+	CLONE(CPlayerScript)
 
 	virtual void Begin() override;
 	virtual void Tick() override;
@@ -22,6 +23,8 @@ public:
 private:
 	float m_Speed;
 	CGameObject* m_Target;
+	Ptr<CPrefab> m_Particle;
+	CGameObject* m_ParticleObj;
 
 public:
 	inline void SetTarget(CGameObject* target) { m_Target = target; }

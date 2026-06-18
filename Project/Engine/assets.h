@@ -5,3 +5,4 @@
 #include "CGraphicsShader.h"
 #include "CComputeShader.h"
 #include "CMaterial.h"
+#include "CPrefab.h"

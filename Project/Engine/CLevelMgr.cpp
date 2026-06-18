@@ -14,6 +14,7 @@
 #include "CCollisionMgr.h"
 
 #include "CAnim2D.h"
+#include "CPrefab.h"
 
 CLevelMgr::CLevelMgr()
 	: m_CurLevel(nullptr)
@@ -48,18 +49,23 @@ void CLevelMgr::Init()
 
 	m_CurLevel->AddObject(0, pCamera);
 
+	/*
+	CGameObject* pCamClone = pCamera->Clone();
+	pCamClone->GetCameraComp()->SetCameraPriority(0);
+	m_CurLevel->AddObject(0, pCamClone);
+	delete pCamera;
+	*/
 	// Light2D
 	CGameObject* pLight2D = new CGameObject;
 
 	pLight2D->AddComponent(new CTransform);
 	pLight2D->AddComponent(new CLight2D);
 
-	//pLight2D->GetTransformComp()->SetRelativePosition(Vec3(-300.f, 0.f, 0.f));
+	pLight2D->GetTransformComp()->SetRelativePosition(Vec3(-500.f, 0.f, 0.f));
 
 	pLight2D->GetLight2DComp()->SetLightType(LIGHT_TYPE::DIRECTIONAL);
 	pLight2D->GetLight2DComp()->SetDiffuse(Vec3(1.f, 1.f, 1.f));
 	pLight2D->GetLight2DComp()->SetAmbient(Vec3(0.f, 0.f, 0.f));
-	pLight2D->GetLight2DComp()->SetRange(500.f);
 
 	m_CurLevel->AddObject(0, pLight2D);
 
@@ -77,7 +83,11 @@ void CLevelMgr::Init()
 	pBackground->GetMeshRenderComp()->GetMaterial()->SetTexParam(TEX_0, CAssetMgr::GetInst()->Load<CTexture>(L"texture/mountain.png", L"texture/mountain.png"));
 	pBackground->GetMeshRenderComp()->GetMaterial()->SetTexParam(TEX_1, CAssetMgr::GetInst()->Load<CTexture>(L"texture/noise/noise_03.jpg", L"texture/noise/noise_03.jpg"));
 
+	CGameObject* pBGClone = pBackground->Clone();
+	pBGClone->GetTransformComp()->SetRelativePosition(0.f, 0.f, 1000.f);
+
 	m_CurLevel->AddObject(0, pBackground);
+	m_CurLevel->AddObject(0, pBGClone);
 	
 	// Player object
 	
@@ -104,7 +114,7 @@ void CLevelMgr::Init()
 
 	pPlayer->GetAnimator2DComp()->Play(L"MOVE_DOWN", true);
 
-	m_CurLevel->AddObject(1, pPlayer);
+	m_CurLevel->AddObject(0, pPlayer);
 	
 	// Monster object
 	/*
@@ -137,10 +147,12 @@ void CLevelMgr::Init()
 	pParticle->AddComponent(new CParticleSystem);
 
 	pParticle->GetTransformComp()->SetRelativePosition(Vec3(0.f, 0.f, 50.f));
-	
 	pParticle->GetParticleSystemComp()->SetParticleTexture(CAssetMgr::GetInst()->Load<CTexture>(L"texture/particle/AlphaCircle.png", L"texture/particle/AlphaCircle.png"));
 
-	m_CurLevel->AddObject(0, pParticle);
+	Ptr<CPrefab> pParticlePrefab = new CPrefab(pParticle);
+	CAssetMgr::GetInst()->AddAsset<CPrefab>(L"ParticlePrefab", pParticlePrefab.Get());
+
+	//m_CurLevel->AddObject(0, pParticle);
 
 	// PostProcess Filter
 	CGameObject* pFilterObj = new CGameObject;

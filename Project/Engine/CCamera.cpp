@@ -20,8 +20,27 @@ CCamera::CCamera()
 	m_AspectRatio = CDevice::GetInst()->GetAspectRatio();
 }
 
+CCamera::CCamera(const CCamera& other)
+	: CComponent(other),
+	m_ProjType(other.m_ProjType),
+	m_CamPriority(-1),
+	m_FOV(other.m_FOV),
+	m_Far(other.m_Far),
+	m_Width(other.m_Width),
+	m_AspectRatio(other.m_AspectRatio),
+	m_Scale(other.m_Scale),
+	m_LayerCheck(other.m_LayerCheck)
+{
+}
+
 CCamera::~CCamera()
 {
+}
+
+void CCamera::Begin()
+{
+	assert(m_CamPriority >= 0);
+	CRenderMgr::GetInst()->RegisterCamera(this, m_CamPriority);
 }
 
 void CCamera::FinalTick()
@@ -153,8 +172,4 @@ void CCamera::SortObject()
 void CCamera::SetCameraPriority(int priority)
 {
 	m_CamPriority = priority;
-	if (m_CamPriority >= 0)
-	{
-		CRenderMgr::GetInst()->RegisterCamera(this, m_CamPriority);
-	}
 }

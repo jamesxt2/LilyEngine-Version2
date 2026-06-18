@@ -9,7 +9,9 @@ class CAnimator2D : public CComponent
 {
 public:
 	CAnimator2D();
+	CAnimator2D(const CAnimator2D& other);
 	~CAnimator2D();
+	CLONE(CAnimator2D)
 
 	virtual void FinalTick() override;
 	void Bind();

@@ -17,9 +17,11 @@ class CGameObject : public CEntity
 {
 public:
 	CGameObject();
+	CGameObject(const CGameObject& other);
 	~CGameObject();
 	friend class CLayer;
 	friend class CTaskMgr;
+	CLONE(CGameObject)
 
 	void Begin();
 	void Tick();

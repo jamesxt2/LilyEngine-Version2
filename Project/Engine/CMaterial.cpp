@@ -39,7 +39,7 @@ void CMaterial::Bind()
 
 Ptr<CMaterial> CMaterial::GetDynamicMaterial()
 {
-	Ptr<CMaterial> pMtrl = new CMaterial(*this);
+	Ptr<CMaterial> pMtrl = Clone();
 	pMtrl->m_Dynamic = true;
 	return pMtrl;
 }

@@ -8,7 +8,9 @@ class CLayer : public CEntity
 public:
 	CLayer();
 	~CLayer();
+	CLayer(const CLayer& other) = delete;
 	friend class CLevel;
+	CLONE_DISABLE(CLayer)
 
 	void Begin();
 	void Tick();

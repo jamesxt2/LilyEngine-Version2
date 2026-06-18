@@ -7,6 +7,7 @@ class CRenderComponent : public CComponent
 {
 public:
 	CRenderComponent(COMPONENT_TYPE type);
+	CRenderComponent(const CRenderComponent& other);
 	virtual ~CRenderComponent();
 
 	virtual void Render() = 0;

@@ -13,7 +13,9 @@ class CTileMap : public CRenderComponent
 {
 public:
 	CTileMap();
+	CTileMap(const CTileMap& other);
 	~CTileMap();
+	CLONE(CTileMap)
 
 	virtual void Begin() override;
 	virtual void FinalTick() override;

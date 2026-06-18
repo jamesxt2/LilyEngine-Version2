@@ -5,7 +5,9 @@ class CShader : public CAsset
 {
 public:
 	CShader(ASSET_TYPE type);
+	CShader(const CShader& other) = delete;
 	~CShader();
+	CLONE_DISABLE(CShader)
 
 	virtual int Bind() = 0;
 

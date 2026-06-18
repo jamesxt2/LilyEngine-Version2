@@ -9,6 +9,8 @@ class CLevel : public CEntity
 public:
 	CLevel();
 	~CLevel();
+	CLevel(const CLevel& other) = delete;
+	CLONE_DISABLE(CLevel)
 
 	void Begin();
 	void Tick();

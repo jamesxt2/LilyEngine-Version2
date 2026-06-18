@@ -9,6 +9,7 @@ class CMaterial : public CAsset
 public:
 	CMaterial();
 	~CMaterial();
+	CLONE(CMaterial)
 
 	void Bind();
 

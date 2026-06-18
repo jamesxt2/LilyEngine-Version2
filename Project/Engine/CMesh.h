@@ -6,7 +6,9 @@ class CMesh : public CAsset
 
 public:
 	CMesh();
+	CMesh(const CMesh& other) = delete;
 	~CMesh();
+	CLONE_DISABLE(CMesh)
 
 	int Create(Vtx* vtxSysMem, size_t vtxCount, UINT* idxSysMem, size_t idxCount);
 

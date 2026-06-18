@@ -6,6 +6,7 @@ class CLight2D : public CComponent
 public:
 	CLight2D();
 	~CLight2D();
+	CLONE(CLight2D)
 
 	virtual void FinalTick() override;
 

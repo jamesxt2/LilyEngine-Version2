@@ -6,6 +6,7 @@ class CTransform : public CComponent
 public:
 	CTransform();
 	~CTransform();
+	CLONE(CTransform)
 
 	virtual void FinalTick() override;
 	void Bind();

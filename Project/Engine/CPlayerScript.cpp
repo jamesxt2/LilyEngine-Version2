@@ -10,7 +10,7 @@
 #include "CStructuredBuffer.h"
 
 CPlayerScript::CPlayerScript()
-	: m_Speed(100.f), m_Target(nullptr)
+	: m_Speed(100.f), m_Target(nullptr), m_ParticleObj(nullptr)
 {
 
 }
@@ -22,7 +22,11 @@ CPlayerScript::~CPlayerScript()
 
 void CPlayerScript::Begin()
 {
+	m_Particle = CAssetMgr::GetInst()->FindAsset<CPrefab>(L"ParticlePrefab");
 
+	m_ParticleObj = m_Particle->Instantiate();
+	m_ParticleObj->GetTransformComp()->SetRelativePosition(GetOwner()->GetTransformComp()->GetRelativePosition());
+	SpawnObject(0, m_ParticleObj);
 }
 
 void CPlayerScript::Tick()
@@ -77,6 +81,7 @@ void CPlayerScript::Tick()
 
 	if (KEY_TAP(KEY::SPACE))
 	{
+		/*
 		if (GetOwner()->GetCollision2DComp()->IsActive())
 		{
 			GetOwner()->GetCollision2DComp()->Deactivate();
@@ -99,6 +104,13 @@ void CPlayerScript::Tick()
 		pNewObj->GetMeshRenderComp()->SetMaterial(CAssetMgr::GetInst()->FindAsset<CMaterial>(L"Std2DMaterial"));
 
 		SpawnObject(0, pNewObj);
+		*/
+		if (m_ParticleObj != nullptr)
+		{
+			CGameObject* pParticleClone = m_ParticleObj->Clone();
+			pParticleClone->GetTransformComp()->SetRelativePosition(GetOwner()->GetTransformComp()->GetRelativePosition());
+			SpawnObject(0, pParticleClone);
+		}
 	}
 
 }

@@ -18,8 +18,10 @@ class CAnim2D : public CEntity
 {
 public:
 	CAnim2D();
+	CAnim2D(const CAnim2D& other);
 	~CAnim2D();
 	friend class CAnimator2D;
+	CLONE(CAnim2D)
 
 	void FinalTick();
 	void Bind();
@@ -32,15 +34,15 @@ public:
 	void Load(const std::wstring& relativePath);
 
 private:
-	CAnimator2D* m_Animator;
-	std::vector<TAnim2DFrm> m_vecFrm;
-	Vec2 m_BackgroundSize;
-	int m_CurIdx;
-	bool m_Finish;
+	CAnimator2D*				m_Animator;
+	std::vector<TAnim2DFrm>		m_vecFrm;
+	Vec2						m_BackgroundSize;
+	int							m_CurIdx;
+	bool						m_Finish;
 
-	float m_Time;
+	float						m_Time;
 
-	Ptr<CTexture> m_AtlasTex;
+	Ptr<CTexture>				m_AtlasTex;
 
 public:
 	inline bool IsFinish() const { return m_Finish; }

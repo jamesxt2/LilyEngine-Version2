@@ -5,8 +5,11 @@ class CCamera : public CComponent
 {
 public:
 	CCamera();
+	CCamera(const CCamera& other);
 	~CCamera();
+	CLONE(CCamera)
 
+	virtual void Begin() override;
 	virtual void FinalTick() override;
 	void Render();
 

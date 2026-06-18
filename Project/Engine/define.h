@@ -20,6 +20,9 @@
 
 #define MAX_LAYER 32
 
+#define CLONE(type) virtual type* Clone() override { return new type(*this); }
+#define CLONE_DISABLE(type) virtual type* Clone() override { return nullptr; } 
+
 typedef Vector2 Vec2;
 typedef Vector3 Vec3;
 typedef Vector4 Vec4;

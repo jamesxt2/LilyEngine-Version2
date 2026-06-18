@@ -5,8 +5,10 @@ class CTexture : public CAsset
 {
 public:
 	CTexture();
+	CTexture(const CTexture& other) = delete;
 	~CTexture();
 	friend class CAssetMgr;
+	CLONE_DISABLE(CTexture)
 
 	void Bind(int registerSlot);
 	void Bind_CS_SRV(int registerSlot);

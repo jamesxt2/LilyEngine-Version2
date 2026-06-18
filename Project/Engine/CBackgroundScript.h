@@ -6,6 +6,7 @@ class CBackgroundScript : public CScript
 public:
 	CBackgroundScript();
 	~CBackgroundScript();
+	CLONE(CBackgroundScript)
 
 	virtual void Tick() override;
 

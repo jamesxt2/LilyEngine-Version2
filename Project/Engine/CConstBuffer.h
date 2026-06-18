@@ -5,7 +5,9 @@ class CConstBuffer : public CEntity
 {
 public:
 	CConstBuffer();
+	CConstBuffer(const CConstBuffer& other) = delete;
 	~CConstBuffer();
+	CLONE_DISABLE(CConstBuffer)
 
 	int Create(size_t bufferSize, CB_TYPE type);
 	void SetData(void* pData);

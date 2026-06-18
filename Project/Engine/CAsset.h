@@ -9,6 +9,7 @@ public:
 	CAsset(ASSET_TYPE type);
 	CAsset(const CAsset& _Origin);
 	~CAsset();
+	virtual CEntity* Clone() = 0;
 
 	friend class CAssetMgr;
 

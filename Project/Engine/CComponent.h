@@ -7,8 +7,11 @@ class CComponent : public CEntity
 {
 public:
 	CComponent(COMPONENT_TYPE type);
+	CComponent(const CComponent& other);
 	virtual ~CComponent();
 	friend CGameObject;
+
+	virtual CComponent* Clone() = 0;
 
 	virtual void Begin() {};
 	virtual void Tick() {};

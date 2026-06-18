@@ -14,6 +14,19 @@ CCollision2D::CCollision2D()
 {
 }
 
+CCollision2D::CCollision2D(const CCollision2D& other)
+	: CComponent(other),
+	m_Offset(other.m_Offset),
+	m_FinalPos(other.m_FinalPos),
+	m_Scale(other.m_Scale),
+	m_Rotation(other.m_Rotation),
+	m_Absolute(other.m_Absolute),
+	m_OverlapCount(0),
+	m_Active(other.m_Active),
+	m_SemiActive(false)
+{
+}
+
 CCollision2D::~CCollision2D()
 {
 }

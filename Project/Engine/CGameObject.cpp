@@ -16,6 +16,24 @@ CGameObject::CGameObject()
 {
 }
 
+CGameObject::CGameObject(const CGameObject& other)
+	: CEntity(other), m_RenderComp(nullptr), m_arrComp{}, m_Parent(nullptr), m_LayerIdx(-1), m_Dead(false)
+{
+	for (UINT i = 0; i < (UINT)COMPONENT_TYPE::END; ++i)
+	{
+		if (other.m_arrComp[i])
+			AddComponent(other.m_arrComp[i]->Clone());
+	}
+	for (size_t i = 0; i < other.m_vecScript.size(); ++i)
+	{
+		AddComponent(other.m_vecScript[i]->Clone());
+	}
+	for (size_t i = 0; i < other.m_vecChild.size(); ++i)
+	{
+		AddChild(other.m_vecChild[i]->Clone());
+	}
+}
+
 CGameObject::~CGameObject()
 {
 	Safe_Del_Array(m_arrComp);

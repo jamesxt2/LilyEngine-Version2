@@ -14,6 +14,18 @@ CAnim2D::CAnim2D()
 {
 }
 
+CAnim2D::CAnim2D(const CAnim2D& other)
+	: CEntity(other),
+	m_Animator(nullptr),
+	m_vecFrm(other.m_vecFrm),
+	m_BackgroundSize(other.m_BackgroundSize),
+	m_CurIdx(other.m_CurIdx),
+	m_Finish(other.m_Finish),
+	m_Time(other.m_Time),
+	m_AtlasTex(other.m_AtlasTex)
+{
+}
+
 CAnim2D::~CAnim2D()
 {
 }

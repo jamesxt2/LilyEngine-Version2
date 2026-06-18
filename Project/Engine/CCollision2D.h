@@ -5,8 +5,10 @@ class CCollision2D : public CComponent
 {
 public:
 	CCollision2D();
+	CCollision2D(const CCollision2D& other);
 	~CCollision2D();
 	friend class CTaskMgr;
+	CLONE(CCollision2D)
 
 	virtual void FinalTick() override;
 

@@ -89,8 +89,12 @@ void CRenderMgr::DataBind()
 	{
 		vecLightInfo.push_back(m_vecLight2D[i]->GetLightInfo());
 	}
-	m_Light2DBuffer->SetData(vecLightInfo.data(), (UINT)m_vecLight2D.size());
-	m_Light2DBuffer->Bind(15);
+
+	if (!vecLightInfo.empty())
+	{
+		m_Light2DBuffer->SetData(vecLightInfo.data(), (UINT)m_vecLight2D.size());
+		m_Light2DBuffer->Bind(15);
+	}
 }
 
 void CRenderMgr::DataClear()

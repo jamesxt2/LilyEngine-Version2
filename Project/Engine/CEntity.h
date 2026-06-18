@@ -7,7 +7,7 @@ public:
 	CEntity(const CEntity& _origin);
 	virtual ~CEntity();
 
-	//virtual CEntity* Clone() = 0;
+	virtual CEntity* Clone() = 0;
 
 private:
 	static UINT g_NextID;

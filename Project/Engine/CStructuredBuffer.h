@@ -13,7 +13,9 @@ class CStructuredBuffer : public CEntity
 {
 public:
 	CStructuredBuffer();
+	CStructuredBuffer(const CStructuredBuffer& other);
 	~CStructuredBuffer();
+	CLONE(CStructuredBuffer)
 
 	int Create(UINT elementSize, UINT elementCount, SB_TYPE type, bool bSysMemMove, void* initialData = nullptr);
 	
