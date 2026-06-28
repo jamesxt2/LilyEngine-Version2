@@ -1,0 +1,20 @@
+#pragma once
+#include <Engine/CScript.h>
+
+class CCameraMoveScript : public CScript
+{
+public:
+	CCameraMoveScript();
+	~CCameraMoveScript();
+	CLONE(CCameraMoveScript)
+
+	virtual void Tick() override;
+
+private:
+	void MoveByPerspective();
+	void MoveByOrthographic();
+
+private:
+	float m_Speed;
+};
+

@@ -9,9 +9,10 @@
 #include "CAssetMgr.h"
 
 CRenderMgr::CRenderMgr()
-	: m_Light2DBuffer(nullptr)
+	: m_EditorCam(nullptr), m_Light2DBuffer(nullptr)
 {
 	m_Light2DBuffer = new CStructuredBuffer;
+	Render_Func = &CRenderMgr::Render_Play;
 }
 
 CRenderMgr::~CRenderMgr()
@@ -33,18 +34,34 @@ void CRenderMgr::Tick()
 
 void CRenderMgr::Render()
 {
+	// Output Merge Set Render Targets
+	Ptr<CTexture> pRTTex = CAssetMgr::GetInst()->FindAsset<CTexture>(L"RenderTargetTex");
+	Ptr<CTexture> pDSTex = CAssetMgr::GetInst()->FindAsset<CTexture>(L"DepthStencilTex");
+	CONTEXT->OMSetRenderTargets(1, pRTTex->GetRTV().GetAddressOf(), pDSTex->GetDSV().Get());
+	
 	DataBind();
 
 	// Target Clear
 	float ClearColor[4] = { 0.3f, 0.3f, 0.3f, 1.f };
 	CDevice::GetInst()->ClearTarget(ClearColor);
 
+	(this->*Render_Func)();
+
+	DataClear();
+}
+
+void CRenderMgr::Render_Play()
+{
 	for (size_t i = 0; i < m_vecCam.size(); ++i)
 	{
 		m_vecCam[i]->Render();
 	}
+}
 
-	DataClear();
+void CRenderMgr::Render_Editor()
+{
+	if (m_EditorCam != nullptr)
+		m_EditorCam->Render();
 }
 
 void CRenderMgr::RegisterCamera(CCamera* camera, int priority)

@@ -27,6 +27,7 @@ private:
 	int m_LayerIdx;
 
 public:
+	inline const std::vector<CGameObject*>& GetParentObjects() const { return m_vecParent; }
 	inline const std::vector<CGameObject*>& GetObjects() const { return m_vecObject; }
 };
 

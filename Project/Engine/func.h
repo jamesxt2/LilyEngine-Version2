@@ -82,3 +82,6 @@ void SpawnObject(int layerIdx, CGameObject* object);
 
 bool IsValid(CGameObject*& object);
 
+class CLevel;
+void ChangeLevel(CLevel* nextLevel, LEVEL_STATE nextLevelState);
+

@@ -10,6 +10,10 @@ class CLevelMgr : public CSingleton<CLevelMgr>
 public:
 	void Init();
 	void Tick();
+	friend class CTaskMgr;
+
+private:
+	void ChangeLevel(CLevel* nextLevel);
 
 private:
 	CLevel* m_CurLevel;

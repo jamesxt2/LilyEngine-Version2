@@ -83,3 +83,13 @@ bool IsValid(CGameObject*& object)
 	}
 	return true;
 }
+
+void ChangeLevel(CLevel* nextLevel, LEVEL_STATE nextLevelState)
+{
+	TTask task = {};
+	task.type = TASK_TYPE::CHANGE_LEVEL;
+	task.dwParam_0 = (DWORD_PTR)nextLevel;
+	task.dwParam_1 = (DWORD_PTR)nextLevelState;
+
+	CTaskMgr::GetInst()->AddTask(task);
+}

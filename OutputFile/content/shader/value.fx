@@ -72,10 +72,11 @@ cbuffer GLOBAL_DATA : register(b3)
     float g_DeltaTime;
     float g_Time;
 
+    float g_DeltaTime_Engine;
+    float g_Time_Engine;
+    
     int Light2DCount;
     int Light3DCount;
-
-    float2 Padding;
 }
 
 SamplerState g_sam_0 : register(s0);

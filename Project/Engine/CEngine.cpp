@@ -69,9 +69,6 @@ void CEngine::Progress()
 	CRenderMgr::GetInst()->Render();
 	CDebugRenderMgr::GetInst()->Render();
 
-	// Present
-	CDevice::GetInst()->Present();
-
 	// Task execute
 	CTaskMgr::GetInst()->Tick();
 }

@@ -20,6 +20,9 @@ CCollisionMgr::~CCollisionMgr()
 
 void CCollisionMgr::Tick()
 {
+	if (!CLevelMgr::GetInst()->GetCurrentLevel())
+		return;
+
 	for (UINT row = 0; row < MAX_LAYER; ++row)
 	{
 		for (UINT col = row; col < MAX_LAYER; ++col)

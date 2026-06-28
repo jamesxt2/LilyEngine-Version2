@@ -23,6 +23,8 @@ enum class COMPONENT_TYPE
 	SCRIPT
 };
 
+extern const char* COMPONENT_TYPE_STRING[(UINT)COMPONENT_TYPE::END];
+
 enum class ASSET_TYPE
 {
 	PREFAB, 
@@ -36,6 +38,8 @@ enum class ASSET_TYPE
 
 	END
 };
+
+extern const char* ASSET_TYPE_STRING[(UINT)ASSET_TYPE::END];
 
 enum class CB_TYPE
 {
@@ -173,7 +177,7 @@ enum class TASK_TYPE
 	COLLISION2D_SEMI_DEACTIVATE,
 	COLLISION2D_DEACTIVATE,
 
-	//
+	// Param0: Level Address, Param1: Level State
 	CHANGE_LEVEL
 };
 
@@ -206,4 +210,12 @@ enum class PARTICLE_MODULE
 	RENDER,
 
 	END
+};
+
+// Level
+enum class LEVEL_STATE
+{
+	PLAY,
+	STOP,
+	PAUSE
 };

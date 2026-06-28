@@ -71,13 +71,13 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(SolutionDir)External\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)External\include;$(ProjectDir);$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)External\library;$(LibraryPath)</LibraryPath>
     <TargetName>$(ProjectName)_d</TargetName>
     <OutDir>$(SolutionDir)OutputFile\bin\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>$(SolutionDir)External\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)External\include;$(ProjectDir);$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)External\library;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)OutputFile\bin\</OutDir>
   </PropertyGroup>
@@ -114,6 +114,8 @@
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -130,6 +132,8 @@
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -138,13 +142,65 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Animator2DUI.h" />
+    <ClInclude Include="CameraUI.h" />
+    <ClInclude Include="CEditorCameraScript.h" />
+    <ClInclude Include="CEditorMgr.h" />
+    <ClInclude Include="CGameObjectEx.h" />
+    <ClInclude Include="CImGuiMgr.h" />
     <ClInclude Include="Client.h" />
+    <ClInclude Include="Collision2DUI.h" />
+    <ClInclude Include="ComponentUI.h" />
+    <ClInclude Include="CTestLevel.h" />
+    <ClInclude Include="EditorUI.h" />
     <ClInclude Include="framework.h" />
+    <ClInclude Include="ImGui\imconfig.h" />
+    <ClInclude Include="ImGui\imgui.h" />
+    <ClInclude Include="ImGui\imgui_impl_dx11.h" />
+    <ClInclude Include="ImGui\imgui_impl_win32.h" />
+    <ClInclude Include="ImGui\imgui_internal.h" />
+    <ClInclude Include="ImGui\imstb_rectpack.h" />
+    <ClInclude Include="ImGui\imstb_textedit.h" />
+    <ClInclude Include="ImGui\imstb_truetype.h" />
+    <ClInclude Include="Inspector.h" />
+    <ClInclude Include="Light2DUI.h" />
+    <ClInclude Include="MeshRenderUI.h" />
+    <ClInclude Include="ParticleSystemUI.h" />
+    <ClInclude Include="pch.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="targetver.h" />
+    <ClInclude Include="TileMapUI.h" />
+    <ClInclude Include="TransformUI.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Client.cpp" />
+    <ClCompile Include="Animator2DUI.cpp" />
+    <ClCompile Include="CameraUI.cpp" />
+    <ClCompile Include="CEditorCameraScript.cpp" />
+    <ClCompile Include="CEditorMgr.cpp" />
+    <ClCompile Include="CGameObjectEx.cpp" />
+    <ClCompile Include="CImGuiMgr.cpp" />
+    <ClCompile Include="Collision2DUI.cpp" />
+    <ClCompile Include="ComponentUI.cpp" />
+    <ClCompile Include="EditorUI.cpp" />
+    <ClCompile Include="ImGui\imgui.cpp" />
+    <ClCompile Include="ImGui\imgui_demo.cpp" />
+    <ClCompile Include="ImGui\imgui_draw.cpp" />
+    <ClCompile Include="ImGui\imgui_impl_dx11.cpp" />
+    <ClCompile Include="ImGui\imgui_impl_win32.cpp" />
+    <ClCompile Include="ImGui\imgui_tables.cpp" />
+    <ClCompile Include="ImGui\imgui_widgets.cpp" />
+    <ClCompile Include="Inspector.cpp" />
+    <ClCompile Include="Light2DUI.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="CTestLevel.cpp" />
+    <ClCompile Include="MeshRenderUI.cpp" />
+    <ClCompile Include="ParticleSystemUI.cpp" />
+    <ClCompile Include="pch.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="TileMapUI.cpp" />
+    <ClCompile Include="TransformUI.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc" />

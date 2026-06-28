@@ -74,7 +74,10 @@ float4 PS_Std2D(VS_OUT _in) : SV_Target
     }
     else
     {
-        vColor = g_tex_0.Sample(g_sam_0, _in.vUV);
+        if (g_btex_0)
+            vColor = g_tex_0.Sample(g_sam_0, _in.vUV);
+        else
+            vColor = float4(1.f, 0.f, 1.f, 1.f);
     }
 
     // Light
@@ -108,7 +111,10 @@ float4 PS_Std2D_AB(VS_OUT _in) : SV_Target
     }
     else
     {
-        vColor = g_tex_0.Sample(g_sam_0, _in.vUV);    
+        if (g_btex_0)
+            vColor = g_tex_0.Sample(g_sam_0, _in.vUV);
+        else
+            vColor = float4(1.f, 0.f, 1.f, 1.f);
     }
 
     // Light

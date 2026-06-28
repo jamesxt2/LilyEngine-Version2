@@ -91,10 +91,11 @@ struct TGlobalData
 	float DeltaTime;
 	float Time;
 
+	float DeltaTimeEngine;
+	float TimeEngine;
+
 	int Light2DCount;
 	int Light3DCount;
-
-	Vec2 Padding;
 };
 
 extern TGlobalData g_GlobalData;

@@ -255,9 +255,6 @@
     <ClInclude Include="CScript.h">
       <Filter>07.Component\Script</Filter>
     </ClInclude>
-    <ClInclude Include="CPlayerScript.h">
-      <Filter>Scripts</Filter>
-    </ClInclude>
     <ClInclude Include="CLevel.h">
       <Filter>05.Level</Filter>
     </ClInclude>
@@ -275,9 +272,6 @@
     </ClInclude>
     <ClInclude Include="CRenderMgr.h">
       <Filter>04.Manager\07.RenderMgr</Filter>
-    </ClInclude>
-    <ClInclude Include="CCameraMoveScript.h">
-      <Filter>Scripts</Filter>
     </ClInclude>
     <ClInclude Include="CMaterial.h">
       <Filter>08.Asset\Material</Filter>
@@ -300,9 +294,6 @@
     <ClInclude Include="CTaskMgr.h">
       <Filter>04.Manager\09.TaskMgr</Filter>
     </ClInclude>
-    <ClInclude Include="CMissileScript.h">
-      <Filter>Scripts</Filter>
-    </ClInclude>
     <ClInclude Include="CStructuredBuffer.h">
       <Filter>03.Device\StructuredBuffer</Filter>
     </ClInclude>
@@ -320,9 +311,6 @@
     </ClInclude>
     <ClInclude Include="CParticleTickCS.h">
       <Filter>HLSL\04.ComputeShader\ParticleTickCS</Filter>
-    </ClInclude>
-    <ClInclude Include="CBackgroundScript.h">
-      <Filter>Scripts</Filter>
     </ClInclude>
     <ClInclude Include="CPrefab.h">
       <Filter>08.Asset\Prefab</Filter>
@@ -395,9 +383,6 @@
     <ClCompile Include="CScript.cpp">
       <Filter>07.Component\Script</Filter>
     </ClCompile>
-    <ClCompile Include="CPlayerScript.cpp">
-      <Filter>Scripts</Filter>
-    </ClCompile>
     <ClCompile Include="CLevel.cpp">
       <Filter>05.Level</Filter>
     </ClCompile>
@@ -418,9 +403,6 @@
     </ClCompile>
     <ClCompile Include="extern.cpp">
       <Filter>01.Header</Filter>
-    </ClCompile>
-    <ClCompile Include="CCameraMoveScript.cpp">
-      <Filter>Scripts</Filter>
     </ClCompile>
     <ClCompile Include="CMaterial.cpp">
       <Filter>08.Asset\Material</Filter>
@@ -446,9 +428,6 @@
     <ClCompile Include="CTaskMgr.cpp">
       <Filter>04.Manager\09.TaskMgr</Filter>
     </ClCompile>
-    <ClCompile Include="CMissileScript.cpp">
-      <Filter>Scripts</Filter>
-    </ClCompile>
     <ClCompile Include="CStructuredBuffer.cpp">
       <Filter>03.Device\StructuredBuffer</Filter>
     </ClCompile>
@@ -466,9 +445,6 @@
     </ClCompile>
     <ClCompile Include="CParticleTickCS.cpp">
       <Filter>HLSL\04.ComputeShader\ParticleTickCS</Filter>
-    </ClCompile>
-    <ClCompile Include="CBackgroundScript.cpp">
-      <Filter>Scripts</Filter>
     </ClCompile>
     <ClCompile Include="CPrefab.cpp">
       <Filter>08.Asset\Prefab</Filter>
