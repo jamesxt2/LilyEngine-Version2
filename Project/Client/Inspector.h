@@ -21,5 +21,6 @@ private:
 
 public:
 	void SetTargetObject(CGameObject* obj);
+	inline CGameObject* GetTargetObject() const { return m_TargetObject; }
 };
 

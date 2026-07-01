@@ -3,6 +3,30 @@
 #include "CTaskMgr.h"
 #include "CGameObject.h"
 
+void WStringToString(_In_ const std::wstring& wstr, _Out_ std::string& str)
+{
+	if (wstr.empty())
+	{
+		str = std::string();
+		return;
+	}
+	int len = WideCharToMultiByte(CP_UTF8, 0, wstr.c_str(), -1, nullptr, 0, nullptr, nullptr);
+	str.resize((const size_t)len - 1, '\0');
+	WideCharToMultiByte(CP_UTF8, 0, wstr.c_str(), -1, str.data(), len, nullptr, nullptr);
+}
+
+void StringToWString(_In_ const std::string& str, _Out_ std::wstring& wstr)
+{
+	if (str.empty())
+	{
+		wstr = std::wstring();
+		return;
+	}
+	int len = MultiByteToWideChar(CP_UTF8, 0, str.c_str(), -1, nullptr, 0);
+	wstr.resize((const size_t)len - 1, L'\0');
+	MultiByteToWideChar(CP_UTF8, 0, str.c_str(), -1, wstr.data(), len);
+}
+
 void DrawDebugRect(Vec3 worldPos, Vec3 worldRot, Vec3 worldScale, Vec4 color, float duration)
 {
 	TDebugShapeInfo info = {};

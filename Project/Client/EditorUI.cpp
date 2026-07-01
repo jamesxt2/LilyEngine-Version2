@@ -2,7 +2,8 @@
 #include "EditorUI.h"
 
 EditorUI::EditorUI(const std::string& name, const std::string& ID)
-	: m_Name(name), m_ID(ID), m_ParentUI(nullptr), m_Active(true), m_Separate(false)
+	: m_Name(name), m_ID(ID), m_ParentUI(nullptr), 
+	m_Active(true), m_Separate(false), m_Modal(false)
 {
 }
 
@@ -18,13 +19,34 @@ void EditorUI::Tick()
 	std::string fullName = m_Name + m_ID;
 	if (IsRootUI())
 	{
-		ImGui::Begin(fullName.c_str(), &m_Active);
-		Render_Tick();
-		for (size_t i = 0; i < m_vecChildUI.size(); ++i)
+		bool bActive = m_Active;
+		if (!m_Modal)
 		{
-			m_vecChildUI[i]->Tick();
+			ImGui::Begin(fullName.c_str(), &bActive);
+			SetActive(bActive);
+			Render_Tick();
+			for (size_t i = 0; i < m_vecChildUI.size(); ++i)
+			{
+				m_vecChildUI[i]->Tick();
+			}
+			ImGui::End();
 		}
-		ImGui::End();
+		else
+		{
+			ImGui::OpenPopup(fullName.c_str());
+			if (ImGui::BeginPopupModal(fullName.c_str(), &bActive))
+			{
+				SetActive(bActive);
+				Render_Tick();
+				for (size_t i = 0; i < m_vecChildUI.size(); ++i)
+				{
+					m_vecChildUI[i]->Tick();
+				}
+				ImGui::EndPopup();
+			}
+			else
+				SetActive(bActive);
+		}
 	}
 	else
 	{
@@ -39,4 +61,22 @@ void EditorUI::Tick()
 		}
 		ImGui::EndChild();
 	}
+}
+
+void EditorUI::SetFocus()
+{
+	std::string fullName = m_Name + m_ID;
+	ImGui::SetWindowFocus(fullName.c_str());
+}
+
+void EditorUI::SetActive(bool active)
+{
+	if (m_Active == active) return;
+
+	m_Active = active;
+
+	if (m_Active)
+		Activate();
+	else
+		Deactivate();
 }

@@ -31,8 +31,7 @@ void Inspector::Render_Tick()
 	{
 		CLevel* pLevel = CLevelMgr::GetInst()->GetCurrentLevel();
 		if (pLevel != nullptr)
-			if (CGameObject* pTarget = pLevel->FindObjectByName(L"Player"); pTarget)
-				SetTargetObject(pTarget);
+			SetTargetObject(pLevel->FindObjectByName(L"MainCamera"));
 		return;
 	}
 

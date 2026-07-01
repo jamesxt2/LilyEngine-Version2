@@ -9,6 +9,7 @@
 #include <Engine/CKeyMgr.h>
 
 #include "Inspector.h"
+#include "ListUI.h"
 
 CImGuiMgr::CImGuiMgr()
     : m_hMainWnd(0), m_bDemo(false)
@@ -98,7 +99,10 @@ void CImGuiMgr::Tick()
 
 void CImGuiMgr::CreateEditorUI()
 {
-    EditorUI* pUI = new Inspector();
+    EditorUI* pUI = new Inspector;
     m_mapUI.insert(std::make_pair(pUI->GetName(), pUI));
 
+    pUI = new ListUI;
+    pUI->SetActive(false);
+    m_mapUI.insert(std::make_pair(pUI->GetName(), pUI));
 }

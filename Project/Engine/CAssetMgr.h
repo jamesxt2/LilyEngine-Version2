@@ -25,6 +25,8 @@ public:
 	template<typename T>
 	void AddAsset(const std::wstring& key, Ptr<T> pAsset);
 
+	void GetAssetNames(ASSET_TYPE type, _Out_ std::vector<std::string>& vecNames);
+
 private:
 	void CreateDefaultMesh();
 	void CreateDefaultTexture();

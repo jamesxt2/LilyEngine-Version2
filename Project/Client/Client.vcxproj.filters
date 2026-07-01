@@ -68,6 +68,9 @@
     <Filter Include="02.EditorUI\01.Inspector\ComponentUI\TileMapUI">
       <UniqueIdentifier>{bd5fb759-746a-48bf-97e2-e2e3a25d3a78}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.EditorUI\04.List">
+      <UniqueIdentifier>{32519c6e-55fb-4e1e-b487-2e6a77a69c72}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -157,6 +160,9 @@
     <ClInclude Include="TileMapUI.h">
       <Filter>02.EditorUI\01.Inspector\ComponentUI\TileMapUI</Filter>
     </ClInclude>
+    <ClInclude Include="ListUI.h">
+      <Filter>02.EditorUI\04.List</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc">
@@ -244,6 +250,9 @@
     </ClCompile>
     <ClCompile Include="TileMapUI.cpp">
       <Filter>02.EditorUI\01.Inspector\ComponentUI\TileMapUI</Filter>
+    </ClCompile>
+    <ClCompile Include="ListUI.cpp">
+      <Filter>02.EditorUI\04.List</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

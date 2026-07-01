@@ -9,6 +9,11 @@ public:
 	virtual void Tick();
 	virtual void Render_Tick() = 0;
 
+	virtual void Activate() {}
+	virtual void Deactivate() {}
+
+	void SetFocus();
+
 private:
 	std::string m_Name;
 	const std::string m_ID;
@@ -20,6 +25,7 @@ private:
 
 	bool m_Active;
 	bool m_Separate;
+	bool m_Modal;
 
 public:
 	inline void SetName(const std::string& name) { m_Name = name; }
@@ -36,8 +42,9 @@ public:
 
 	inline void SetChildSize(ImVec2 size) { m_ChildSize = size; }
 
-	inline void SetActive(bool active) { m_Active = active; }
+	void SetActive(bool active);
 	inline bool IsActive() const { return m_Active; }
 	inline void SetSeparate(bool separate) { m_Separate = separate; }
+	inline void SetModal(bool modal) { m_Modal = modal; }
 };
 

@@ -74,7 +74,7 @@ void CTestLevel::CreateTestLevel()
 	pPlayer->SetName(L"Player");
 	pPlayer->AddComponent(new CTransform);
 	pPlayer->AddComponent(new CMeshRender);
-	//pPlayer->AddComponent(new CCollision2D);
+	pPlayer->AddComponent(new CCollision2D);
 	pPlayer->AddComponent(new CAnimator2D);
 	pPlayer->AddComponent(new CPlayerScript);
 
@@ -86,8 +86,9 @@ void CTestLevel::CreateTestLevel()
 	//pPlayer->GetMeshRenderComp()->GetMaterial()->SetScalarParam<int>(INT_0, 0);
 	//pPlayer->GetMeshRenderComp()->GetMaterial()->SetTexParam(TEX_0, CAssetMgr::GetInst()->FindAsset<CTexture>(L"texture/mountain.png"));
 
-	//pPlayer->GetCollision2DComp()->SetOffset(Vec3(0.f, 0.f, 0.f));
-	//pPlayer->GetCollision2DComp()->SetScale(Vec3(1.f, 1.f, 1.f));
+	pPlayer->GetCollision2DComp()->SetAbsolute(true);
+	pPlayer->GetCollision2DComp()->SetOffset(Vec3(0.f, 0.f, 0.f));
+	pPlayer->GetCollision2DComp()->SetScale(Vec3(150.f, 150.f, 1.f));
 
 	pPlayer->GetAnimator2DComp()->LoadAnimation(L"animation/MOVE_DOWN.anim");
 
@@ -135,7 +136,7 @@ void CTestLevel::CreateTestLevel()
 	CCollisionMgr::GetInst()->LayerCheck(1, 1);
 	CCollisionMgr::GetInst()->LayerCheck(1, 2);
 
-	ChangeLevel(pLevel, LEVEL_STATE::STOP);
+	ChangeLevel(pLevel, LEVEL_STATE::PLAY);
 }
 
 void CTestLevel::CreatePrefab()
