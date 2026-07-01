@@ -3,59 +3,7 @@
   .\Project\Scripts\CMissileScript.h
   .\Project\Scripts\CPlayerScript.h
   复制了 4 个文件
-  pch.cpp
-D:\dev\LilyEngine-Version2\External\include\Engine\CMaterial.h(43,2): warning C4984: 'if constexpr' is a C++17 language extension
-  (compiling source file 'pch.cpp')
-      D:\dev\LilyEngine-Version2\External\include\Engine\CMaterial.h(31,7):
-      This diagnostic occurred in the compiler generated function 'void CMaterial::SetScalarParam(SCALAR_PARAM,const T &)'
-  
-D:\dev\LilyEngine-Version2\External\include\Engine\CMaterial.h(45,2): warning C4984: 'if constexpr' is a C++17 language extension
-  (compiling source file 'pch.cpp')
-      D:\dev\LilyEngine-Version2\External\include\Engine\CMaterial.h(31,7):
-      This diagnostic occurred in the compiler generated function 'void CMaterial::SetScalarParam(SCALAR_PARAM,const T &)'
-  
-D:\dev\LilyEngine-Version2\External\include\Engine\CMaterial.h(47,2): warning C4984: 'if constexpr' is a C++17 language extension
-  (compiling source file 'pch.cpp')
-      D:\dev\LilyEngine-Version2\External\include\Engine\CMaterial.h(31,7):
-      This diagnostic occurred in the compiler generated function 'void CMaterial::SetScalarParam(SCALAR_PARAM,const T &)'
-  
-D:\dev\LilyEngine-Version2\External\include\Engine\CMaterial.h(49,2): warning C4984: 'if constexpr' is a C++17 language extension
-  (compiling source file 'pch.cpp')
-      D:\dev\LilyEngine-Version2\External\include\Engine\CMaterial.h(31,7):
-      This diagnostic occurred in the compiler generated function 'void CMaterial::SetScalarParam(SCALAR_PARAM,const T &)'
-  
-D:\dev\LilyEngine-Version2\External\include\Engine\CMaterial.h(51,2): warning C4984: 'if constexpr' is a C++17 language extension
-  (compiling source file 'pch.cpp')
-      D:\dev\LilyEngine-Version2\External\include\Engine\CMaterial.h(31,7):
-      This diagnostic occurred in the compiler generated function 'void CMaterial::SetScalarParam(SCALAR_PARAM,const T &)'
-  
-D:\dev\LilyEngine-Version2\External\include\Engine\CMaterial.h(53,2): warning C4984: 'if constexpr' is a C++17 language extension
-  (compiling source file 'pch.cpp')
-      D:\dev\LilyEngine-Version2\External\include\Engine\CMaterial.h(31,7):
-      This diagnostic occurred in the compiler generated function 'void CMaterial::SetScalarParam(SCALAR_PARAM,const T &)'
-  
-D:\dev\LilyEngine-Version2\External\include\Engine\CAssetMgr.h(45,2): warning C4984: 'if constexpr' is a C++17 language extension
-  (compiling source file 'pch.cpp')
-  
-D:\dev\LilyEngine-Version2\External\include\Engine\CAssetMgr.h(47,2): warning C4984: 'if constexpr' is a C++17 language extension
-  (compiling source file 'pch.cpp')
-  
-D:\dev\LilyEngine-Version2\External\include\Engine\CAssetMgr.h(49,2): warning C4984: 'if constexpr' is a C++17 language extension
-  (compiling source file 'pch.cpp')
-  
-D:\dev\LilyEngine-Version2\External\include\Engine\CAssetMgr.h(51,2): warning C4984: 'if constexpr' is a C++17 language extension
-  (compiling source file 'pch.cpp')
-  
-D:\dev\LilyEngine-Version2\External\include\Engine\CAssetMgr.h(53,2): warning C4984: 'if constexpr' is a C++17 language extension
-  (compiling source file 'pch.cpp')
-  
-D:\dev\LilyEngine-Version2\External\include\Engine\CAssetMgr.h(55,2): warning C4984: 'if constexpr' is a C++17 language extension
-  (compiling source file 'pch.cpp')
-  
-  CBackgroundScript.cpp
-  CCameraMoveScript.cpp
   CMissileScript.cpp
   CPlayerScript.cpp
-  Scripts.cpp
   Generating Code...
   Scripts.vcxproj -> D:\dev\LilyEngine-Version2\External\library\Scripts\Scripts_d.lib
