@@ -1,9 +1,0 @@
-﻿  .\Project\Scripts\CBackgroundScript.h
-  .\Project\Scripts\CCameraMoveScript.h
-  .\Project\Scripts\CMissileScript.h
-  .\Project\Scripts\CPlayerScript.h
-  复制了 4 个文件
-  CMissileScript.cpp
-  CPlayerScript.cpp
-  Generating Code...
-  Scripts.vcxproj -> D:\dev\LilyEngine-Version2\External\library\Scripts\Scripts_d.lib
