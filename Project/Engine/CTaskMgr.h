@@ -12,9 +12,15 @@ public:
 private:
 	void ClearDeadObject();
 	void ExecuteTask(TTask& task);
+	inline void ClearEvent() { m_ObjectEvent = false; }
 
 private:
 	std::vector<TTask> m_vecTask;
 	std::vector<CGameObject*> m_vecDead;
+
+	bool m_ObjectEvent;
+
+public:
+	inline bool IsObjectChanged() const { return m_ObjectEvent; }
 };
 

@@ -8,6 +8,7 @@
 #include "CCollision2D.h"
 
 CTaskMgr::CTaskMgr()
+	: m_ObjectEvent(false)
 {
 
 }
@@ -20,6 +21,8 @@ CTaskMgr::~CTaskMgr()
 void CTaskMgr::Tick()
 {
 	ClearDeadObject();
+	ClearEvent();
+
 	for (size_t i = 0; i < m_vecTask.size(); ++i)
 	{
 		ExecuteTask(m_vecTask[i]);
@@ -46,6 +49,7 @@ void CTaskMgr::ExecuteTask(TTask& task)
 		pCurLevel->AddObject(LayerIdx, pSpawnObj);
 		if (pCurLevel->GetState() == LEVEL_STATE::PLAY)
 			pSpawnObj->Begin();
+		m_ObjectEvent = true;
 	}
 		break;
 	case TASK_TYPE::DESTROY_OBJECT:
@@ -56,6 +60,7 @@ void CTaskMgr::ExecuteTask(TTask& task)
 			pObject->m_Dead = true;
 			m_vecDead.push_back(pObject);
 		}
+		m_ObjectEvent = true;
 	}
 		break;
 	case TASK_TYPE::COLLISION2D_SEMI_DEACTIVATE:
@@ -78,6 +83,7 @@ void CTaskMgr::ExecuteTask(TTask& task)
 
 		CLevelMgr::GetInst()->ChangeLevel(pNextLevel);
 		pNextLevel->ChangeState(nextLevelState);
+		m_ObjectEvent = true;
 	}
 		break;
 	}

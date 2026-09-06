@@ -2,6 +2,8 @@
 
 void WStringToString(_In_ const std::wstring& wstr, _Out_ std::string& str);
 void StringToWString(_In_ const std::string& str, _Out_ std::wstring& wstr);
+std::string WStringToString(_In_ const std::wstring& wstr);
+std::wstring StringToWString(_In_ const std::string& str);
 
 template<typename T, int size>
 void Safe_Del_Array(T* (&Array)[size])

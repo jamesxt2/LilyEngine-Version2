@@ -32,6 +32,9 @@ using namespace DirectX::SimpleMath;
 #include <string>
 #include <typeinfo>
 
+// File System
+#include <filesystem>
+using namespace std::filesystem;
 
 #include "define.h"
 #include "enum.h"

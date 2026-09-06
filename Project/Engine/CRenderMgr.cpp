@@ -7,6 +7,7 @@
 #include "CLight2D.h"
 #include "CConstBuffer.h"
 #include "CAssetMgr.h"
+#include "CLevelMgr.h"
 
 CRenderMgr::CRenderMgr()
 	: m_EditorCam(nullptr), m_Light2DBuffer(nullptr)
@@ -34,6 +35,8 @@ void CRenderMgr::Tick()
 
 void CRenderMgr::Render()
 {
+	if (!CLevelMgr::GetInst()->GetCurrentLevel()) return;
+
 	// Output Merge Set Render Targets
 	Ptr<CTexture> pRTTex = CAssetMgr::GetInst()->FindAsset<CTexture>(L"RenderTargetTex");
 	Ptr<CTexture> pDSTex = CAssetMgr::GetInst()->FindAsset<CTexture>(L"DepthStencilTex");
@@ -54,6 +57,8 @@ void CRenderMgr::Render_Play()
 {
 	for (size_t i = 0; i < m_vecCam.size(); ++i)
 	{
+		if (m_vecCam[i] == nullptr)
+			continue;
 		m_vecCam[i]->Render();
 	}
 }
@@ -66,20 +71,11 @@ void CRenderMgr::Render_Editor()
 
 void CRenderMgr::RegisterCamera(CCamera* camera, int priority)
 {
-	for (size_t i = 0; i < m_vecCam.size(); ++i)
-	{
-		if (m_vecCam[i] == camera)
-		{
-			if (priority == i)
-				return;
-			else
-				m_vecCam[i] = nullptr;
-			break;
-		}
-	}
-
 	if (priority >= m_vecCam.size())
 		m_vecCam.resize(priority + 1);
+
+	assert(!(m_vecCam[priority] && m_vecCam[priority] != camera));
+
 	m_vecCam[priority] = camera;
 }
 

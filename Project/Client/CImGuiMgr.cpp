@@ -10,6 +10,8 @@
 
 #include "Inspector.h"
 #include "ListUI.h"
+#include "ContentUI.h"
+#include "OutlinerUI.h"
 
 CImGuiMgr::CImGuiMgr()
     : m_hMainWnd(0), m_bDemo(false)
@@ -104,5 +106,13 @@ void CImGuiMgr::CreateEditorUI()
 
     pUI = new ListUI;
     pUI->SetActive(false);
+    m_mapUI.insert(std::make_pair(pUI->GetName(), pUI));
+
+    pUI = new ContentUI;
+    pUI->SetActive(true);
+    m_mapUI.insert(std::make_pair(pUI->GetName(), pUI));
+
+    pUI = new OutlinerUI;
+    pUI->SetActive(true);
     m_mapUI.insert(std::make_pair(pUI->GetName(), pUI));
 }

@@ -8,19 +8,6 @@
 #include "ListUI.h"
 #include "Inspector.h"
 
-void ChangeBySelectedMesh()
-{
-	ListUI* pListUI = CImGuiMgr::GetInst()->FindEditorUI<ListUI>("List");
-	Inspector* pInspector = CImGuiMgr::GetInst()->FindEditorUI<Inspector>("Inspector");
-	std::wstring meshKey;
-	StringToWString(pListUI->GetSelected(), meshKey);
-	Ptr<CMesh> pMesh = CAssetMgr::GetInst()->FindAsset<CMesh>(meshKey);
-
-	CGameObject* pTargetObj = pInspector->GetTargetObject();
-	assert(pTargetObj != nullptr && pMesh != nullptr);
-	pTargetObj->GetRenderComp()->SetMesh(pMesh);
-}
-
 MeshRenderUI::MeshRenderUI()
 	: ComponentUI("MeshRenderUI", "##MeshRenderUI", COMPONENT_TYPE::MESHRENDER)
 {

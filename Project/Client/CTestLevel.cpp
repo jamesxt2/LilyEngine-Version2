@@ -36,37 +36,36 @@ void CTestLevel::CreateTestLevel()
 
 	// Light2D
 	CGameObject* pLight2D = new CGameObject;
-
+	pLight2D->SetName(L"Light2D");
 	pLight2D->AddComponent(new CTransform);
 	pLight2D->AddComponent(new CLight2D);
 
-	pLight2D->GetTransformComp()->SetRelativePosition(Vec3(-500.f, 0.f, 0.f));
+	pLight2D->GetTransformComp()->SetRelativePosition(Vec3(0.f, 0.f, 200.f));
 
-	pLight2D->GetLight2DComp()->SetLightType(LIGHT_TYPE::DIRECTIONAL);
+	pLight2D->GetLight2DComp()->SetLightType(LIGHT_TYPE::POINT);
 	pLight2D->GetLight2DComp()->SetDiffuse(Vec3(1.f, 1.f, 1.f));
-	pLight2D->GetLight2DComp()->SetAmbient(Vec3(0.f, 0.f, 0.f));
+	pLight2D->GetLight2DComp()->SetAmbient(Vec3(1.f, 1.f, 1.f));
+	pLight2D->GetLight2DComp()->SetRange(500.f);
 
 	pLevel->AddObject(0, pLight2D);
 
 	// Background
 	CGameObject* pBackground = new CGameObject;
+	pBackground->SetName(L"Background");
 	pBackground->AddComponent(new CTransform);
 	pBackground->AddComponent(new CMeshRender);
 	//pBackground->AddComponent(new CBackgroundScript);
 
 	pBackground->GetTransformComp()->SetRelativePosition(Vec3(0.f, 0.f, 500.f));
 	pBackground->GetTransformComp()->SetRelativeScale(Vec3(1600.f, 900.f, 1.f));
+	pBackground->GetTransformComp()->SetAbsolute(true);
 
 	pBackground->GetMeshRenderComp()->SetMesh(CAssetMgr::GetInst()->FindAsset<CMesh>(L"RectMesh"));
 	pBackground->GetMeshRenderComp()->SetMaterial(CAssetMgr::GetInst()->FindAsset<CMaterial>(L"BackgroundMaterial"));
 	pBackground->GetMeshRenderComp()->GetMaterial()->SetTexParam(TEX_0, CAssetMgr::GetInst()->Load<CTexture>(L"texture/mountain.png", L"texture/mountain.png"));
 	pBackground->GetMeshRenderComp()->GetMaterial()->SetTexParam(TEX_1, CAssetMgr::GetInst()->Load<CTexture>(L"texture/noise/noise_03.jpg", L"texture/noise/noise_03.jpg"));
 
-	CGameObject* pBGClone = pBackground->Clone();
-	pBGClone->GetTransformComp()->SetRelativePosition(0.f, 0.f, 1000.f);
-
 	pLevel->AddObject(0, pBackground);
-	pLevel->AddObject(0, pBGClone);
 
 	// Player object
 
@@ -112,9 +111,10 @@ void CTestLevel::CreateTestLevel()
 	pTileMap->GetTransformComp()->SetRelativePosition(-500.f, 0.f, 100.f);
 
 	CGameObject* pTileMapClone = pTileMap->Clone();
+	pTileMapClone->SetName(L"TMClone");
 	pTileMapClone->GetTransformComp()->SetRelativePosition(500.f, 0.f, 100.f);
 
-	pLevel->AddObject(0, pTileMap);
+	//pLevel->AddObject(0, pTileMap);
 	pLevel->AddObject(0, pTileMapClone);
 
 	// PostProcess Filter

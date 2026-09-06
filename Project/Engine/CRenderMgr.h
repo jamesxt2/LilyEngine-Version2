@@ -54,5 +54,8 @@ private:
 	CStructuredBuffer* m_Light2DBuffer;
 
 	Ptr<CTexture> m_RenderTargetCopyTex;
+
+public:
+	inline std::vector<CCamera*>& GetRegisteredCamera() { return m_vecCam; }
 };
 

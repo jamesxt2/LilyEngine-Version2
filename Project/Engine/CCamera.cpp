@@ -39,8 +39,7 @@ CCamera::~CCamera()
 
 void CCamera::Begin()
 {
-	assert(m_CamPriority >= 0);
-	CRenderMgr::GetInst()->RegisterCamera(this, m_CamPriority);
+	
 }
 
 void CCamera::FinalTick()
@@ -172,4 +171,6 @@ void CCamera::SortObject()
 void CCamera::SetCameraPriority(int priority)
 {
 	m_CamPriority = priority;
+
+	CRenderMgr::GetInst()->RegisterCamera(this, m_CamPriority);
 }

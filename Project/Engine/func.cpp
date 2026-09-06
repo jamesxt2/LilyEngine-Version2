@@ -27,6 +27,30 @@ void StringToWString(_In_ const std::string& str, _Out_ std::wstring& wstr)
 	MultiByteToWideChar(CP_UTF8, 0, str.c_str(), -1, wstr.data(), len);
 }
 
+std::string WStringToString(_In_ const std::wstring& wstr)
+{
+	std::string result = {};
+	if (wstr.empty())
+		return result;
+
+	int len = WideCharToMultiByte(CP_UTF8, 0, wstr.c_str(), -1, nullptr, 0, nullptr, nullptr);
+	result.resize((const size_t)len - 1, '\0');
+	WideCharToMultiByte(CP_UTF8, 0, wstr.c_str(), -1, result.data(), len, nullptr, nullptr);
+	return result;
+}
+
+std::wstring StringToWString(_In_ const std::string& str)
+{
+	std::wstring result = {};
+	if (str.empty())
+		return result;
+
+	int len = MultiByteToWideChar(CP_UTF8, 0, str.c_str(), -1, nullptr, 0);
+	result.resize((const size_t)len - 1, L'\0');
+	MultiByteToWideChar(CP_UTF8, 0, str.c_str(), -1, result.data(), len);
+	return result;
+}
+
 void DrawDebugRect(Vec3 worldPos, Vec3 worldRot, Vec3 worldScale, Vec4 color, float duration)
 {
 	TDebugShapeInfo info = {};

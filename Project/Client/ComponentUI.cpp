@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "ComponentUI.h"
+#include "AssetUI.h"
 
 ComponentUI::ComponentUI(const std::string& name, const std::string& ID, COMPONENT_TYPE type)
 	: EditorUI(name, ID), m_TargetObject(nullptr), m_Type(type)

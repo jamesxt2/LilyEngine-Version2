@@ -31,5 +31,9 @@ private:
 	D3D11_BUFFER_DESC		m_IBDesc;
 	UINT					m_IdxCount;
 	UINT*					m_IdxSysMem;
+
+public:
+	inline UINT GetVertexCount() const { return m_VtxCount; }
+	inline UINT GetIndexCount() const { return m_IdxCount; }
 };
 
